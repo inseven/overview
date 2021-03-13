@@ -151,5 +151,8 @@ struct WhereApp: App {
                 ContentView(manager: manager)
             }
         }
+        .commands {
+            SidebarCommands()
+        }
     }
 }

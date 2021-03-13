@@ -7,22 +7,21 @@
 
 import SwiftUI
 
-struct PlaceholderView: View {
+struct PlaceholderView<Content: View>: View {
 
-    var text: String
+    private let content: () -> Content
 
-    init(_ text: String) {
-        self.text = text
+    init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
     }
 
     var body: some View {
         VStack {
             Spacer()
-            Text(text)
-                .foregroundColor(.secondary)
-                .frame(maxWidth: .infinity)
+            content()
             Spacer()
         }
+        .frame(maxWidth: .infinity)
         .background(Color(NSColor.textBackgroundColor))
     }
 

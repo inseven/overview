@@ -72,12 +72,18 @@ struct ContentView: View {
             }
             HStack {
                 if loading {
+                    PlaceholderView {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
+                        .controlSize(.small)
+                    }
                 } else if summaries.count > 0 {
                     YearView(months: summaries)
                 } else {
-                    PlaceholderView("No Events")
+                    PlaceholderView {
+                        Text("No Events")
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
             .toolbar {
