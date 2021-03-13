@@ -37,8 +37,8 @@ extension Summary where Item: EKEvent {
     var components: DateComponents {
         let calendar = Calendar.current  // TODO: Use the correct calendar!
         let start = dateInterval.start
-        let end = uniqueItems.reduce(dateInterval.start) { date, event in
-            calendar.date(byAdding: event.components(bounds: dateInterval), to: date, wrappingComponents: true)!  // TODO: Don't crash
+        let end = uniqueItems.reduce(start) { date, event in
+            calendar.date(byAdding: event.components(bounds: dateInterval), to: date, wrappingComponents: false)!  // TODO: Don't crash
         }
         return Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
     }
@@ -59,7 +59,7 @@ struct MonthView: View {
         let formatter = DateComponentsFormatter()
         formatter.calendar = Calendar.current  // TODO: Is this needed?
         formatter.unitsStyle = .full
-        formatter.allowedUnits = [.month, .day, .hour, .minute, .second]
+        formatter.allowedUnits = [.day, .hour, .minute, .second]
         return formatter
     }()
 
@@ -67,6 +67,13 @@ struct MonthView: View {
 
     var total: Int {
         summary.items.reduce(0) { $0 + $1.items.count }
+    }
+
+    func format(dateComponents: DateComponents) -> String {
+        guard let result = dateComponentsFormatter.string(from: dateComponents) else {
+            return "Unknown"
+        }
+        return result
     }
 
     var body: some View {
@@ -86,8 +93,7 @@ struct MonthView: View {
                             .lineLimit(1)
                         Text("(\(summary.uniqueItems.count) events)")
                         Spacer()
-                        Text("\(summary.items.count) events")
-                        Text("\(dateComponentsFormatter.string(from: summary.components) ?? "Cheese")")
+                        Text(format(dateComponents: summary.components))
                     }
                 }
                 Divider()
