@@ -82,28 +82,25 @@ class Manager: ObservableObject {
     }
 
     // TODO: Move this onto the calendar
-    func summaries(dateInterval: DateInterval, calendarIdentifier: String) throws -> [Summary<Summary<EKCalendarItem>>] {
-        guard let eventCalendar = calendar(identifier: calendarIdentifier) else {
-            throw CalendarError.unknownCalendar
-        }
+    func summaries(dateInterval: DateInterval, calendars: [EKCalendar]) throws -> [Summary<Summary<EKCalendarItem>>] {
         let calendar = Calendar.current
         var results: [Summary<Summary<EKCalendarItem>>] = []
         calendar.enumerate(dateInterval: dateInterval, components: DateComponents(month: 1)) { dateInterval in
             let summaries = try! self.summaries(dateInterval: dateInterval,
                                                 granularity: DateComponents(day: 1),
-                                                calendars: [eventCalendar])
+                                                calendars: calendars)
             results.append(Summary(dateInterval: dateInterval, items: summaries))
         }
         return results
     }
 
-    func summary(year: Int, calendarIdentifier: String) throws -> [Summary<Summary<EKCalendarItem>>] {
+    func summary(year: Int, calendars: [EKCalendar]) throws -> [Summary<Summary<EKCalendarItem>>] {
         let calendar = Calendar.current
         guard let start = calendar.date(from: DateComponents(year: year, month: 1)) else {
             throw CalendarError.invalidDate
         }
         let dateInterval = try calendar.dateInterval(start: start, duration: DateComponents(year: 1))
-        return try summaries(dateInterval: dateInterval, calendarIdentifier: calendarIdentifier)
+        return try summaries(dateInterval: dateInterval, calendars: calendars)
 
     }
 

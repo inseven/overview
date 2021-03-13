@@ -23,7 +23,7 @@ extension Int: Identifiable {
 struct ContentView: View {
 
     @ObservedObject var manager: Manager
-    @State var selectedCalendarIdentifier: String?
+    @State var selections: Set<EKCalendar> = Set()
     @State var summaries: [Summary<Summary<EKCalendarItem>>] = []
 
     @State private var sort: Int = 0
@@ -46,13 +46,9 @@ struct ContentView: View {
     ]
 
     func update() {
-        guard let selectedCalendarIdentifier = selectedCalendarIdentifier else {
-            return
-        }
-        // TODO: This should probably be some kind of state object which is stored by the UI.
         loading = true
         DispatchQueue.global(qos: .userInteractive).async {
-            let summaries = (try? manager.summary(year: year, calendarIdentifier: selectedCalendarIdentifier)) ?? []
+            let summaries = (try? manager.summary(year: year, calendars: Array(selections))) ?? []
             DispatchQueue.main.async {
                 self.summaries = summaries
                 self.loading = false
@@ -62,12 +58,18 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            List(manager.calendars, selection: $selectedCalendarIdentifier) { calendar in
+            List(manager.calendars) { calendar in
                 HStack {
-                    Circle()
-                        .fill(Color(calendar.color))
-                        .frame(width: 12, height: 12)
+                    Image(systemName: selections.contains(calendar) ? "checkmark.square" : "square")
+                        .foregroundColor(Color(calendar.color))
                     Text(calendar.title)
+                }
+                .onTapGesture {
+                    if selections.contains(calendar) {
+                        selections.remove(calendar)
+                    } else {
+                        selections.insert(calendar)
+                    }
                 }
             }
             HStack {
@@ -96,7 +98,7 @@ struct ContentView: View {
                 }
             }
         }
-        .onChange(of: selectedCalendarIdentifier) { selectedCalendarIdentifier in
+        .onChange(of: selections) { selections in
             update()
         }
         .onChange(of: year) { year in
