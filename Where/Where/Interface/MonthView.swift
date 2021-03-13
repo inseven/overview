@@ -14,25 +14,33 @@ extension EKEvent {
         return endDate.timeIntervalSince(startDate)
     }
 
-    var components: DateComponents {
+    func duration(bounds: DateInterval) ->  TimeInterval {
+        let start = max(bounds.start, startDate)
+        let end = min(bounds.end, endDate)
+        return end.timeIntervalSince(start)
+    }
+
+    func components(bounds: DateInterval) -> DateComponents {
         // TODO: Use the calendar from the calendar?
         // TODO: More components?
-        return Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: startDate, to: endDate)
+        let start = max(bounds.start, startDate)
+        let end = min(bounds.end, endDate)
+        return Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
     }
 
 }
 
 extension Summary where Item: EKEvent {
 
-    var duration: TimeInterval {
-        Set(items).reduce(0.0) { total, event in total + event.duration }
-    }
+    var uniqueItems: [Item] { Array(Set(items)) }
 
     var components: DateComponents {
-        guard let event = items.first else {
-            return DateComponents()
+        let calendar = Calendar.current  // TODO: Use the correct calendar!
+        let start = dateInterval.start
+        let end = uniqueItems.reduce(dateInterval.start) { date, event in
+            calendar.date(byAdding: event.components(bounds: dateInterval), to: date, wrappingComponents: true)!  // TODO: Don't crash
         }
-        return event.components
+        return Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
     }
 
 }
@@ -51,6 +59,7 @@ struct MonthView: View {
         let formatter = DateComponentsFormatter()
         formatter.calendar = Calendar.current  // TODO: Is this needed?
         formatter.unitsStyle = .full
+        formatter.allowedUnits = [.month, .day, .hour, .minute, .second]
         return formatter
     }()
 
@@ -75,10 +84,10 @@ struct MonthView: View {
                     HStack {
                         Text(summary.items[0].title ?? "Unknown")
                             .lineLimit(1)
+                        Text("(\(summary.uniqueItems.count) events)")
                         Spacer()
                         Text("\(summary.items.count) events")
-                        Text("\(dateComponentsFormatter.string(from: summary.duration) ?? "Cheese")")
-//                        Text("\(dateComponentsFormatter.string(from: summary.components) ?? "Cheese")")
+                        Text("\(dateComponentsFormatter.string(from: summary.components) ?? "Cheese")")
                     }
                 }
                 Divider()
