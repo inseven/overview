@@ -29,6 +29,8 @@ struct ContentView: View {
     @State private var sort: Int = 0
     @State private var year: Int = 2021
 
+    @State private var loading = false
+
     let years = [
         2021,
         2020,
@@ -47,7 +49,15 @@ struct ContentView: View {
         guard let selectedCalendarIdentifier = selectedCalendarIdentifier else {
             return
         }
-        summaries = (try? manager.summary(year: year, calendarIdentifier: selectedCalendarIdentifier)) ?? []
+        // TODO: This should probably be some kind of state object which is stored by the UI.
+        loading = true
+        DispatchQueue.global(qos: .userInteractive).async {
+            let summaries = (try? manager.summary(year: year, calendarIdentifier: selectedCalendarIdentifier)) ?? []
+            DispatchQueue.main.async {
+                self.summaries = summaries
+                self.loading = false
+            }
+        }
     }
 
     var body: some View {
@@ -61,7 +71,10 @@ struct ContentView: View {
                 }
             }
             HStack {
-                if summaries.count > 0 {
+                if loading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                } else if summaries.count > 0 {
                     YearView(months: summaries)
                 } else {
                     PlaceholderView("No Events")
