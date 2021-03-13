@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MonthView: View {
 
-    @State var summary: Summary<Summary<EKCalendarItem>>
+    @State var summary: Summary<Summary<EKEvent>>
 
     var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()

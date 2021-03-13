@@ -10,7 +10,7 @@ import SwiftUI
 
 struct YearView: View {
 
-    var months: [Summary<Summary<EKCalendarItem>>] = []
+    var months: [Summary<Summary<EKEvent>>] = []
 
     var body: some View {
         ScrollView {
