@@ -16,29 +16,6 @@ extension EKCalendarItem: Identifiable {
     public var id: String { calendarItemIdentifier }
 }
 
-extension Calendar {
-
-    func dateInterval(start: Date, duration: DateComponents) throws -> DateInterval {
-        guard let end = date(byAdding: duration, to: start) else {
-            throw CalendarError.invalidDate
-        }
-        return DateInterval(start: start, end: end)
-    }
-
-    func enumerate(dateInterval: DateInterval, components: DateComponents, block: (DateInterval) -> Void) {
-        var date = dateInterval.start
-        while date < dateInterval.end {
-            guard let nextDate = self.date(byAdding: components, to: date) else {
-                // TODO: This is an error?
-                return
-            }
-            block(DateInterval(start: date, end: nextDate))
-            date = nextDate
-        }
-    }
-
-}
-
 enum CalendarError: Error {
     case failure
     case unknownCalendar
@@ -46,13 +23,9 @@ enum CalendarError: Error {
 }
 
 struct Summary<Item>: Identifiable {
-
     var id = UUID()
-
     var dateInterval: DateInterval
-//    var title: String
     var items: [Item]
-
 }
 
 class Manager: ObservableObject {
