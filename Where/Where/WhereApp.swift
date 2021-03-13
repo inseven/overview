@@ -114,10 +114,6 @@ class Manager: ObservableObject {
             throw CalendarError.unknownCalendar
         }
         let calendar = Calendar.current
-//        guard let start = calendar.date(from: DateComponents(year: 2020, month: 1)) else {
-//            throw CalendarError.invalidDate
-//        }
-//        let dateInterval = try calendar.dateInterval(start: start, duration: DateComponents(year: 1))
         var results: [Summary<Summary<EKCalendarItem>>] = []
         calendar.enumerate(dateInterval: dateInterval, components: DateComponents(month: 1)) { dateInterval in
             let summaries = try! self.summaries(dateInterval: dateInterval,
