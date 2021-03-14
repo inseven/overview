@@ -94,7 +94,8 @@ struct MonthView: View {
                             .frame(width: 12, height: 12)
                         Text(summary.items[0].title ?? "Unknown")
                             .lineLimit(1)
-                        Text("(\(summary.uniqueItems.count) events)")
+                        Text("\(summary.uniqueItems.count) events")
+                            .foregroundColor(.secondary)
                         Spacer()
                         Text(format(dateComponents: summary.components))
                     }
