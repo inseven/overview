@@ -10,22 +10,10 @@ import SwiftUI
 
 extension EKEvent {
 
-    var duration: TimeInterval {
-        return endDate.timeIntervalSince(startDate)
-    }
-
-    func duration(bounds: DateInterval) ->  TimeInterval {
+    func duration(calendar: Calendar, bounds: DateInterval) -> DateComponents {
         let start = max(bounds.start, startDate)
         let end = min(bounds.end, endDate)
-        return end.timeIntervalSince(start)
-    }
-
-    func components(bounds: DateInterval) -> DateComponents {
-        // TODO: Use the calendar from the calendar?
-        // TODO: More components?
-        let start = max(bounds.start, startDate)
-        let end = min(bounds.end, endDate)
-        return Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
+        return calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
     }
 
 }
@@ -36,7 +24,7 @@ extension Calendar {
         let end = dateComponents.reduce(start) { date, dateComponents in
             self.date(byAdding: dateComponents, to: date, wrappingComponents: false)!
         }
-        return Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
+        return self.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
     }
 
 }
@@ -45,13 +33,16 @@ extension Summary where Item: EKEvent {
 
     var uniqueItems: [Item] { Array(Set(items)) }
 
-    var duration: DateComponents {
-        Calendar.current.date(byAdding: uniqueItems.map { $0.components(bounds: dateInterval) }, to: dateInterval.start)
+    func duration(calendar: Calendar) -> DateComponents {
+        calendar.date(byAdding: uniqueItems.map { $0.duration(calendar: calendar, bounds: dateInterval) },
+                      to: dateInterval.start)
     }
 
 }
 
 struct MonthView: View {
+
+    let calendar = Calendar.current
 
     @State var summary: Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>
 
@@ -63,7 +54,7 @@ struct MonthView: View {
 
     var dateComponentsFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
-        formatter.calendar = Calendar.current  // TODO: Is this needed?
+        formatter.calendar = Calendar.current
         formatter.unitsStyle = .full
         formatter.allowedUnits = [.day, .hour, .minute, .second]
         return formatter
@@ -72,7 +63,7 @@ struct MonthView: View {
     var title: String { dateFormatter.string(from: summary.dateInterval.start) }
 
     var duration: DateComponents {
-        Calendar.current.date(byAdding: summary.items.map { $0.duration }, to: summary.dateInterval.start)
+        calendar.date(byAdding: summary.items.map { $0.duration(calendar: calendar) }, to: summary.dateInterval.start)
     }
 
     func format(dateComponents: DateComponents) -> String {
@@ -103,7 +94,7 @@ struct MonthView: View {
                         Text("\(summary.uniqueItems.count) events")
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text(format(dateComponents: summary.duration))
+                        Text(format(dateComponents: summary.duration(calendar: calendar)))
                     }
                 }
                 Divider()
