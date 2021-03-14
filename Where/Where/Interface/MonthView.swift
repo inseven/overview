@@ -47,7 +47,7 @@ extension Summary where Item: EKEvent {
 
 struct MonthView: View {
 
-    @State var summary: Summary<String, Summary<CalendarItem, EKEvent>>
+    @State var summary: Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>
 
     var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()

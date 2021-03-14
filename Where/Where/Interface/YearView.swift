@@ -10,12 +10,13 @@ import SwiftUI
 
 struct YearView: View {
 
-    var months: [Summary<String, Summary<CalendarItem, EKEvent>>] = []
+    // TODO: The context should be the year?
+    var summaries: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] = []
 
     var body: some View {
         ScrollView {
             VStack {
-                ForEach(months) { summary in
+                ForEach(summaries) { summary in
                     MonthView(summary: summary)
                         .padding(.bottom)
                 }

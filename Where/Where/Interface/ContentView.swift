@@ -24,7 +24,7 @@ struct ContentView: View {
 
     @ObservedObject var manager: Manager
     @State var selections: Set<EKCalendar> = Set()
-    @State var summaries: [Summary<String, Summary<CalendarItem, EKEvent>>] = []
+    @State var summaries: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] = []
 
     @State private var sort: Int = 0
     @State private var year: Int = 2021
@@ -44,6 +44,11 @@ struct ContentView: View {
         2012,
         2011
     ]
+
+    var title: String {
+        let calendars = Array(selections)
+        return calendars.map({ $0.title }).joined(separator: ", ")
+    }
 
     func update() {
         loading = true
@@ -79,7 +84,7 @@ struct ContentView: View {
                         .progressViewStyle(CircularProgressViewStyle())
                     }
                 } else if summaries.count > 0 {
-                    YearView(months: summaries)
+                    YearView(summaries: summaries)
                 } else {
                     PlaceholderView {
                         Text("No Events")
@@ -87,6 +92,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .navigationTitle(title)
             .toolbar {
                 ToolbarItem {
                     Picker("Year", selection: $year) {
