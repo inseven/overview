@@ -29,4 +29,11 @@ extension Calendar {
         }
     }
 
+    func date(byAdding dateComponents: [DateComponents], to start: Date) -> DateComponents {
+        let end = dateComponents.reduce(start) { date, dateComponents in
+            self.date(byAdding: dateComponents, to: date, wrappingComponents: false)!
+        }
+        return self.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
+    }
+
 }
