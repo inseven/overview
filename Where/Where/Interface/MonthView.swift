@@ -45,6 +45,7 @@ extension Summary where Item: EKEvent {
 
 }
 
+
 struct MonthView: View {
 
     @State var summary: Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>

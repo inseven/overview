@@ -20,6 +20,34 @@ extension Int: Identifiable {
     public var id: Int { self }
 }
 
+
+// TODO: Move the calendar list out
+
+struct CheckboxStyle: ToggleStyle {
+
+    let color: Color
+
+    func makeBody(configuration: Self.Configuration) -> some View {
+        HStack {
+            ZStack {
+                Rectangle()
+                    .fill(color)
+                    .overlay(RoundedRectangle(cornerRadius: 2)
+                                .stroke(color, lineWidth: 1)
+                                .brightness(-0.2))
+                    .frame(width: 14, height: 14)
+                if configuration.isOn {
+                    Image(systemName: "checkmark")
+                        .foregroundColor(color)
+                        .brightness(-0.4)
+                }
+            }
+                configuration.label
+        }
+        .onTapGesture { configuration.isOn.toggle() }
+    }
+}
+
 struct ContentView: View {
 
     @ObservedObject var manager: Manager
@@ -45,6 +73,8 @@ struct ContentView: View {
         2011
     ]
 
+    @State var isOn = false
+
     var title: String {
         let calendars = Array(selections)
         return calendars.map({ $0.title }).joined(separator: ", ")
@@ -65,9 +95,18 @@ struct ContentView: View {
         NavigationView {
             List(manager.calendars) { calendar in
                 HStack {
-                    Image(systemName: selections.contains(calendar) ? "checkmark.square" : "square")
-                        .foregroundColor(Color(calendar.color))
-                    Text(calendar.title)
+                    Toggle(isOn: Binding(get: {
+                        selections.contains(calendar)
+                    }, set: { selected in
+                        if selected {
+                            selections.insert(calendar)
+                        } else {
+                            selections.remove(calendar)
+                        }
+                    })) {
+                        Text(calendar.title)
+                    }
+                    .toggleStyle(CheckboxStyle(color: Color(calendar.color)))
                 }
                 .onTapGesture {
                     if selections.contains(calendar) {
