@@ -30,21 +30,26 @@ extension EKEvent {
 
 }
 
-extension Summary where Item: EKEvent {
+extension Calendar {
 
-    var uniqueItems: [Item] { Array(Set(items)) }
-
-    var components: DateComponents {
-        let calendar = Calendar.current  // TODO: Use the correct calendar!
-        let start = dateInterval.start
-        let end = uniqueItems.reduce(start) { date, event in
-            calendar.date(byAdding: event.components(bounds: dateInterval), to: date, wrappingComponents: false)!  // TODO: Don't crash
+    func date(byAdding dateComponents: [DateComponents], to start: Date) -> DateComponents {
+        let end = dateComponents.reduce(start) { date, dateComponents in
+            self.date(byAdding: dateComponents, to: date, wrappingComponents: false)!
         }
         return Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
     }
 
 }
 
+extension Summary where Item: EKEvent {
+
+    var uniqueItems: [Item] { Array(Set(items)) }
+
+    var duration: DateComponents {
+        Calendar.current.date(byAdding: uniqueItems.map { $0.components(bounds: dateInterval) }, to: dateInterval.start)
+    }
+
+}
 
 struct MonthView: View {
 
@@ -66,8 +71,8 @@ struct MonthView: View {
 
     var title: String { dateFormatter.string(from: summary.dateInterval.start) }
 
-    var total: Int {
-        summary.items.reduce(0) { $0 + $1.items.count }
+    var duration: DateComponents {
+        Calendar.current.date(byAdding: summary.items.map { $0.duration }, to: summary.dateInterval.start)
     }
 
     func format(dateComponents: DateComponents) -> String {
@@ -98,7 +103,7 @@ struct MonthView: View {
                         Text("\(summary.uniqueItems.count) events")
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text(format(dateComponents: summary.components))
+                        Text(format(dateComponents: summary.duration))
                     }
                 }
                 Divider()
@@ -106,9 +111,10 @@ struct MonthView: View {
             }
             HStack {
                 Spacer()
-                Text("\(total)")
+                Text(format(dateComponents: duration))
                     .foregroundColor(.secondary)
             }
+
         }
     }
 
