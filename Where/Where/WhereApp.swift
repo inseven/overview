@@ -22,10 +22,10 @@ enum CalendarError: Error {
     case invalidDate
 }
 
-struct Summary</*Context, */Item>: Identifiable {
+struct Summary<Context, Item>: Identifiable {
     var id = UUID()
     var dateInterval: DateInterval
-//    var context: Context
+    var context: Context
     var items: [Item]
 }
 

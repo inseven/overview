@@ -24,7 +24,7 @@ struct ContentView: View {
 
     @ObservedObject var manager: Manager
     @State var selections: Set<EKCalendar> = Set()
-    @State var summaries: [Summary<Summary<EKEvent>>] = []
+    @State var summaries: [Summary<String, Summary<CalendarItem, EKEvent>>] = []
 
     @State private var sort: Int = 0
     @State private var year: Int = 2021

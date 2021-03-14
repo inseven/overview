@@ -47,7 +47,7 @@ extension Summary where Item: EKEvent {
 
 struct MonthView: View {
 
-    @State var summary: Summary<Summary<EKEvent>>
+    @State var summary: Summary<String, Summary<CalendarItem, EKEvent>>
 
     var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -90,7 +90,7 @@ struct MonthView: View {
                 ForEach(summary.items) { summary in
                     HStack {
                         Circle()
-                            .fill(Color(.red))
+                            .fill(Color(summary.context.calendar.color))
                             .frame(width: 12, height: 12)
                         Text(summary.items[0].title ?? "Unknown")
                             .lineLimit(1)

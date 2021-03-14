@@ -9,6 +9,11 @@ import EventKit
 import Foundation
 import SwiftUI
 
+struct CalendarItem: Hashable {
+    let calendar: EKCalendar
+    let title: String
+}
+
 class Manager: ObservableObject {
 
     fileprivate let store = EKEventStore()
@@ -50,32 +55,32 @@ class Manager: ObservableObject {
         return results
     }
 
-    func summaries(dateInterval: DateInterval, granularity: DateComponents, calendars: [EKCalendar]?) throws -> [Summary<EKEvent>] {
+    func summaries(dateInterval: DateInterval, granularity: DateComponents, calendars: [EKCalendar]?) throws -> [Summary<CalendarItem, EKEvent>] {
         let events: [EKEvent] = try self.events(dateInterval: dateInterval,
                                                 granularity: granularity,
                                                 calendars: calendars)
-        let group = Dictionary(grouping: events) { $0.title ?? "Unknown" }
-        var results: [Summary<EKEvent>] = []
-        for (_, events) in group {
-            results.append(Summary(dateInterval: dateInterval, items: events))
+        let group = Dictionary(grouping: events) { CalendarItem(calendar: $0.calendar , title: $0.title ?? "Unknown") }
+        var results: [Summary<CalendarItem, EKEvent>] = []
+        for (context, events) in group {
+            results.append(Summary(dateInterval: dateInterval, context: context, items: events))
         }
         return results
     }
 
     // TODO: Move this onto the calendar
-    func summaries(dateInterval: DateInterval, calendars: [EKCalendar]) throws -> [Summary<Summary<EKEvent>>] {
+    func summaries(dateInterval: DateInterval, calendars: [EKCalendar]) throws -> [Summary<String, Summary<CalendarItem, EKEvent>>] {
         let calendar = Calendar.current
-        var results: [Summary<Summary<EKEvent>>] = []
+        var results: [Summary<String, Summary<CalendarItem, EKEvent>>] = []
         calendar.enumerate(dateInterval: dateInterval, components: DateComponents(month: 1)) { dateInterval in
             let summaries = try! self.summaries(dateInterval: dateInterval,
                                                 granularity: DateComponents(month: 1),
                                                 calendars: calendars)
-            results.append(Summary(dateInterval: dateInterval, items: summaries))
+            results.append(Summary(dateInterval: dateInterval, context: "Title", items: summaries))
         }
         return results
     }
 
-    func summary(year: Int, calendars: [EKCalendar]) throws -> [Summary<Summary<EKEvent>>] {
+    func summary(year: Int, calendars: [EKCalendar]) throws -> [Summary<String, Summary<CalendarItem, EKEvent>>] {
         let calendar = Calendar.current
         guard let start = calendar.date(from: DateComponents(year: year, month: 1)) else {
             throw CalendarError.invalidDate
