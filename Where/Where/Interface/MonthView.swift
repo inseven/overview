@@ -89,6 +89,9 @@ struct MonthView: View {
             if summary.items.count > 0 {
                 ForEach(summary.items) { summary in
                     HStack {
+                        Circle()
+                            .fill(Color(.red))
+                            .frame(width: 12, height: 12)
                         Text(summary.items[0].title ?? "Unknown")
                             .lineLimit(1)
                         Text("(\(summary.uniqueItems.count) events)")
