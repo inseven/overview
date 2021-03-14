@@ -26,23 +26,23 @@ extension Int: Identifiable {
 struct CheckboxStyle: ToggleStyle {
 
     let color: Color
-
+    
     func makeBody(configuration: Self.Configuration) -> some View {
         HStack {
             ZStack {
-                Rectangle()
+                RoundedRectangle(cornerRadius: 3)
                     .fill(color)
-                    .overlay(RoundedRectangle(cornerRadius: 2)
+                    .overlay(RoundedRectangle(cornerRadius: 3)
                                 .stroke(color, lineWidth: 1)
                                 .brightness(-0.2))
                     .frame(width: 14, height: 14)
                 if configuration.isOn {
                     Image(systemName: "checkmark")
-                        .foregroundColor(color)
-                        .brightness(-0.4)
+                        .font(Font.system(size: 9, weight: .bold))
+                        .foregroundColor(.white)
                 }
             }
-                configuration.label
+            configuration.label
         }
         .onTapGesture { configuration.isOn.toggle() }
     }
