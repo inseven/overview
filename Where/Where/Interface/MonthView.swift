@@ -88,12 +88,12 @@ struct MonthView: View {
             Divider()
                 .foregroundColor(.secondary)
             if summary.items.count > 0 {
-                ForEach(summary.items) { summary in
+                ForEach(summary.items.sorted(by: { $0.context.title < $1.context.title })) { summary in
                     HStack {
                         Circle()
                             .fill(Color(summary.context.calendar.color))
                             .frame(width: 12, height: 12)
-                        Text(summary.items[0].title ?? "Unknown")
+                        Text(summary.context.title)
                             .lineLimit(1)
                         Text("\(summary.uniqueItems.count) events")
                             .foregroundColor(.secondary)
