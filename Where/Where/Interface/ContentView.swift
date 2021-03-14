@@ -77,7 +77,6 @@ struct ContentView: View {
                     PlaceholderView {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
-                        .controlSize(.small)
                     }
                 } else if summaries.count > 0 {
                     YearView(months: summaries)

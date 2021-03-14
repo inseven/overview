@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D81507DF25FD0D5300290DD2 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81507DE25FD0D5300290DD2 /* Calendar.swift */; };
+		D81507E725FD8AF600290DD2 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81507E625FD8AF600290DD2 /* Manager.swift */; };
 		D8DCDDD925F664440083DF48 /* WhereApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDDD825F664440083DF48 /* WhereApp.swift */; };
 		D8DCDDDB25F664440083DF48 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDDDA25F664440083DF48 /* ContentView.swift */; };
 		D8DCDDDD25F664450083DF48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8DCDDDC25F664450083DF48 /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		D81507DE25FD0D5300290DD2 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		D81507E625FD8AF600290DD2 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		D8DCDDD525F664440083DF48 /* Where.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Where.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8DCDDD825F664440083DF48 /* WhereApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereApp.swift; sourceTree = "<group>"; };
 		D8DCDDDA25F664440083DF48 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				D8DCDDE125F664450083DF48 /* Info.plist */,
 				D8DCDDDE25F664450083DF48 /* Preview Content */,
 				D8DCDDE225F664450083DF48 /* Where.entitlements */,
+				D81507E625FD8AF600290DD2 /* Manager.swift */,
 			);
 			path = Where;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				D81507DF25FD0D5300290DD2 /* Calendar.swift in Sources */,
 				D8DCDE0825F6F9410083DF48 /* MonthView.swift in Sources */,
 				D8DCDE1225F6FD060083DF48 /* YearView.swift in Sources */,
+				D81507E725FD8AF600290DD2 /* Manager.swift in Sources */,
 				D8DCDE0D25F6FC680083DF48 /* PlaceholderView.swift in Sources */,
 				D8DCDDD925F664440083DF48 /* WhereApp.swift in Sources */,
 			);
