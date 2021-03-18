@@ -48,17 +48,10 @@ class Manager: ObservableObject {
         calendars = store.calendars(for: .event)
     }
 
-    func events(dateInterval: DateInterval, calendars: [EKCalendar]?) -> [EKEvent] {
-        let predicate = store.predicateForEvents(withStart: dateInterval.start,
-                                                 end: dateInterval.end,
-                                                 calendars: calendars)
-        return store.events(matching: predicate)
-    }
-
     func events(calendar: Calendar, dateInterval: DateInterval, granularity: DateComponents, calendars: [EKCalendar]?) throws -> [EKEvent] {
         var results: [EKEvent] = []
         calendar.enumerate(dateInterval: dateInterval, components: granularity) { dateInterval in
-            results = results + events(dateInterval: dateInterval, calendars: calendars)
+            results = results + store.events(dateInterval: dateInterval, calendars: calendars)
         }
         return results
     }
