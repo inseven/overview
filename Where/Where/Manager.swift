@@ -55,8 +55,7 @@ class Manager: ObservableObject {
         return results
     }
 
-    func summary(year: Int, calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
-        let calendar = Calendar.current
+    func summary(calendar: Calendar, year: Int, calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
         guard let start = calendar.date(from: DateComponents(year: year, month: 1)) else {
             throw CalendarError.invalidDate
         }

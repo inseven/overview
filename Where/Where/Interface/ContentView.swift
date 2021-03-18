@@ -58,7 +58,8 @@ struct ContentView: View {
     func update() {
         loading = true
         DispatchQueue.global(qos: .userInteractive).async {
-            let summaries = (try? manager.summary(year: year, calendars: Array(selections))) ?? []
+            let calendar = Calendar.current
+            let summaries = (try? manager.summary(calendar: calendar, year: year, calendars: Array(selections))) ?? []
             DispatchQueue.main.async {
                 self.summaries = summaries
                 self.loading = false
