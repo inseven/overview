@@ -40,4 +40,20 @@ extension EKEventStore {
         return results
     }
 
+    func summaries(calendar: Calendar,
+                   dateInterval: DateInterval,
+                   granularity: DateComponents,
+                   calendars: [EKCalendar]?) throws -> [Summary<CalendarItem, EKEvent>] {
+        let events: [EKEvent] = try self.events(calendar: calendar,
+                                                dateInterval: dateInterval,
+                                                granularity: granularity,
+                                                calendars: calendars)
+        let group = Dictionary(grouping: events) { CalendarItem(calendar: $0.calendar , title: $0.title ?? "") }
+        var results: [Summary<CalendarItem, EKEvent>] = []
+        for (context, events) in group {
+            results.append(Summary(dateInterval: dateInterval, context: context, items: events))
+        }
+        return results
+    }
+
 }

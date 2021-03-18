@@ -43,26 +43,13 @@ class Manager: ObservableObject {
         calendars = store.calendars(for: .event)
     }
 
-    func summaries(calendar: Calendar, dateInterval: DateInterval, granularity: DateComponents, calendars: [EKCalendar]?) throws -> [Summary<CalendarItem, EKEvent>] {
-        let events: [EKEvent] = try store.events(calendar: calendar,
-                                                 dateInterval: dateInterval,
-                                                 granularity: granularity,
-                                                 calendars: calendars)
-        let group = Dictionary(grouping: events) { CalendarItem(calendar: $0.calendar , title: $0.title ?? "Unknown") }
-        var results: [Summary<CalendarItem, EKEvent>] = []
-        for (context, events) in group {
-            results.append(Summary(dateInterval: dateInterval, context: context, items: events))
-        }
-        return results
-    }
-
     func summaries(calendar: Calendar, dateInterval: DateInterval, calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
         var results: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] = []
         calendar.enumerate(dateInterval: dateInterval, components: DateComponents(month: 1)) { dateInterval in
-            let summaries = try! self.summaries(calendar: calendar,
-                                                dateInterval: dateInterval,
-                                                granularity: DateComponents(month: 1),
-                                                calendars: calendars)
+            let summaries = try! store.summaries(calendar: calendar,
+                                                 dateInterval: dateInterval,
+                                                 granularity: DateComponents(month: 1),
+                                                 calendars: calendars)
             results.append(Summary(dateInterval: dateInterval, context: calendars, items: summaries))
         }
         return results

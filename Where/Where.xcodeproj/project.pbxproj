@@ -169,11 +169,11 @@
 		D8DCDE1625F6FFB10083DF48 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				D8805D9A26039DED00C23C11 /* CheckboxStyle.swift */,
 				D8DCDDDA25F664440083DF48 /* ContentView.swift */,
 				D8DCDE0725F6F9410083DF48 /* MonthView.swift */,
 				D8DCDE0C25F6FC680083DF48 /* PlaceholderView.swift */,
 				D8DCDE1125F6FD060083DF48 /* YearView.swift */,
-				D8805D9A26039DED00C23C11 /* CheckboxStyle.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
