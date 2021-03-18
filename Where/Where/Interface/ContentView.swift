@@ -29,10 +29,6 @@ enum Flavor: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
-extension Int: Identifiable {
-    public var id: Int { self }
-}
-
 
 // TODO: Move the calendar list out
 
