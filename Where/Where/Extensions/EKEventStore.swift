@@ -82,4 +82,14 @@ extension EKEventStore {
         return results
     }
 
+    func summary(calendar: Calendar,
+                 year: Int,
+                 calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
+        guard let start = calendar.date(from: DateComponents(year: year, month: 1)) else {
+            throw CalendarError.invalidDate
+        }
+        let dateInterval = try calendar.dateInterval(start: start, duration: DateComponents(year: 1))
+        return try summaries(calendar: calendar, dateInterval: dateInterval, calendars: calendars)
+    }
+
 }

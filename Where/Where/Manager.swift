@@ -31,6 +31,7 @@ enum CalendarError: Error {
 class Manager: ObservableObject {
 
     fileprivate let store = EKEventStore()
+    fileprivate let calendar = Calendar.current
 
     @Published var calendars: [EKCalendar] = []
 
@@ -49,14 +50,9 @@ class Manager: ObservableObject {
         calendars = store.calendars(for: .event)
     }
 
-    func summary(calendar: Calendar,
-                 year: Int,
+    func summary(year: Int,
                  calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
-        guard let start = calendar.date(from: DateComponents(year: year, month: 1)) else {
-            throw CalendarError.invalidDate
-        }
-        let dateInterval = try calendar.dateInterval(start: start, duration: DateComponents(year: 1))
-        return try store.summaries(calendar: calendar, dateInterval: dateInterval, calendars: calendars)
+        try store.summary(calendar: calendar, year: year, calendars: calendars)
     }
 
 }
