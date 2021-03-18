@@ -29,12 +29,6 @@ extension EKCalendarItem: Identifiable {
     public var id: String { calendarItemIdentifier }
 }
 
-enum CalendarError: Error {
-    case failure
-    case unknownCalendar
-    case invalidDate
-}
-
 @main
 struct WhereApp: App {
 

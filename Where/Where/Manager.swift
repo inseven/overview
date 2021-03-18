@@ -22,6 +22,12 @@ import EventKit
 import Foundation
 import SwiftUI
 
+enum CalendarError: Error {
+    case failure
+    case unknownCalendar
+    case invalidDate
+}
+
 class Manager: ObservableObject {
 
     fileprivate let store = EKEventStore()
