@@ -13,7 +13,6 @@
 		D8805D9626039D4D00C23C11 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8805D9526039D4D00C23C11 /* Int.swift */; };
 		D8805D9B26039DED00C23C11 /* CheckboxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8805D9A26039DED00C23C11 /* CheckboxStyle.swift */; };
 		D8805DA02603A0A700C23C11 /* EKEventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8805D9F2603A0A700C23C11 /* EKEventStore.swift */; };
-		D8805DA82603A19900C23C11 /* CalendarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8805DA72603A19900C23C11 /* CalendarItem.swift */; };
 		D8DCDDD925F664440083DF48 /* WhereApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDDD825F664440083DF48 /* WhereApp.swift */; };
 		D8DCDDDB25F664440083DF48 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDDDA25F664440083DF48 /* ContentView.swift */; };
 		D8DCDDDD25F664450083DF48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8DCDDDC25F664450083DF48 /* Assets.xcassets */; };
@@ -49,7 +48,6 @@
 		D8805D9526039D4D00C23C11 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		D8805D9A26039DED00C23C11 /* CheckboxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxStyle.swift; sourceTree = "<group>"; };
 		D8805D9F2603A0A700C23C11 /* EKEventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKEventStore.swift; sourceTree = "<group>"; };
-		D8805DA72603A19900C23C11 /* CalendarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItem.swift; sourceTree = "<group>"; };
 		D8DCDDD525F664440083DF48 /* Where.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Where.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8DCDDD825F664440083DF48 /* WhereApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereApp.swift; sourceTree = "<group>"; };
 		D8DCDDDA25F664440083DF48 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 				D81507DD25FD0D4900290DD2 /* Extensions */,
 				D8DCDE1625F6FFB10083DF48 /* Interface */,
 				D8DCDDD825F664440083DF48 /* WhereApp.swift */,
-				D8805DA72603A19900C23C11 /* CalendarItem.swift */,
 				D81507E625FD8AF600290DD2 /* Manager.swift */,
 				D8DCDDDC25F664450083DF48 /* Assets.xcassets */,
 				D8DCDDE125F664450083DF48 /* Info.plist */,
@@ -317,7 +314,6 @@
 				D8805D9626039D4D00C23C11 /* Int.swift in Sources */,
 				D8DCDE0D25F6FC680083DF48 /* PlaceholderView.swift in Sources */,
 				D8805D9B26039DED00C23C11 /* CheckboxStyle.swift in Sources */,
-				D8805DA82603A19900C23C11 /* CalendarItem.swift in Sources */,
 				D8DCDDD925F664440083DF48 /* WhereApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

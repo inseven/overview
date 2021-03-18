@@ -35,13 +35,6 @@ enum CalendarError: Error {
     case invalidDate
 }
 
-struct Summary<Context, Item>: Identifiable {
-    var id = UUID()
-    var dateInterval: DateInterval
-    var context: Context
-    var items: [Item]
-}
-
 @main
 struct WhereApp: App {
 
