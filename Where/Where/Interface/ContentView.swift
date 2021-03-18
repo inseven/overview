@@ -21,41 +21,7 @@
 import EventKit
 import SwiftUI
 
-enum Flavor: String, CaseIterable, Identifiable {
-    case chocolate
-    case vanilla
-    case strawberry
-
-    var id: String { self.rawValue }
-}
-
-
 // TODO: Move the calendar list out
-
-struct CheckboxStyle: ToggleStyle {
-
-    let color: Color
-    
-    func makeBody(configuration: Self.Configuration) -> some View {
-        HStack {
-            ZStack {
-                RoundedRectangle(cornerRadius: 3)
-                    .fill(color)
-                    .overlay(RoundedRectangle(cornerRadius: 3)
-                                .stroke(color, lineWidth: 1)
-                                .brightness(-0.2))
-                    .frame(width: 14, height: 14)
-                if configuration.isOn {
-                    Image(systemName: "checkmark")
-                        .font(Font.system(size: 9, weight: .bold))
-                        .foregroundColor(.white)
-                }
-            }
-            configuration.label
-        }
-        .onTapGesture { configuration.isOn.toggle() }
-    }
-}
 
 struct ContentView: View {
 
