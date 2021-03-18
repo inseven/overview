@@ -43,24 +43,14 @@ class Manager: ObservableObject {
         calendars = store.calendars(for: .event)
     }
 
-    func summaries(calendar: Calendar, dateInterval: DateInterval, calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
-        var results: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] = []
-        calendar.enumerate(dateInterval: dateInterval, components: DateComponents(month: 1)) { dateInterval in
-            let summaries = try! store.summaries(calendar: calendar,
-                                                 dateInterval: dateInterval,
-                                                 granularity: DateComponents(month: 1),
-                                                 calendars: calendars)
-            results.append(Summary(dateInterval: dateInterval, context: calendars, items: summaries))
-        }
-        return results
-    }
-
-    func summary(calendar: Calendar, year: Int, calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
+    func summary(calendar: Calendar,
+                 year: Int,
+                 calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
         guard let start = calendar.date(from: DateComponents(year: year, month: 1)) else {
             throw CalendarError.invalidDate
         }
         let dateInterval = try calendar.dateInterval(start: start, duration: DateComponents(year: 1))
-        return try summaries(calendar: calendar, dateInterval: dateInterval, calendars: calendars)
+        return try store.summaries(calendar: calendar, dateInterval: dateInterval, calendars: calendars)
     }
 
 }

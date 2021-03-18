@@ -56,4 +56,18 @@ extension EKEventStore {
         return results
     }
 
+    func summaries(calendar: Calendar,
+                   dateInterval: DateInterval,
+                   calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
+        var results: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] = []
+        calendar.enumerate(dateInterval: dateInterval, components: DateComponents(month: 1)) { dateInterval in
+            let summaries = try! self.summaries(calendar: calendar,
+                                                dateInterval: dateInterval,
+                                                granularity: DateComponents(month: 1),
+                                                calendars: calendars)
+            results.append(Summary(dateInterval: dateInterval, context: calendars, items: summaries))
+        }
+        return results
+    }
+
 }
