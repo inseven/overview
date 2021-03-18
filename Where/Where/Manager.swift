@@ -22,11 +22,6 @@ import EventKit
 import Foundation
 import SwiftUI
 
-struct CalendarItem: Hashable {
-    let calendar: EKCalendar
-    let title: String
-}
-
 class Manager: ObservableObject {
 
     fileprivate let store = EKEventStore()
@@ -48,19 +43,11 @@ class Manager: ObservableObject {
         calendars = store.calendars(for: .event)
     }
 
-    func events(calendar: Calendar, dateInterval: DateInterval, granularity: DateComponents, calendars: [EKCalendar]?) throws -> [EKEvent] {
-        var results: [EKEvent] = []
-        calendar.enumerate(dateInterval: dateInterval, components: granularity) { dateInterval in
-            results = results + store.events(dateInterval: dateInterval, calendars: calendars)
-        }
-        return results
-    }
-
     func summaries(calendar: Calendar, dateInterval: DateInterval, granularity: DateComponents, calendars: [EKCalendar]?) throws -> [Summary<CalendarItem, EKEvent>] {
-        let events: [EKEvent] = try self.events(calendar: calendar,
-                                                dateInterval: dateInterval,
-                                                granularity: granularity,
-                                                calendars: calendars)
+        let events: [EKEvent] = try store.events(calendar: calendar,
+                                                 dateInterval: dateInterval,
+                                                 granularity: granularity,
+                                                 calendars: calendars)
         let group = Dictionary(grouping: events) { CalendarItem(calendar: $0.calendar , title: $0.title ?? "Unknown") }
         var results: [Summary<CalendarItem, EKEvent>] = []
         for (context, events) in group {
@@ -88,7 +75,6 @@ class Manager: ObservableObject {
         }
         let dateInterval = try calendar.dateInterval(start: start, duration: DateComponents(year: 1))
         return try summaries(calendar: calendar, dateInterval: dateInterval, calendars: calendars)
-
     }
 
 }
