@@ -18,29 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import XCTest
-@testable import Where
+import EventKit
+import SwiftUI
 
-class WhereTests: XCTestCase {
+extension EKCalendar: Identifiable {
+    public var id: String { calendarIdentifier }
+}
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+extension EKCalendarItem: Identifiable {
+    public var id: String { calendarItemIdentifier }
+}
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+@main
+struct OverviewApp: App {
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+    @ObservedObject var manager = Manager()
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    var body: some Scene {
+        WindowGroup {
+            VStack {
+                ContentView(manager: manager)
+            }
+        }
+        .commands {
+            SidebarCommands()
         }
     }
-
 }
