@@ -36,6 +36,7 @@ ARCHIVE_PATH="${BUILD_DIRECTORY}/Overview.xcarchive"
 FASTLANE_ENV_PATH="${ROOT_DIRECTORY}/fastlane/.env"
 
 CHANGES_SCRIPT="${SCRIPTS_DIRECTORY}/changes/changes"
+CHANGES_GITHUB_RELEASE_SCRIPT="${SCRIPTS_DIRECTORY}/changes/examples/gh-release.sh"
 BUILD_TOOLS_SCRIPT="${SCRIPTS_DIRECTORY}/build-tools/build-tools"
 
 MACOS_PROJECT_PATH="${ROOT_DIRECTORY}/macos/Overview.xcodeproj"
@@ -162,5 +163,5 @@ popd
 if $RELEASE || $TRY_RELEASE ; then
     # List the current tags just to check GitHub has them.
     git tag
-    "$CHANGES_SCRIPT" --scope macOS release --skip-if-empty --push --command 'scripts/release.sh'
+    "$CHANGES_SCRIPT" --scope macOS release --skip-if-empty --push --command "\"${CHANGES_GITHUB_RELEASE_SCRIPT}\" \"$@\"" build/Overview-macOS*.zip
 fi
