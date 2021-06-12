@@ -160,5 +160,5 @@ popd
 
 # Attempt to create a version tag and publish a GitHub release; fails quietly if there's no new release.
 if $RELEASE || $TRY_RELEASE ; then
-    "$CHANGES_SCRIPT" --scope macOS release --skip-if-empty --push --command "\"${CHANGES_GITHUB_RELEASE_SCRIPT}\" \"$@\"" "${BUILD_DIRECTORY}/${ZIP_BASENAME}"
+    "$CHANGES_SCRIPT" --scope macOS release --skip-if-empty --push --command "\"${CHANGES_GITHUB_RELEASE_SCRIPT}\" \"\$@\"" "${BUILD_DIRECTORY}/${ZIP_BASENAME}"
 fi
