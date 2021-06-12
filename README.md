@@ -1,5 +1,7 @@
 # Overview
 
+[![Build](https://github.com/jbmorley/overview/actions/workflows/build.yaml/badge.svg)](https://github.com/jbmorley/overview/actions/workflows/build.yaml)
+
 Generate monthly durations for similarly named calendar events.
 
 ![Screenshot](screenshot.png)
