@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  schedule:
+    - cron:  '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  test:
+
+    name: Build macOS project
+    runs-on: macos-10.15
+
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - name: Trust the GitHub SSH keys
+      run: |
+        for ip in $(dig @8.8.8.8 github.com +short); do ssh-keyscan github.com,$ip; ssh-keyscan $ip; done 2>/dev/null >> ~/.ssh/known_hosts
+
+    - name: Install Pipenv
+      run: |
+        sudo pip3 install pipenv
+
+    - name: Install dependencies
+      run: scripts/install-dependencies.sh
+
+    - name: Build and test
+      env:
+        TEMPORARY_KEYCHAIN_PASSWORD: ${{ secrets.TEMPORARY_KEYCHAIN_PASSWORD }}
+        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        CERTIFICATE_REPOSITORY: ${{ secrets.CERTIFICATE_REPOSITORY }}
+        CERTIFICATE_REPOSITORY_AUTHORIZATION_KEY: ${{ secrets.CERTIFICATE_REPOSITORY_AUTHORIZATION_KEY }}
+        APPLE_DEVELOPER_ID: ${{ secrets.APPLE_DEVELOPER_ID }}
+        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REF: ${{ github.ref }}
+        TRY_RELEASE: ${{ github.ref == 'refs/heads/main' }}
+      run: scripts/build.sh
+
+    - name: Archive the binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: Artifacts
+        path: build/Artifacts.zip
