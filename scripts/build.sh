@@ -81,7 +81,7 @@ fi
 
 function xcode_project {
     xcodebuild \
-        -project "$MACOS_PROJECT_PATH" "$@"
+        -project macos/Overview.xcodeproj "$@"
 }
 
 function build_scheme {
