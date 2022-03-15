@@ -43,6 +43,14 @@ CHANGES_GITHUB_RELEASE_SCRIPT="${CHANGES_DIRECTORY}/examples/gh-release.sh"
 PATH=$PATH:$CHANGES_DIRECTORY
 PATH=$PATH:$BUILD_TOOLS_DIRECTORY
 
+IOS_XCODE_PATH=${IOS_XCODE_PATH:-/Applications/Xcode.app}
+MACOS_XCODE_PATH=${MACOS_XCODE_PATH:-/Applications/Xcode.app}
+
+source "${SCRIPTS_DIRECTORY}/environment.sh"
+
+# Check that the GitHub command is available on the path.
+which gh || (echo "GitHub cli (gh) not available on the path." && exit 1)
+
 # Process the command line arguments.
 POSITIONAL=()
 NOTARIZE=${NOTARIZE:-false}
@@ -94,6 +102,9 @@ function build_scheme {
 }
 
 cd "$ROOT_DIRECTORY"
+
+# Select the correct Xcode.
+sudo xcode-select --switch "$MACOS_XCODE_PATH"
 
 # List the available schemes.
 xcode_project -list
