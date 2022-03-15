@@ -97,8 +97,8 @@ struct MonthView: View {
                 Text(format(dateComponents: duration))
                     .foregroundColor(.secondary)
             }
-
         }
+        .textSelection(.enabled)
     }
 
 }
