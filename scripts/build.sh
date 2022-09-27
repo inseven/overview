@@ -43,9 +43,6 @@ CHANGES_GITHUB_RELEASE_SCRIPT="${CHANGES_DIRECTORY}/examples/gh-release.sh"
 PATH=$PATH:$CHANGES_DIRECTORY
 PATH=$PATH:$BUILD_TOOLS_DIRECTORY
 
-IOS_XCODE_PATH=${IOS_XCODE_PATH:-/Applications/Xcode.app}
-MACOS_XCODE_PATH=${MACOS_XCODE_PATH:-/Applications/Xcode.app}
-
 source "${SCRIPTS_DIRECTORY}/environment.sh"
 
 # Check that the GitHub command is available on the path.
