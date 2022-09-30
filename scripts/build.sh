@@ -161,7 +161,7 @@ APP_PATH="$BUILD_DIRECTORY/$APP_BASENAME"
 codesign -dvv "$APP_PATH"
 
 # Notarize the release build.
-export FL_NOTARIZE_ASC_PROVIDER="S4WXAUZQEV"
+export FL_NOTARIZE_ASC_PROVIDER="S4WXAUZQEV"  # https://github.com/fastlane/fastlane/issues/19686
 fastlane notarize_release package:"$APP_PATH"
 
 # Archive the results.
