@@ -50,16 +50,11 @@ which gh || (echo "GitHub cli (gh) not available on the path." && exit 1)
 
 # Process the command line arguments.
 POSITIONAL=()
-NOTARIZE=${NOTARIZE:-false}
 RELEASE=${TRY_RELEASE:-false}
 while [[ $# -gt 0 ]]
 do
     key="$1"
     case $key in
-        -n|--notarize)
-        NOTARIZE=true
-        shift
-        ;;
         -r|--release)
         RELEASE=true
         shift
@@ -166,9 +161,8 @@ APP_PATH="$BUILD_DIRECTORY/$APP_BASENAME"
 codesign -dvv "$APP_PATH"
 
 # Notarize the release build.
-if $NOTARIZE ; then
-    fastlane notarize_release package:"$APP_PATH"
-fi
+export FL_NOTARIZE_ASC_PROVIDER="S4WXAUZQEV"  # https://github.com/fastlane/fastlane/issues/19686
+fastlane notarize_release package:"$APP_PATH"
 
 # Archive the results.
 pushd "$BUILD_DIRECTORY"
