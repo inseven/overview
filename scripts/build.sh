@@ -167,6 +167,7 @@ codesign -dvv "$APP_PATH"
 
 # Notarize the release build.
 if $NOTARIZE ; then
+    export FL_NOTARIZE_ASC_PROVIDER="S4WXAUZQEV"
     fastlane notarize_release package:"$APP_PATH"
 fi
 
