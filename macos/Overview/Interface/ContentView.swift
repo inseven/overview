@@ -52,7 +52,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationSplitView {
             List(manager.calendars) { calendar in
                 HStack {
                     Toggle(isOn: Binding(get: {
@@ -76,6 +76,7 @@ struct ContentView: View {
                     }
                 }
             }
+        } detail: {
             HStack {
                 if loading {
                     PlaceholderView {
