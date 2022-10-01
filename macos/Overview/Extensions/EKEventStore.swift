@@ -92,4 +92,31 @@ extension EKEventStore {
         return try summaries(calendar: calendar, dateInterval: dateInterval, calendars: calendars)
     }
 
+    func earliestEventStartDate(after startDate: Date, before endDate: Date, calendars: [EKCalendar]) -> Date? {
+        var result: Date? = nil
+        enumerateEvents(matching: predicateForEvents(withStart: startDate,
+                                                     end: endDate,
+                                                     calendars: calendars)) { event, stop in
+            guard event.startDate != nil else {
+                return
+            }
+            result = event.startDate
+            stop.pointee = true
+        }
+        return result
+    }
+
+    func earliestEventStartDate(calendars: [EKCalendar]) -> Date? {
+        // Search backwards for the earliest calendar entry in 4 year intervals (documented EventKit restriction).
+        var result: Date? = nil
+        let iterator = DateRangeIterator(date: .now, increment: DateComponents(year: -4))
+        for (startDate, endDate) in iterator {
+            guard let date = earliestEventStartDate(after: startDate, before: endDate, calendars: calendars) else {
+                return result
+            }
+            result = date
+        }
+        return result
+    }
+
 }

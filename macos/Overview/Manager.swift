@@ -33,7 +33,10 @@ class Manager: ObservableObject {
     fileprivate let store = EKEventStore()
     fileprivate let calendar = Calendar.current
 
+    let updateQueue = DispatchQueue(label: "Manager.updateQueue")
+
     @Published var calendars: [EKCalendar] = []
+    @Published var years: [Int] = []
 
     init() {
         store.requestAccess(to: .event) { granted, error in
@@ -48,6 +51,29 @@ class Manager: ObservableObject {
     func update() {
         dispatchPrecondition(condition: .onQueue(.main))
         calendars = store.calendars(for: .event)
+        updateQueue.async {
+            let contributingCalendars = self.calendars.filter { $0.type != .birthday }
+            let earliestDate = self.store.earliestEventStartDate(calendars: contributingCalendars) ?? .now
+            print(earliestDate)
+            DispatchQueue.main.async {
+                self.years = [
+                    2021,
+                    2020,
+                    2019,
+                    2018,
+                    2017,
+                    2016,
+                    2015,
+                    2014,
+                    2013,
+                    2012,
+                    2011
+                ]
+            }
+        }
+
+        years = [Date.now.year]
+        print(years)
     }
 
     func summary(year: Int,

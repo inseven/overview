@@ -34,20 +34,6 @@ struct ContentView: View {
 
     @State private var loading = false
 
-    let years = [
-        2021,
-        2020,
-        2019,
-        2018,
-        2017,
-        2016,
-        2015,
-        2014,
-        2013,
-        2012,
-        2011
-    ]
-
     @State var isOn = false
 
     var title: String {
@@ -110,7 +96,7 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem {
                     Picker("Year", selection: $year) {
-                        ForEach(years) { year in
+                        ForEach(manager.years) { year in
                             Text(String(year)).tag(year)
                         }
                     }
