@@ -24,7 +24,7 @@ struct DateRangeIterator: Sequence, IteratorProtocol {
 
     let calendar = Calendar.current
     var date: Date
-    var increment: DateComponents
+    let increment: DateComponents
 
     init(date: Date, increment: DateComponents) {
         self.date = date

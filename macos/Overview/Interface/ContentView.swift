@@ -30,7 +30,6 @@ struct ContentView: View {
     @State var summaries: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] = []
 
     @State private var sort: Int = 0
-    @State private var year: Int = 2021
 
     @State private var loading = false
 
@@ -44,7 +43,7 @@ struct ContentView: View {
     func update() {
         loading = true
         DispatchQueue.global(qos: .userInteractive).async {
-            let summaries = (try? manager.summary(year: year, calendars: Array(selections))) ?? []
+            let summaries = (try? manager.summary(year: manager.year, calendars: Array(selections))) ?? []
             DispatchQueue.main.async {
                 self.summaries = summaries
                 self.loading = false
@@ -95,7 +94,7 @@ struct ContentView: View {
             .navigationTitle(title)
             .toolbar {
                 ToolbarItem {
-                    Picker("Year", selection: $year) {
+                    Picker("Year", selection: $manager.year) {
                         ForEach(manager.years) { year in
                             Text(String(year)).tag(year)
                         }
@@ -106,7 +105,7 @@ struct ContentView: View {
         .onChange(of: selections) { selections in
             update()
         }
-        .onChange(of: year) { year in
+        .onChange(of: manager.year) { year in
             update()
         }
     }
