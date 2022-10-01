@@ -22,7 +22,7 @@
 		D8DCDDDD25F664450083DF48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8DCDDDC25F664450083DF48 /* Assets.xcassets */; };
 		D8DCDDE025F664450083DF48 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8DCDDDF25F664450083DF48 /* Preview Assets.xcassets */; };
 		D8DCDDEC25F664460083DF48 /* OverviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDDEB25F664460083DF48 /* OverviewTests.swift */; };
-		D8DCDDF725F664460083DF48 /* WhereUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDDF625F664460083DF48 /* WhereUITests.swift */; };
+		D8DCDDF725F664460083DF48 /* OverviewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDDF625F664460083DF48 /* OverviewUITests.swift */; };
 		D8DCDE0825F6F9410083DF48 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDE0725F6F9410083DF48 /* MonthView.swift */; };
 		D8DCDE0D25F6FC680083DF48 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDE0C25F6FC680083DF48 /* PlaceholderView.swift */; };
 		D8DCDE1225F6FD060083DF48 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDE1125F6FD060083DF48 /* YearView.swift */; };
@@ -67,7 +67,7 @@
 		D8DCDDEB25F664460083DF48 /* OverviewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewTests.swift; sourceTree = "<group>"; };
 		D8DCDDED25F664460083DF48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8DCDDF225F664460083DF48 /* OverviewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverviewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D8DCDDF625F664460083DF48 /* WhereUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereUITests.swift; sourceTree = "<group>"; };
+		D8DCDDF625F664460083DF48 /* OverviewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewUITests.swift; sourceTree = "<group>"; };
 		D8DCDDF825F664460083DF48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8DCDE0725F6F9410083DF48 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
 		D8DCDE0C25F6FC680083DF48 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 		D8DCDDF525F664460083DF48 /* OverviewUITests */ = {
 			isa = PBXGroup;
 			children = (
-				D8DCDDF625F664460083DF48 /* WhereUITests.swift */,
+				D8DCDDF625F664460083DF48 /* OverviewUITests.swift */,
 				D8DCDDF825F664460083DF48 /* Info.plist */,
 			);
 			path = OverviewUITests;
@@ -365,7 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8DCDDF725F664460083DF48 /* WhereUITests.swift in Sources */,
+				D8DCDDF725F664460083DF48 /* OverviewUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,7 +612,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.inseven.OverviewUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = Where;
+				TEST_TARGET_NAME = Overview;
 			};
 			name = Debug;
 		};
@@ -632,7 +632,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = uk.co.inseven.OverviewUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = Where;
+				TEST_TARGET_NAME = Overview;
 			};
 			name = Release;
 		};
