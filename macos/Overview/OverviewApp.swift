@@ -21,6 +21,8 @@
 import EventKit
 import SwiftUI
 
+import Diligence
+
 extension EKCalendar: Identifiable {
     public var id: String { calendarIdentifier }
 }
@@ -43,5 +45,20 @@ struct OverviewApp: App {
         .commands {
             SidebarCommands()
         }
+
+        About(copyright: "Copyright © 2021-2022 InSeven Limited") {
+            Action("InSeven Limited", url: URL(string: "https://inseven.co.uk")!)
+            Action("GitHub", url: URL(string: "https://github.com/inseven/overview")!)
+        } acknowledgements: {
+            Acknowledgements("Developers") {
+                Credit("Jason Morley", url: URL(string: "https://jbmorley.co.uk"))
+            }
+            Acknowledgements("Thanks") {
+                Credit("Michael Dales")
+                Credit("Sara Frederixon")
+                Credit("Sarah Barbour")
+            }
+        } licenses: {}
+
     }
 }
