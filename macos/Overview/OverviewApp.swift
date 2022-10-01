@@ -58,7 +58,9 @@ struct OverviewApp: App {
                 Credit("Sara Frederixon")
                 Credit("Sarah Barbour")
             }
-        } licenses: {}
+        } licenses: {
+            License("Overview", author: "InSeven Limited", filename: "overview-license")
+        }
 
     }
 }
