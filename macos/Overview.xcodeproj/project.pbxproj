@@ -13,6 +13,8 @@
 		D81ABC29267530040067A5DE /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D81ABC26267530040067A5DE /* Debug.xcconfig */; };
 		D81ABC2A267530040067A5DE /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D81ABC27267530040067A5DE /* Release.xcconfig */; };
 		D81ABC2B267530040067A5DE /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D81ABC28267530040067A5DE /* Common.xcconfig */; };
+		D832648528E8EAA300D1C1B7 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D832648428E8EAA300D1C1B7 /* Date.swift */; };
+		D832648828E8EBF300D1C1B7 /* DateRangeIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D832648728E8EBF300D1C1B7 /* DateRangeIterator.swift */; };
 		D8805D9626039D4D00C23C11 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8805D9526039D4D00C23C11 /* Int.swift */; };
 		D8805D9B26039DED00C23C11 /* CheckboxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8805D9A26039DED00C23C11 /* CheckboxStyle.swift */; };
 		D8805DA02603A0A700C23C11 /* EKEventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8805D9F2603A0A700C23C11 /* EKEventStore.swift */; };
@@ -53,6 +55,8 @@
 		D81ABC26267530040067A5DE /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		D81ABC27267530040067A5DE /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		D81ABC28267530040067A5DE /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		D832648428E8EAA300D1C1B7 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		D832648728E8EBF300D1C1B7 /* DateRangeIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRangeIterator.swift; sourceTree = "<group>"; };
 		D8805D9526039D4D00C23C11 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		D8805D9A26039DED00C23C11 /* CheckboxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxStyle.swift; sourceTree = "<group>"; };
 		D8805D9F2603A0A700C23C11 /* EKEventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKEventStore.swift; sourceTree = "<group>"; };
@@ -106,11 +110,20 @@
 			isa = PBXGroup;
 			children = (
 				D81507DE25FD0D5300290DD2 /* Calendar.swift */,
+				D832648428E8EAA300D1C1B7 /* Date.swift */,
 				D81507EB25FDB05100290DD2 /* EKEvent.swift */,
 				D8805D9F2603A0A700C23C11 /* EKEventStore.swift */,
 				D8805D9526039D4D00C23C11 /* Int.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D832648628E8EBDA00D1C1B7 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D832648728E8EBF300D1C1B7 /* DateRangeIterator.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		D8D3B3D228E7CAB000A610D4 /* Packages */ = {
@@ -173,6 +186,7 @@
 				D8DCDE1625F6FFB10083DF48 /* Interface */,
 				D8D3B3D928E7D68000A610D4 /* Licenses */,
 				D8DCDDDE25F664450083DF48 /* Preview Content */,
+				D832648628E8EBDA00D1C1B7 /* Utilities */,
 			);
 			path = Overview;
 			sourceTree = "<group>";
@@ -358,8 +372,10 @@
 				D8DCDE1225F6FD060083DF48 /* YearView.swift in Sources */,
 				D8805DA02603A0A700C23C11 /* EKEventStore.swift in Sources */,
 				D81507E725FD8AF600290DD2 /* Manager.swift in Sources */,
+				D832648528E8EAA300D1C1B7 /* Date.swift in Sources */,
 				D8805D9626039D4D00C23C11 /* Int.swift in Sources */,
 				D8DCDE0D25F6FC680083DF48 /* PlaceholderView.swift in Sources */,
+				D832648828E8EBF300D1C1B7 /* DateRangeIterator.swift in Sources */,
 				D8805D9B26039DED00C23C11 /* CheckboxStyle.swift in Sources */,
 				D8DCDDD925F664440083DF48 /* OverviewApp.swift in Sources */,
 			);
