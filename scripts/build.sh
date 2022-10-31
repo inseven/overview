@@ -163,11 +163,17 @@ xcrun altool --validate-app \
 
 if $RELEASE ; then
 
+    # Install the private key.
+    mkdir -p ~/.appstoreconnect/private_keys/
+    echo -n "$APPLE_API_KEY" | base64 --decode -o ~/".appstoreconnect/private_keys/AuthKey_${APPLE_API_KEY_ID}.p8"
+
     changes \
         --scope macOS \
         release \
         --skip-if-empty \
+        --pre-release \
         --push \
         --exec "${CHANGES_GITHUB_RELEASE_SCRIPT}" \
         "${BUILD_DIRECTORY}/${ZIP_BASENAME}"
+
 fi
