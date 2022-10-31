@@ -175,7 +175,6 @@ if $RELEASE ; then
     echo -n "$APPLE_API_KEY" | base64 --decode -o ~/".appstoreconnect/private_keys/AuthKey_${APPLE_API_KEY_ID}.p8"
 
     changes \
-        --scope macOS \
         release \
         --skip-if-empty \
         --pre-release \
