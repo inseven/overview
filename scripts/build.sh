@@ -33,7 +33,7 @@ TEMPORARY_DIRECTORY="${ROOT_DIRECTORY}/temp"
 
 KEYCHAIN_PATH="${TEMPORARY_DIRECTORY}/temporary.keychain"
 ARCHIVE_PATH="${BUILD_DIRECTORY}/Overview.xcarchive"
-FASTLANE_ENV_PATH="${ROOT_DIRECTORY}/fastlane/.env"
+ENV_PATH="${ROOT_DIRECTORY}/.env"
 
 RELEASE_SCRIPT_PATH="${SCRIPTS_DIRECTORY}/release.sh"
 
@@ -66,10 +66,10 @@ done
 # Generate a random string to secure the local keychain.
 export TEMPORARY_KEYCHAIN_PASSWORD=`openssl rand -base64 14`
 
-# Source the Fastlane .env file if it exists to make local development easier.
-if [ -f "$FASTLANE_ENV_PATH" ] ; then
+# Source the .env file if it exists to make local development easier.
+if [ -f "$ENV_PATH" ] ; then
     echo "Sourcing .env..."
-    source "$FASTLANE_ENV_PATH"
+    source "$ENV_PATH"
 fi
 
 function xcode_project {
