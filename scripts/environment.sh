@@ -37,3 +37,4 @@ export PATH="${GITHUB_CLI_PATH}/bin":$PATH
 
 export PATH=$PATH:"${SCRIPTS_DIRECTORY}/changes"
 export PATH=$PATH:"${SCRIPTS_DIRECTORY}/build-tools"
+export PATH=$PATH:"${ROOT_DIRECTORY}/diligence/scripts"

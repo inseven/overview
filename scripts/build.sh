@@ -37,13 +37,8 @@ FASTLANE_ENV_PATH="${ROOT_DIRECTORY}/fastlane/.env"
 
 CHANGES_DIRECTORY="${SCRIPTS_DIRECTORY}/changes"
 BUILD_TOOLS_DIRECTORY="${SCRIPTS_DIRECTORY}/build-tools"
-DILIGENCE_DIRECTORY="${ROOT_DIRECTORY}/diligence"
 
 CHANGES_GITHUB_RELEASE_SCRIPT="${CHANGES_DIRECTORY}/examples/gh-release.sh"
-DILIGENCE_BUILD_NUMBER_SCRIPT="${DILIGENCE_DIRECTORY}/scripts/build-number.swift"
-
-PATH=$PATH:$CHANGES_DIRECTORY
-PATH=$PATH:$BUILD_TOOLS_DIRECTORY
 
 source "${SCRIPTS_DIRECTORY}/environment.sh"
 
@@ -134,7 +129,7 @@ trap cleanup EXIT
 
 # Determine the version and build number.
 VERSION_NUMBER=`changes --scope macOS version`
-BUILD_NUMBER=`${DILIGENCE_BUILD_NUMBER_SCRIPT}`
+BUILD_NUMBER=`build-number.swift`
 
 # Import the certificates into our dedicated keychain.
 fastlane import_certificates keychain:"$KEYCHAIN_PATH"
