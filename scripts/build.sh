@@ -98,13 +98,6 @@ sudo xcode-select --switch "$MACOS_XCODE_PATH"
 # List the available schemes.
 xcode_project -list
 
-# Smoke test builds.
-
-# Apps
-build_scheme "Overview" clean build
-
-# Build the macOS archive.
-
 # Clean up the build directory.
 if [ -d "$BUILD_DIRECTORY" ] ; then
     rm -r "$BUILD_DIRECTORY"
@@ -119,10 +112,16 @@ mkdir -p "$TEMPORARY_DIRECTORY"
 echo "$TEMPORARY_KEYCHAIN_PASSWORD" | build-tools create-keychain "$KEYCHAIN_PATH" --password
 
 function cleanup {
+
     # Cleanup the temporary files and keychain.
     cd "$ROOT_DIRECTORY"
     build-tools delete-keychain "$KEYCHAIN_PATH"
     rm -rf "$TEMPORARY_DIRECTORY"
+
+    # Clean up any private keys.
+    if [ -f ~/.appstoreconnect/private_keys ]; then
+        rm -r ~/.appstoreconnect/private_keys
+    fi
 }
 
 trap cleanup EXIT
@@ -134,7 +133,8 @@ BUILD_NUMBER=`build-number.swift`
 # Import the certificates into our dedicated keychain.
 fastlane import_certificates keychain:"$KEYCHAIN_PATH"
 
-# Archive and export the build.
+# Build and archive the macOS project.
+sudo xcode-select --switch "$MACOS_XCODE_PATH"
 xcode_project \
     -scheme "Overview" \
     -config Release \
@@ -142,7 +142,7 @@ xcode_project \
     OTHER_CODE_SIGN_FLAGS="--keychain=\"${KEYCHAIN_PATH}\"" \
     BUILD_NUMBER=$BUILD_NUMBER \
     MARKETING_VERSION=$VERSION_NUMBER \
-    archive | xcpretty
+    clean archive
 xcodebuild \
     -archivePath "$ARCHIVE_PATH" \
     -exportArchive \
@@ -151,25 +151,18 @@ xcodebuild \
 
 APP_BASENAME="Overview.app"
 APP_PATH="$BUILD_DIRECTORY/$APP_BASENAME"
+PKG_PATH="$BUILD_DIRECTORY/Overview.pkg"
 
-# Show the code signing details.
-codesign -dvv "$APP_PATH"
+# Validate the macOS build.
+xcrun altool --validate-app \
+    -f "${PKG_PATH}" \
+    --apiKey "$APPLE_API_KEY_ID" \
+    --apiIssuer "$APPLE_API_KEY_ISSUER_ID" \
+    --output-format json \
+    --type macos
 
-# Notarize the release build.
-export FL_NOTARIZE_ASC_PROVIDER="S4WXAUZQEV"  # https://github.com/fastlane/fastlane/issues/19686
-fastlane notarize_release package:"$APP_PATH"
-
-# Archive the results.
-pushd "$BUILD_DIRECTORY"
-ZIP_BASENAME="Overview-macOS-${VERSION_NUMBER}.zip"
-zip -r --symlinks "$ZIP_BASENAME" "$APP_BASENAME"
-build-tools verify-notarized-zip "$ZIP_BASENAME"
-rm -r "$APP_BASENAME"
-zip -r "Artifacts.zip" "."
-popd
-
-# Attempt to create a version tag and publish a GitHub release; fails quietly if there's no new release.
 if $RELEASE ; then
+
     changes \
         --scope macOS \
         release \
