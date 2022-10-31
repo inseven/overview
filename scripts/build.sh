@@ -35,10 +35,10 @@ KEYCHAIN_PATH="${TEMPORARY_DIRECTORY}/temporary.keychain"
 ARCHIVE_PATH="${BUILD_DIRECTORY}/Overview.xcarchive"
 FASTLANE_ENV_PATH="${ROOT_DIRECTORY}/fastlane/.env"
 
-CHANGES_DIRECTORY="${SCRIPTS_DIRECTORY}/changes"
-BUILD_TOOLS_DIRECTORY="${SCRIPTS_DIRECTORY}/build-tools"
+RELEASE_SCRIPT_PATH="${SCRIPTS_DIRECTORY}/release.sh"
 
-CHANGES_GITHUB_RELEASE_SCRIPT="${CHANGES_DIRECTORY}/examples/gh-release.sh"
+IOS_XCODE_PATH=${IOS_XCODE_PATH:-/Applications/Xcode.app}
+MACOS_XCODE_PATH=${MACOS_XCODE_PATH:-/Applications/Xcode.app}
 
 source "${SCRIPTS_DIRECTORY}/environment.sh"
 
@@ -62,10 +62,6 @@ do
         ;;
     esac
 done
-
-# iPhone to be used for smoke test builds and tests.
-# This doesn't specify the OS version to allow the build script to recover from minor build changes.
-IPHONE_DESTINATION="platform=iOS Simulator,name=iPhone 12 Pro"
 
 # Generate a random string to secure the local keychain.
 export TEMPORARY_KEYCHAIN_PASSWORD=`openssl rand -base64 14`
