@@ -24,8 +24,8 @@ set -e
 set -o pipefail
 set -x
 
-# This script expects the iOS IPA to be passed as the first argument, the macOS PKG as the second argument, and any
-# additional files to be attached to the GitHub release to be passed as subsequent arguments.
+# This script expects the macOS PKG as the first argument, and any additional files to be attached to the GitHub release
+# to be passed as subsequent arguments.
 
 # Upload the macOS build.
 xcrun altool --upload-app \
