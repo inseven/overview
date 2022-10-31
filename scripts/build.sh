@@ -163,6 +163,13 @@ xcrun altool --validate-app \
 
 if $RELEASE ; then
 
+    # Archive the build directory.
+    ZIP_BASENAME="build-${VERSION_NUMBER}-${BUILD_NUMBER}.zip"
+    ZIP_PATH="${BUILD_DIRECTORY}/${ZIP_BASENAME}"
+    pushd "${BUILD_DIRECTORY}"
+    zip -r "${ZIP_BASENAME}" .
+    popd
+
     # Install the private key.
     mkdir -p ~/.appstoreconnect/private_keys/
     echo -n "$APPLE_API_KEY" | base64 --decode -o ~/".appstoreconnect/private_keys/AuthKey_${APPLE_API_KEY_ID}.p8"
@@ -173,7 +180,7 @@ if $RELEASE ; then
         --skip-if-empty \
         --pre-release \
         --push \
-        --exec "${CHANGES_GITHUB_RELEASE_SCRIPT}" \
-        "${BUILD_DIRECTORY}/${ZIP_BASENAME}"
+        --exec "${RELEASE_SCRIPT_PATH}" \
+        "${PKG_PATH}" "${ZIP_PATH}"
 
 fi
