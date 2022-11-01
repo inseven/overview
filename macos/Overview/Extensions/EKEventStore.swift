@@ -20,11 +20,6 @@
 
 import EventKit
 
-struct CalendarItem: Hashable {
-    let calendar: EKCalendar
-    let title: String
-}
-
 struct Summary<Context, Item>: Identifiable {
     var id = UUID()
     var dateInterval: DateInterval

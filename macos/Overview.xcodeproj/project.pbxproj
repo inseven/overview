@@ -27,6 +27,7 @@
 		D8DCDE1225F6FD060083DF48 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDE1125F6FD060083DF48 /* YearView.swift */; };
 		D8FE3AD42911700A00C6F7FE /* Interact in Frameworks */ = {isa = PBXBuildFile; productRef = D8FE3AD32911700A00C6F7FE /* Interact */; };
 		D8FE3AD62911738E00C6F7FE /* interact-license in Resources */ = {isa = PBXBuildFile; fileRef = D8FE3AD52911738E00C6F7FE /* interact-license */; };
+		D8FE3ADB291178BF00C6F7FE /* CalendarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */; };
 		D8FE3AE02911817400C6F7FE /* CalendarList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3ADF2911817400C6F7FE /* CalendarList.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		D8DCDE1125F6FD060083DF48 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
 		D8FE3AD229116FE900C6F7FE /* interact */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = interact; path = ../interact; sourceTree = "<group>"; };
 		D8FE3AD52911738E00C6F7FE /* interact-license */ = {isa = PBXFileReference; lastKnownFileType = text; path = "interact-license"; sourceTree = "<group>"; };
+		D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItem.swift; sourceTree = "<group>"; };
 		D8FE3ADF2911817400C6F7FE /* CalendarList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,6 +185,7 @@
 				D81507DD25FD0D4900290DD2 /* Extensions */,
 				D8DCDE1625F6FFB10083DF48 /* Interface */,
 				D8D3B3D928E7D68000A610D4 /* Licenses */,
+				D8FE3AD72911787F00C6F7FE /* Model */,
 				D8DCDDDE25F664450083DF48 /* Preview Content */,
 				D832648628E8EBDA00D1C1B7 /* Utilities */,
 			);
@@ -225,6 +228,14 @@
 				D8DCDE1125F6FD060083DF48 /* YearView.swift */,
 			);
 			path = Interface;
+			sourceTree = "<group>";
+		};
+		D8FE3AD72911787F00C6F7FE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -372,6 +383,7 @@
 				D81507E725FD8AF600290DD2 /* Manager.swift in Sources */,
 				D832648528E8EAA300D1C1B7 /* Date.swift in Sources */,
 				D8805D9626039D4D00C23C11 /* Int.swift in Sources */,
+				D8FE3ADB291178BF00C6F7FE /* CalendarItem.swift in Sources */,
 				D832648828E8EBF300D1C1B7 /* DateRangeIterator.swift in Sources */,
 				D8805D9B26039DED00C23C11 /* CheckboxStyle.swift in Sources */,
 				D8DCDDD925F664440083DF48 /* OverviewApp.swift in Sources */,
