@@ -29,6 +29,7 @@
 		D8FE3AD62911738E00C6F7FE /* interact-license in Resources */ = {isa = PBXBuildFile; fileRef = D8FE3AD52911738E00C6F7FE /* interact-license */; };
 		D8FE3AD92911789500C6F7FE /* Summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3AD82911789500C6F7FE /* Summary.swift */; };
 		D8FE3ADB291178BF00C6F7FE /* CalendarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */; };
+		D8FE3ADD29117B8000C6F7FE /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3ADC29117B8000C6F7FE /* Event.swift */; };
 		D8FE3AE02911817400C6F7FE /* CalendarList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3ADF2911817400C6F7FE /* CalendarList.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		D8FE3AD52911738E00C6F7FE /* interact-license */ = {isa = PBXFileReference; lastKnownFileType = text; path = "interact-license"; sourceTree = "<group>"; };
 		D8FE3AD82911789500C6F7FE /* Summary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Summary.swift; sourceTree = "<group>"; };
 		D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItem.swift; sourceTree = "<group>"; };
+		D8FE3ADC29117B8000C6F7FE /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		D8FE3ADF2911817400C6F7FE /* CalendarList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -236,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */,
+				D8FE3ADC29117B8000C6F7FE /* Event.swift */,
 				D8FE3AD82911789500C6F7FE /* Summary.swift */,
 			);
 			path = Model;
@@ -381,6 +384,7 @@
 				D81507EC25FDB05100290DD2 /* EKEvent.swift in Sources */,
 				D8FE3AE02911817400C6F7FE /* CalendarList.swift in Sources */,
 				D8FE3AD92911789500C6F7FE /* Summary.swift in Sources */,
+				D8FE3ADD29117B8000C6F7FE /* Event.swift in Sources */,
 				D8DCDE0825F6F9410083DF48 /* MonthView.swift in Sources */,
 				D8DCDE1225F6FD060083DF48 /* YearView.swift in Sources */,
 				D8805DA02603A0A700C23C11 /* EKEventStore.swift in Sources */,

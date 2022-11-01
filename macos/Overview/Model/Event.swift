@@ -18,6 +18,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
+import Foundation
 
-extension EKEvent: Event {}
+protocol Event {
+
+    var startDate: Date! { get set }
+    var endDate: Date! { get set }
+
+}
+
+extension Event {
+
+    func duration(calendar: Calendar, bounds: DateInterval) -> DateComponents {
+        let start = max(bounds.start, startDate)
+        let end = min(bounds.end, endDate)
+        return calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
+    }
+
+}
