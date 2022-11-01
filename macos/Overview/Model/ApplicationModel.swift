@@ -25,13 +25,14 @@ import SwiftUI
 
 class ApplicationModel: ObservableObject {
 
-    private let store = EKEventStore()
-    let calendar = Calendar.current  // TODO: Make this private?
-
     @Published var calendars: [EKCalendar] = []
     @Published var years: [Int] = [Date.now.year]
-    @Published var updates: NotificationCenter.Publisher.Output = Notification(name: .EKEventStoreChanged, object: nil, userInfo: nil)
+    @Published var updates: NotificationCenter.Publisher.Output = Notification(name: .EKEventStoreChanged,
+                                                                               object: nil,
+                                                                               userInfo: nil)
 
+    private let store = EKEventStore()
+    private let calendar = Calendar.current
     private let updateQueue = DispatchQueue(label: "CalendarModel.updateQueue")
     private var cancellables: Set<AnyCancellable> = []
 
