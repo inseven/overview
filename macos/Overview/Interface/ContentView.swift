@@ -21,6 +21,8 @@
 import EventKit
 import SwiftUI
 
+import Interact
+
 // TODO: Move the calendar list out
 
 struct ContentView: View {
@@ -79,17 +81,14 @@ struct ContentView: View {
         } detail: {
             HStack {
                 if loading {
-                    PlaceholderView {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
+                    Placeholder {
+                        ProgressView()
+                            .progressViewStyle(.circular)
                     }
                 } else if summaries.count > 0 {
                     YearView(summaries: summaries)
                 } else {
-                    PlaceholderView {
-                        Text("No Events")
-                            .foregroundColor(.secondary)
-                    }
+                    Placeholder("No Events")
                 }
             }
             .navigationTitle(title)

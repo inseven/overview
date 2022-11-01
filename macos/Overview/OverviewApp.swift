@@ -60,6 +60,7 @@ struct OverviewApp: App {
             }
         } licenses: {
             License("Overview", author: "InSeven Limited", filename: "overview-license")
+            License("Interact", author: "InSeven Limited", filename: "interact-license")
         }
 
     }
