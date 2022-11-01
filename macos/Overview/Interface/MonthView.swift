@@ -43,10 +43,6 @@ struct MonthView: View {
 
     var title: String { dateFormatter.string(from: summary.dateInterval.start) }
 
-    var duration: DateComponents {
-        calendar.date(byAdding: summary.items.map { $0.duration(calendar: calendar) }, to: summary.dateInterval.start)
-    }
-
     func format(dateComponents: DateComponents) -> String {
         guard let result = dateComponentsFormatter.string(from: dateComponents) else {
             return "Unknown"
@@ -83,7 +79,7 @@ struct MonthView: View {
             }
             HStack {
                 Spacer()
-                Text(format(dateComponents: duration))
+                Text(format(dateComponents: summary.duration(calendar: calendar)))
                     .foregroundColor(.secondary)
             }
         }
