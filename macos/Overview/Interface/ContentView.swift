@@ -23,8 +23,6 @@ import SwiftUI
 
 import Interact
 
-// TODO: Move the calendar list out
-
 struct ContentView: View {
 
     @ObservedObject var manager: Manager
@@ -55,29 +53,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView {
-            List(manager.calendars) { calendar in
-                HStack {
-                    Toggle(isOn: Binding(get: {
-                        selections.contains(calendar)
-                    }, set: { selected in
-                        if selected {
-                            selections.insert(calendar)
-                        } else {
-                            selections.remove(calendar)
-                        }
-                    })) {
-                        Text(calendar.title)
-                    }
-                    .toggleStyle(CheckboxStyle(color: Color(calendar.color)))
-                }
-                .onTapGesture {
-                    if selections.contains(calendar) {
-                        selections.remove(calendar)
-                    } else {
-                        selections.insert(calendar)
-                    }
-                }
-            }
+            CalendarList(manager: manager, selections: $selections)
         } detail: {
             HStack {
                 if loading {
