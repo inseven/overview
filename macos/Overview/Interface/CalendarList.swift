@@ -25,12 +25,12 @@ import Interact
 
 struct CalendarList: View {
 
-    @ObservedObject var manager: Manager
+    @ObservedObject var calendarModel: CalendarModel
 
     @Binding var selections: Set<EKCalendar>
 
     var body: some View {
-        List(manager.calendars) { calendar in
+        List(calendarModel.calendars) { calendar in
             HStack {
                 Toggle(isOn: Binding(get: {
                     selections.contains(calendar)
