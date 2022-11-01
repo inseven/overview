@@ -1,4 +1,6 @@
-# Copyright (c) 2021-2022 InSeven Limited
+#!/bin/bash
+
+# Copyright (c) 2016-2022 InSeven Limited
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,26 +20,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-skip_docs
+set -e
+set -o pipefail
+set -x
 
-lane :import_certificates do |options|
-    # Import the Developer ID certificate (see https://developer.apple.com/developer-id/) to the named keychain.
-    sync_code_signing(
-        storage_mode: "git",
-        git_url: ENV['CERTIFICATE_REPOSITORY'],
-        git_basic_authorization: ENV['CERTIFICATE_REPOSITORY_AUTHORIZATION_KEY'],
-        type: "developer_id",
-        app_identifier: "uk.co.inseven.fileaway",
-        readonly: true,
-        skip_provisioning_profiles: true,
-        keychain_name: options[:keychain],
-        keychain_password: ENV['TEMPORARY_KEYCHAIN_PASSWORD'],
-    )
-end
+# This script expects the macOS PKG as the first argument, and any additional files to be attached to the GitHub release
+# to be passed as subsequent arguments.
 
-lane :notarize_release do |options|
-    notarize(
-        package: options[:package],
-        username: ENV['APPLE_DEVELOPER_ID'],
-    )
-end
+# Upload the macOS build.
+xcrun altool --upload-app \
+    -f "$1" \
+    --primary-bundle-id "uk.co.inseven.overview" \
+    --apiKey "$APPLE_API_KEY_ID" \
+    --apiIssuer "$APPLE_API_KEY_ISSUER_ID" \
+    --type macos
+
+# Actually make the release.
+FLAGS=()
+if $CHANGES_INITIAL_DEVELOPMENT ; then
+    FLAGS+=("--prerelease")
+elif $CHANGES_PRE_RELEASE ; then
+    FLAGS+=("--prerelease")
+fi
+gh release create "$CHANGES_TAG" --title "$CHANGES_QUALIFIED_TITLE" --notes-file "$CHANGES_NOTES_FILE" "${FLAGS[@]}"
+
+# Upload the attachments.
+for attachment in "$@"
+do
+    gh release upload "$CHANGES_TAG" "$attachment"
+done

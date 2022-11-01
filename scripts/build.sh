@@ -33,17 +33,12 @@ TEMPORARY_DIRECTORY="${ROOT_DIRECTORY}/temp"
 
 KEYCHAIN_PATH="${TEMPORARY_DIRECTORY}/temporary.keychain"
 ARCHIVE_PATH="${BUILD_DIRECTORY}/Overview.xcarchive"
-FASTLANE_ENV_PATH="${ROOT_DIRECTORY}/fastlane/.env"
+ENV_PATH="${ROOT_DIRECTORY}/.env"
 
-CHANGES_DIRECTORY="${SCRIPTS_DIRECTORY}/changes"
-BUILD_TOOLS_DIRECTORY="${SCRIPTS_DIRECTORY}/build-tools"
-DILIGENCE_DIRECTORY="${ROOT_DIRECTORY}/diligence"
+RELEASE_SCRIPT_PATH="${SCRIPTS_DIRECTORY}/release.sh"
 
-CHANGES_GITHUB_RELEASE_SCRIPT="${CHANGES_DIRECTORY}/examples/gh-release.sh"
-DILIGENCE_BUILD_NUMBER_SCRIPT="${DILIGENCE_DIRECTORY}/scripts/build-number.swift"
-
-PATH=$PATH:$CHANGES_DIRECTORY
-PATH=$PATH:$BUILD_TOOLS_DIRECTORY
+IOS_XCODE_PATH=${IOS_XCODE_PATH:-/Applications/Xcode.app}
+MACOS_XCODE_PATH=${MACOS_XCODE_PATH:-/Applications/Xcode.app}
 
 source "${SCRIPTS_DIRECTORY}/environment.sh"
 
@@ -52,7 +47,7 @@ which gh || (echo "GitHub cli (gh) not available on the path." && exit 1)
 
 # Process the command line arguments.
 POSITIONAL=()
-RELEASE=${TRY_RELEASE:-false}
+RELEASE=${RELEASE:-false}
 while [[ $# -gt 0 ]]
 do
     key="$1"
@@ -68,17 +63,13 @@ do
     esac
 done
 
-# iPhone to be used for smoke test builds and tests.
-# This doesn't specify the OS version to allow the build script to recover from minor build changes.
-IPHONE_DESTINATION="platform=iOS Simulator,name=iPhone 12 Pro"
-
 # Generate a random string to secure the local keychain.
 export TEMPORARY_KEYCHAIN_PASSWORD=`openssl rand -base64 14`
 
-# Source the Fastlane .env file if it exists to make local development easier.
-if [ -f "$FASTLANE_ENV_PATH" ] ; then
+# Source the .env file if it exists to make local development easier.
+if [ -f "$ENV_PATH" ] ; then
     echo "Sourcing .env..."
-    source "$FASTLANE_ENV_PATH"
+    source "$ENV_PATH"
 fi
 
 function xcode_project {
@@ -92,7 +83,7 @@ function build_scheme {
         -scheme "$1" \
         CODE_SIGN_IDENTITY="" \
         CODE_SIGNING_REQUIRED=NO \
-        CODE_SIGNING_ALLOWED=NO "${@:2}" | xcpretty
+        CODE_SIGNING_ALLOWED=NO "${@:2}"
 }
 
 cd "$ROOT_DIRECTORY"
@@ -102,13 +93,6 @@ sudo xcode-select --switch "$MACOS_XCODE_PATH"
 
 # List the available schemes.
 xcode_project -list
-
-# Smoke test builds.
-
-# Apps
-build_scheme "Overview" clean build
-
-# Build the macOS archive.
 
 # Clean up the build directory.
 if [ -d "$BUILD_DIRECTORY" ] ; then
@@ -124,30 +108,41 @@ mkdir -p "$TEMPORARY_DIRECTORY"
 echo "$TEMPORARY_KEYCHAIN_PASSWORD" | build-tools create-keychain "$KEYCHAIN_PATH" --password
 
 function cleanup {
+
     # Cleanup the temporary files and keychain.
     cd "$ROOT_DIRECTORY"
     build-tools delete-keychain "$KEYCHAIN_PATH"
     rm -rf "$TEMPORARY_DIRECTORY"
+
+    # Clean up any private keys.
+    if [ -f ~/.appstoreconnect/private_keys ]; then
+        rm -r ~/.appstoreconnect/private_keys
+    fi
 }
 
 trap cleanup EXIT
 
 # Determine the version and build number.
 VERSION_NUMBER=`changes --scope macOS version`
-BUILD_NUMBER=`${DILIGENCE_BUILD_NUMBER_SCRIPT}`
+BUILD_NUMBER=`build-number.swift`
 
 # Import the certificates into our dedicated keychain.
-fastlane import_certificates keychain:"$KEYCHAIN_PATH"
+echo "$APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD" | build-tools import-base64-certificate --password "$KEYCHAIN_PATH" "$APPLE_DISTRIBUTION_CERTIFICATE_BASE64"
+echo "$MACOS_DEVELOPER_INSTALLER_CERTIFICATE_PASSWORD" | build-tools import-base64-certificate --password "$KEYCHAIN_PATH" "$MACOS_DEVELOPER_INSTALLER_CERTIFICATE"
 
-# Archive and export the build.
+# Install the provisioning profiles.
+build-tools install-provisioning-profile "macos/Overview_Mac_App_Store_Profile.provisionprofile"
+
+# Build and archive the macOS project.
+sudo xcode-select --switch "$MACOS_XCODE_PATH"
 xcode_project \
     -scheme "Overview" \
     -config Release \
     -archivePath "$ARCHIVE_PATH" \
     OTHER_CODE_SIGN_FLAGS="--keychain=\"${KEYCHAIN_PATH}\"" \
-    BUILD_NUMBER=$BUILD_NUMBER \
+    CURRENT_PROJECT_VERSION=$BUILD_NUMBER \
     MARKETING_VERSION=$VERSION_NUMBER \
-    archive | xcpretty
+    clean archive
 xcodebuild \
     -archivePath "$ARCHIVE_PATH" \
     -exportArchive \
@@ -156,30 +151,35 @@ xcodebuild \
 
 APP_BASENAME="Overview.app"
 APP_PATH="$BUILD_DIRECTORY/$APP_BASENAME"
+PKG_PATH="$BUILD_DIRECTORY/Overview.pkg"
 
-# Show the code signing details.
-codesign -dvv "$APP_PATH"
+# Validate the macOS build.
+xcrun altool --validate-app \
+    -f "${PKG_PATH}" \
+    --apiKey "$APPLE_API_KEY_ID" \
+    --apiIssuer "$APPLE_API_KEY_ISSUER_ID" \
+    --output-format json \
+    --type macos
 
-# Notarize the release build.
-export FL_NOTARIZE_ASC_PROVIDER="S4WXAUZQEV"  # https://github.com/fastlane/fastlane/issues/19686
-fastlane notarize_release package:"$APP_PATH"
-
-# Archive the results.
-pushd "$BUILD_DIRECTORY"
-ZIP_BASENAME="Overview-macOS-${VERSION_NUMBER}.zip"
-zip -r --symlinks "$ZIP_BASENAME" "$APP_BASENAME"
-build-tools verify-notarized-zip "$ZIP_BASENAME"
-rm -r "$APP_BASENAME"
-zip -r "Artifacts.zip" "."
+# Archive the build directory.
+ZIP_BASENAME="build-${VERSION_NUMBER}-${BUILD_NUMBER}.zip"
+ZIP_PATH="${BUILD_DIRECTORY}/${ZIP_BASENAME}"
+pushd "${BUILD_DIRECTORY}"
+zip -r "${ZIP_BASENAME}" .
 popd
 
-# Attempt to create a version tag and publish a GitHub release; fails quietly if there's no new release.
 if $RELEASE ; then
+
+    # Install the private key.
+    mkdir -p ~/.appstoreconnect/private_keys/
+    echo -n "$APPLE_API_KEY" | base64 --decode -o ~/".appstoreconnect/private_keys/AuthKey_${APPLE_API_KEY_ID}.p8"
+
     changes \
-        --scope macOS \
         release \
         --skip-if-empty \
+        --pre-release \
         --push \
-        --exec "${CHANGES_GITHUB_RELEASE_SCRIPT}" \
-        "${BUILD_DIRECTORY}/${ZIP_BASENAME}"
+        --exec "${RELEASE_SCRIPT_PATH}" \
+        "${PKG_PATH}" "${ZIP_PATH}"
+
 fi
