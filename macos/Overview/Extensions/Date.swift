@@ -23,7 +23,7 @@ import Foundation
 extension Date {
 
     var year: Int {
-        let components = Calendar.gregorianCalendar.dateComponents([.year], from: self)
+        let components = Calendar.gregorian.dateComponents([.year], from: self)
         return components.year!
     }
 

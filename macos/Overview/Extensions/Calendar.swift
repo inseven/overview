@@ -23,10 +23,11 @@ import Foundation
 
 extension Calendar {
 
-    static var gregorianCalendar: Calendar = {
+    static var gregorian: Calendar {
         return Calendar(identifier: .gregorian)
-    }()
+    }
 
+    // TODO: Convenience on DateInterval, perhaps?
     func dateInterval(start: Date, duration: DateComponents) throws -> DateInterval {
         guard let end = date(byAdding: duration, to: start) else {
             throw CalendarError.invalidDate
