@@ -21,17 +21,6 @@
 import EventKit
 import SwiftUI
 
-extension Summary where Item: EKEvent {
-
-    var uniqueItems: [Item] { Array(Set(items)) }
-
-    func duration(calendar: Calendar) -> DateComponents {
-        calendar.date(byAdding: uniqueItems.map { $0.duration(calendar: calendar, bounds: dateInterval) },
-                      to: dateInterval.start)
-    }
-
-}
-
 struct MonthView: View {
 
     let calendar = Calendar.current
