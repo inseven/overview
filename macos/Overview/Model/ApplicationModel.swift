@@ -23,7 +23,7 @@ import EventKit
 import Foundation
 import SwiftUI
 
-class CalendarModel: ObservableObject {
+class ApplicationModel: ObservableObject {
 
     private let store = EKEventStore()
     let calendar = Calendar.current  // TODO: Make this private?

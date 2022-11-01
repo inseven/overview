@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D81507DF25FD0D5300290DD2 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81507DE25FD0D5300290DD2 /* Calendar.swift */; };
-		D81507E725FD8AF600290DD2 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81507E625FD8AF600290DD2 /* CalendarModel.swift */; };
+		D81507E725FD8AF600290DD2 /* ApplicationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81507E625FD8AF600290DD2 /* ApplicationModel.swift */; };
 		D81507EC25FDB05100290DD2 /* EKEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81507EB25FDB05100290DD2 /* EKEvent.swift */; };
 		D832648528E8EAA300D1C1B7 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D832648428E8EAA300D1C1B7 /* Date.swift */; };
 		D832648828E8EBF300D1C1B7 /* DateRangeIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D832648728E8EBF300D1C1B7 /* DateRangeIterator.swift */; };
@@ -54,7 +54,7 @@
 
 /* Begin PBXFileReference section */
 		D81507DE25FD0D5300290DD2 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
-		D81507E625FD8AF600290DD2 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
+		D81507E625FD8AF600290DD2 /* ApplicationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationModel.swift; sourceTree = "<group>"; };
 		D81507EB25FDB05100290DD2 /* EKEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKEvent.swift; sourceTree = "<group>"; };
 		D832648428E8EAA300D1C1B7 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		D832648728E8EBF300D1C1B7 /* DateRangeIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRangeIterator.swift; sourceTree = "<group>"; };
@@ -240,9 +240,9 @@
 		D8FE3AD72911787F00C6F7FE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D81507E625FD8AF600290DD2 /* ApplicationModel.swift */,
 				D8B435A129119A96008F4F6F /* CalendarError.swift */,
 				D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */,
-				D81507E625FD8AF600290DD2 /* CalendarModel.swift */,
 				D8FE3ADC29117B8000C6F7FE /* Event.swift */,
 				D8FE3AD82911789500C6F7FE /* Summary.swift */,
 				D8B4359F29119A5D008F4F6F /* WindowModel.swift */,
@@ -394,7 +394,7 @@
 				D8DCDE0825F6F9410083DF48 /* MonthView.swift in Sources */,
 				D8DCDE1225F6FD060083DF48 /* YearView.swift in Sources */,
 				D8805DA02603A0A700C23C11 /* EKEventStore.swift in Sources */,
-				D81507E725FD8AF600290DD2 /* CalendarModel.swift in Sources */,
+				D81507E725FD8AF600290DD2 /* ApplicationModel.swift in Sources */,
 				D8B435A229119A96008F4F6F /* CalendarError.swift in Sources */,
 				D832648528E8EAA300D1C1B7 /* Date.swift in Sources */,
 				D8B435A029119A5D008F4F6F /* WindowModel.swift in Sources */,

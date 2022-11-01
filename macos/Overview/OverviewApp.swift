@@ -34,15 +34,15 @@ extension EKCalendarItem: Identifiable {
 @main
 struct OverviewApp: App {
 
-    @ObservedObject var calendarModel = CalendarModel()
+    @ObservedObject var applicationModel = ApplicationModel()
 
     init() {
-        calendarModel.start()
+        applicationModel.start()
     }
 
     var body: some Scene {
         WindowGroup {
-            ContentView(calendarModel: calendarModel)
+            ContentView(applicationModel: applicationModel)
         }
         .commands {
             SidebarCommands()
