@@ -23,15 +23,20 @@ import EventKit
 import Foundation
 import SwiftUI
 
-class Manager: ObservableObject {
+class CalendarModel: ObservableObject {
 
     private let store = EKEventStore()
     let calendar = Calendar.current  // TODO: Make this private?
 
     @Published var calendars: [EKCalendar] = []
     @Published var years: [Int] = [Date.now.year]
+    @Published var updates: NotificationCenter.Publisher.Output = Notification(name: .EKEventStoreChanged, object: nil, userInfo: nil)
+
+    private let updateQueue = DispatchQueue(label: "CalendarModel.updateQueue")
+    private var cancellables: Set<AnyCancellable> = []
 
     init() {
+
         store.requestAccess(to: .event) { granted, error in
             // TODO: Handle the error.
             DispatchQueue.main.async {
@@ -39,6 +44,38 @@ class Manager: ObservableObject {
                 self.fetchAvailableYears()
             }
         }
+    }
+
+    func start() {
+        dispatchPrecondition(condition: .onQueue(.main))
+
+        NotificationCenter.default
+            .publisher(for: .EKEventStoreChanged, object: store)
+            .receive(on: DispatchQueue.main)
+            .sink { notification in
+                self.updates = notification
+            }
+            .store(in: &cancellables)
+
+        $updates
+            .receive(on: updateQueue)
+            .map { notification in
+                print("Calendar did change!")
+                let contributingCalendars = self.calendars.filter { $0.type != .birthday }
+                let earliestDate = self.store.earliestEventStartDate(calendars: contributingCalendars) ?? .now
+                let years = Array((earliestDate.year...Date.now.year).reversed())
+                return years
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { years in
+                self.years = years
+            }
+            .store(in: &cancellables)
+    }
+
+    func stop() {
+        dispatchPrecondition(condition: .onQueue(.main))
+        cancellables.removeAll()
     }
 
     private func fetchAvailableYears() {

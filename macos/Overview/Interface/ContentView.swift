@@ -25,17 +25,17 @@ import Interact
 
 struct ContentView: View {
 
-    @ObservedObject var manager: Manager
-    @StateObject var windowModel: WindowModel  // TODO: Can it get the manager from the environment?
+    @ObservedObject var calendarModel: CalendarModel
+    @StateObject var windowModel: WindowModel  // TODO: Can it get the calendar model from the environment?
 
-    init(manager: Manager) {
-        self.manager = manager
-        _windowModel = StateObject(wrappedValue: WindowModel(manager: manager))
+    init(calendarModel: CalendarModel) {
+        self.calendarModel = calendarModel
+        _windowModel = StateObject(wrappedValue: WindowModel(calendarModel: calendarModel))
     }
 
     var body: some View {
         NavigationSplitView {
-            CalendarList(manager: manager, selections: $windowModel.selections)
+            CalendarList(calendarModel: calendarModel, selections: $windowModel.selections)
         } detail: {
             HStack {
                 if windowModel.loading {
@@ -54,7 +54,7 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem {
                     Picker("Year", selection: $windowModel.year) {
-                        ForEach(manager.years) { year in
+                        ForEach(calendarModel.years) { year in
                             Text(String(year)).tag(year)
                         }
                     }

@@ -25,7 +25,7 @@ import SwiftUI
 
 class WindowModel: ObservableObject {
 
-    var manager: Manager
+    var calendarModel: CalendarModel
 
     @Published var selections: Set<EKCalendar> = Set()
     @Published var year: Int = Date.now.year
@@ -37,8 +37,8 @@ class WindowModel: ObservableObject {
     private let updateQueue = DispatchQueue(label: "WindowModel.updateQueue")
     private var cancellables: Set<AnyCancellable> = []
 
-    init(manager: Manager) {
-        self.manager = manager
+    init(calendarModel: CalendarModel) {
+        self.calendarModel = calendarModel
     }
 
     func start() {
@@ -47,14 +47,14 @@ class WindowModel: ObservableObject {
         // Update the summaries.
         // TODO: Set loading
         $year
-            .combineLatest($selections)
+            .combineLatest($selections, calendarModel.$updates)
             .receive(on: updateQueue)
-            .map { return ($0, Array($1)) }
-            .map { (year, selections) in
+            .map { return ($0, Array($1), $2) }
+            .map { (year, selections, _) in
                 guard !selections.isEmpty else {
                     return []
                 }
-                return (try? self.manager.summary(year: year, calendars: selections)) ?? []
+                return (try? self.calendarModel.summary(year: year, calendars: selections)) ?? []
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] summaries in
