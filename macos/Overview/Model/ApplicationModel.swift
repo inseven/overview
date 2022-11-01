@@ -27,9 +27,7 @@ class ApplicationModel: ObservableObject {
 
     @Published var calendars: [EKCalendar] = []
     @Published var years: [Int] = [Date.now.year]
-    @Published var updates: NotificationCenter.Publisher.Output = Notification(name: .EKEventStoreChanged,
-                                                                               object: nil,
-                                                                               userInfo: nil)
+    let updates: AnyPublisher<Notification, Never>
 
     private let store = EKEventStore()
     private let calendar = Calendar.current
@@ -37,6 +35,10 @@ class ApplicationModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
 
     init() {
+        updates = NotificationCenter.default
+            .publisher(for: .EKEventStoreChanged, object: store)
+            .prepend(Notification(name: .EKEventStoreChanged, object: nil, userInfo: nil))
+            .eraseToAnyPublisher()
 
         store.requestAccess(to: .event) { granted, error in
             // TODO: Handle the error.
@@ -50,15 +52,7 @@ class ApplicationModel: ObservableObject {
     func start() {
         dispatchPrecondition(condition: .onQueue(.main))
 
-        NotificationCenter.default
-            .publisher(for: .EKEventStoreChanged, object: store)
-            .receive(on: DispatchQueue.main)
-            .sink { notification in
-                self.updates = notification
-            }
-            .store(in: &cancellables)
-
-        $updates
+        updates
             .receive(on: updateQueue)
             .map { notification in
                 print("Calendar did change!")

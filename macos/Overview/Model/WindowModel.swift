@@ -47,7 +47,7 @@ class WindowModel: ObservableObject {
         // Update the summaries.
         // TODO: Set loading
         $year
-            .combineLatest($selections, applicationModel.$updates)
+            .combineLatest($selections, applicationModel.updates)
             .receive(on: updateQueue)
             .map { return ($0, Array($1), $2) }
             .map { (year, selections, _) in
