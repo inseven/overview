@@ -26,51 +26,34 @@ import Interact
 struct ContentView: View {
 
     @ObservedObject var manager: Manager
-    @State var selections: Set<EKCalendar> = Set()
-    @State var summaries: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] = []
+    @StateObject var windowModel: WindowModel  // TODO: Can it get the manager from the environment?
 
-    @State private var sort: Int = 0
-
-    @State private var loading = false
-
-    @State var isOn = false
-
-    var title: String {
-        let calendars = Array(selections)
-        return calendars.map({ $0.title }).joined(separator: ", ")
-    }
-
-    func update() {
-        loading = true
-        DispatchQueue.global(qos: .userInteractive).async {
-            let summaries = (try? manager.summary(year: manager.year, calendars: Array(selections))) ?? []
-            DispatchQueue.main.async {
-                self.summaries = summaries
-                self.loading = false
-            }
-        }
+    init(manager: Manager) {
+        self.manager = manager
+        _windowModel = StateObject(wrappedValue: WindowModel(manager: manager))
     }
 
     var body: some View {
         NavigationSplitView {
-            CalendarList(manager: manager, selections: $selections)
+            CalendarList(manager: manager, selections: $windowModel.selections)
         } detail: {
             HStack {
-                if loading {
+                if windowModel.loading {
                     Placeholder {
                         ProgressView()
                             .progressViewStyle(.circular)
                     }
-                } else if summaries.count > 0 {
-                    YearView(summaries: summaries)
+                } else if !windowModel.summaries.isEmpty {
+                    YearView(summaries: windowModel.summaries)
                 } else {
-                    Placeholder("No Events")
+                    Placeholder(windowModel.summaries.isEmpty ? "No Calendars Selected" : "No Events")
                 }
             }
-            .navigationTitle(title)
+            .navigationTitle("Overview")
+            .navigationSubtitle(windowModel.title)
             .toolbar {
                 ToolbarItem {
-                    Picker("Year", selection: $manager.year) {
+                    Picker("Year", selection: $windowModel.year) {
                         ForEach(manager.years) { year in
                             Text(String(year)).tag(year)
                         }
@@ -78,11 +61,11 @@ struct ContentView: View {
                 }
             }
         }
-        .onChange(of: selections) { selections in
-            update()
+        .onAppear {
+            windowModel.start()
         }
-        .onChange(of: manager.year) { year in
-            update()
+        .onDisappear {
+            windowModel.stop()
         }
     }
 }
