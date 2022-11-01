@@ -37,3 +37,11 @@ extension Summary where Item: EKEvent {
     }
 
 }
+
+extension Summary where Context == Array<EKCalendar>, Item == Summary<CalendarItem, EKEvent> {
+
+    func duration(calendar: Calendar) -> DateComponents {
+        calendar.date(byAdding: items.map { $0.duration(calendar: calendar) }, to: dateInterval.start)
+    }
+
+}
