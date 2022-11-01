@@ -20,13 +20,6 @@
 
 import EventKit
 
-struct Summary<Context, Item>: Identifiable {
-    var id = UUID()
-    var dateInterval: DateInterval
-    var context: Context
-    var items: [Item]
-}
-
 extension EKEventStore {
 
     func events(dateInterval: DateInterval, calendars: [EKCalendar]?) -> [EKEvent] {
