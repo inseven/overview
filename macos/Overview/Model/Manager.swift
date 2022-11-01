@@ -18,41 +18,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import Combine
 import EventKit
 import Foundation
 import SwiftUI
 
-enum CalendarError: Error {
-    case failure
-    case unknownCalendar
-    case invalidDate
-}
-
 class Manager: ObservableObject {
 
-    fileprivate let store = EKEventStore()
-    fileprivate let calendar = Calendar.current
-
-    let updateQueue = DispatchQueue(label: "Manager.updateQueue")
+    private let store = EKEventStore()
+    let calendar = Calendar.current  // TODO: Make this private?
 
     @Published var calendars: [EKCalendar] = []
     @Published var years: [Int] = [Date.now.year]
-    @Published var year: Int = Date.now.year
 
     init() {
         store.requestAccess(to: .event) { granted, error in
             // TODO: Handle the error.
             DispatchQueue.main.async {
                 print("granted = \(granted), error = \(String(describing: error))")
-                self.update()
+                self.fetchAvailableYears()
             }
         }
     }
 
-    func update() {
+    private func fetchAvailableYears() {
         dispatchPrecondition(condition: .onQueue(.main))
         calendars = store.calendars(for: .event)
-        updateQueue.async {
+        DispatchQueue.global(qos: .userInteractive).async {
             let contributingCalendars = self.calendars.filter { $0.type != .birthday }
             let earliestDate = self.store.earliestEventStartDate(calendars: contributingCalendars) ?? .now
             let years = Array((earliestDate.year...Date.now.year).reversed())
@@ -64,7 +56,8 @@ class Manager: ObservableObject {
 
     func summary(year: Int,
                  calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
-        try store.summary(calendar: calendar, year: year, calendars: calendars)
+        return try store.summary(calendar: calendar, year: year, calendars: calendars)
     }
+
 
 }
