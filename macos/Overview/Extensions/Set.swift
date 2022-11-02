@@ -18,33 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
-import SwiftUI
+import Foundation
 
-import Interact
-
-struct CalendarList: View {
-
-    @ObservedObject var applicationModel: ApplicationModel
-
-    @Binding var selections: Set<String>
-
-    var body: some View {
-        List(applicationModel.calendars) { calendar in
-            HStack {
-                Toggle(isOn: Binding(get: {
-                    selections.contains(calendar.calendarIdentifier)
-                }, set: { selected in
-                    if selected {
-                        selections.insert(calendar.calendarIdentifier)
-                    } else {
-                        selections.remove(calendar.calendarIdentifier)
-                    }
-                })) {
-                    Text(calendar.title)
-                }
-                .toggleStyle(CheckboxStyle(color: Color(calendar.color)))
-            }
+extension Set: RawRepresentable where Element: Codable {
+    public init?(rawValue: String) {
+        guard let data = rawValue.data(using: .utf8),
+              let result = try? JSONDecoder().decode([Element].self, from: data)
+        else {
+            return nil
         }
+        self = Set(result)
+    }
+
+    public var rawValue: String {
+        guard let data = try? JSONEncoder().encode(self),
+              let result = String(data: data, encoding: .utf8)
+        else {
+            return "[]"
+        }
+        return result
     }
 }

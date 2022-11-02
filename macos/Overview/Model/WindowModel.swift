@@ -27,7 +27,9 @@ class WindowModel: ObservableObject {
 
     var applicationModel: ApplicationModel
 
-    @Published var selections: Set<EKCalendar> = Set()
+    @AppStorage("Selections") var selectionsStorage: Set<String> = []
+
+    @Published var selections: Set<String> = Set()
     @Published var year: Int = Date.now.year
 
     @Published var title: String = ""
@@ -39,6 +41,7 @@ class WindowModel: ObservableObject {
 
     init(applicationModel: ApplicationModel) {
         self.applicationModel = applicationModel
+        self.selections = selectionsStorage
     }
 
     func start() {
@@ -47,14 +50,16 @@ class WindowModel: ObservableObject {
         // Update the summaries.
         // TODO: Set loading
         $year
-            .combineLatest($selections, applicationModel.updates)
+            .combineLatest(applicationModel.$calendars, $selections, applicationModel.updates)
             .receive(on: updateQueue)
-            .map { return ($0, Array($1), $2) }
-            .map { (year, selections, _) in
-                guard !selections.isEmpty else {
+            .map { (year, calendars, selections, _) in
+                return (year, calendars.filter { selections.contains($0.calendarIdentifier) })
+            }
+            .map { (year, calendars) in
+                guard !calendars.isEmpty else {
                     return []
                 }
-                return (try? self.applicationModel.summary(year: year, calendars: selections)) ?? []
+                return (try? self.applicationModel.summary(year: year, calendars: calendars)) ?? []
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] summaries in
@@ -67,12 +72,24 @@ class WindowModel: ObservableObject {
 
         // Update the title.
         $selections
+            .combineLatest(applicationModel.$calendars)
+            .map { (selections, calendars) in
+                return calendars.filter { selections.contains($0.calendarIdentifier) }
+            }
             .map { calendars in
                 return Array(calendars).map({ $0.title }).joined(separator: ", ")
             }
             .receive(on: DispatchQueue.main)
             .sink { title in
                 self.title = title
+            }
+            .store(in: &cancellables)
+
+        // Store the selections.
+        $selections
+            .receive(on: DispatchQueue.main)
+            .sink { selections in
+                self.selectionsStorage = selections
             }
             .store(in: &cancellables)
 
