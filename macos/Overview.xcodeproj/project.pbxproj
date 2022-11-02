@@ -15,6 +15,7 @@
 		D8805D9626039D4D00C23C11 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8805D9526039D4D00C23C11 /* Int.swift */; };
 		D8805D9B26039DED00C23C11 /* CheckboxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8805D9A26039DED00C23C11 /* CheckboxStyle.swift */; };
 		D8805DA02603A0A700C23C11 /* EKEventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8805D9F2603A0A700C23C11 /* EKEventStore.swift */; };
+		D8A3D3D42911F105002AFC32 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A3D3D32911F105002AFC32 /* Set.swift */; };
 		D8B435A029119A5D008F4F6F /* WindowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B4359F29119A5D008F4F6F /* WindowModel.swift */; };
 		D8B435A229119A96008F4F6F /* CalendarError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B435A129119A96008F4F6F /* CalendarError.swift */; };
 		D8D3B3D628E7CB8700A610D4 /* Diligence in Frameworks */ = {isa = PBXBuildFile; productRef = D8D3B3D528E7CB8700A610D4 /* Diligence */; };
@@ -61,6 +62,7 @@
 		D8805D9526039D4D00C23C11 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		D8805D9A26039DED00C23C11 /* CheckboxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxStyle.swift; sourceTree = "<group>"; };
 		D8805D9F2603A0A700C23C11 /* EKEventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKEventStore.swift; sourceTree = "<group>"; };
+		D8A3D3D32911F105002AFC32 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
 		D8B4359F29119A5D008F4F6F /* WindowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowModel.swift; sourceTree = "<group>"; };
 		D8B435A129119A96008F4F6F /* CalendarError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarError.swift; sourceTree = "<group>"; };
 		D8D3B3D328E7CAB000A610D4 /* diligence */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = diligence; path = ../diligence; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				D81507EB25FDB05100290DD2 /* EKEvent.swift */,
 				D8805D9F2603A0A700C23C11 /* EKEventStore.swift */,
 				D8805D9526039D4D00C23C11 /* Int.swift */,
+				D8A3D3D32911F105002AFC32 /* Set.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				D832648528E8EAA300D1C1B7 /* Date.swift in Sources */,
 				D8B435A029119A5D008F4F6F /* WindowModel.swift in Sources */,
 				D8805D9626039D4D00C23C11 /* Int.swift in Sources */,
+				D8A3D3D42911F105002AFC32 /* Set.swift in Sources */,
 				D8FE3ADB291178BF00C6F7FE /* CalendarItem.swift in Sources */,
 				D832648828E8EBF300D1C1B7 /* DateRangeIterator.swift in Sources */,
 				D8805D9B26039DED00C23C11 /* CheckboxStyle.swift in Sources */,

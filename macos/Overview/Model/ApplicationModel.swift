@@ -55,7 +55,6 @@ class ApplicationModel: ObservableObject {
         updates
             .receive(on: updateQueue)
             .map { notification in
-                print("Calendar did change!")
                 let contributingCalendars = self.calendars.filter { $0.type != .birthday }
                 let earliestDate = self.store.earliestEventStartDate(calendars: contributingCalendars) ?? .now
                 let years = Array((earliestDate.year...Date.now.year).reversed())
