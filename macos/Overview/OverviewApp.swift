@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 InSeven Limited
+// Copyright (c) 2021-2023 InSeven Limited
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,7 @@ struct OverviewApp: App {
             SidebarCommands()
         }
 
-        About(copyright: "Copyright © 2021-2022 InSeven Limited") {
+        About(copyright: "Copyright © 2021-2023 InSeven Limited") {
             Action("InSeven Limited", url: URL(string: "https://inseven.co.uk")!)
             Action("GitHub", url: URL(string: "https://github.com/inseven/overview")!)
         } acknowledgements: {
