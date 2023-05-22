@@ -62,7 +62,7 @@ class WindowModel: ObservableObject {
                 return (try? self.applicationModel.summary(year: year, calendars: calendars)) ?? []
             }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] summaries in
+            .sink { [weak self] (summaries: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>]) in
                 guard let self = self else {
                     return
                 }
