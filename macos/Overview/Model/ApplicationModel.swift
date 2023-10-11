@@ -40,7 +40,7 @@ class ApplicationModel: ObservableObject {
             .prepend(Notification(name: .EKEventStoreChanged, object: nil, userInfo: nil))
             .eraseToAnyPublisher()
 
-        store.requestAccess(to: .event) { granted, error in
+        store.requestFullAccessToEvents { granted, error in
             // TODO: Handle the error.
             DispatchQueue.main.async {
                 print("granted = \(granted), error = \(String(describing: error))")
