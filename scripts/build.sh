@@ -113,7 +113,7 @@ function cleanup {
     cd "$ROOT_DIRECTORY"
     build-tools delete-keychain "$KEYCHAIN_PATH"
     rm -rf "$TEMPORARY_DIRECTORY"
-    rm -r ~/.appstoreconnect/private_keys
+    rm -rf ~/.appstoreconnect/private_keys
 }
 
 trap cleanup EXIT
