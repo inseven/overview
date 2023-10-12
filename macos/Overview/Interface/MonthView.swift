@@ -59,7 +59,7 @@ struct MonthView: View {
                 Spacer()
             }
             Divider()
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
             if summary.items.count > 0 {
                 ForEach(summary.items.sorted(by: { $0.context.title < $1.context.title })) { summary in
                     HStack {
@@ -69,18 +69,18 @@ struct MonthView: View {
                         Text(summary.context.title)
                             .lineLimit(1)
                         Text("\(summary.uniqueItems.count) events")
-                            .foregroundColor(.secondary)
+                            .foregroundStyle(.secondary)
                         Spacer()
                         Text(format(dateComponents: summary.duration(calendar: calendar)))
                     }
                 }
                 Divider()
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
             HStack {
                 Spacer()
                 Text(format(dateComponents: summary.duration(calendar: calendar)))
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
         }
         .textSelection(.enabled)

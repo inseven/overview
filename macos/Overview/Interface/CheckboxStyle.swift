@@ -36,7 +36,7 @@ struct CheckboxStyle: ToggleStyle {
                 if configuration.isOn {
                     Image(systemName: "checkmark")
                         .font(Font.system(size: 9, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundStyle(.white)
                 }
             }
             configuration.label
