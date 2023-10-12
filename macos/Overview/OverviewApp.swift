@@ -47,6 +47,7 @@ struct OverviewApp: App {
                 Credit("Jason Morley", url: URL(string: "https://jbmorley.co.uk"))
             }
             Acknowledgements("Thanks") {
+                Credit("Lukas Fittl")
                 Credit("Michael Dales")
                 Credit("Sara Frederixon")
                 Credit("Sarah Barbour")
