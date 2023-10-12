@@ -25,6 +25,7 @@ import SwiftUI
 
 class ApplicationModel: ObservableObject {
 
+    @Published var error: Error? = nil
     @Published var calendars: [EKCalendar] = []
     @Published var years: [Int] = [Date.now.year]
     let updates: AnyPublisher<Notification, Never>
@@ -41,16 +42,22 @@ class ApplicationModel: ObservableObject {
             .eraseToAnyPublisher()
 
         store.requestFullAccessToEvents { granted, error in
-            // TODO: Handle the error.
             DispatchQueue.main.async {
-                print("granted = \(granted), error = \(String(describing: error))")
-                self.fetchAvailableYears()
+                if let error = error {
+                    self.error = error
+                    return
+                }
+                if !granted {
+                    self.error = OverviewError.accessDenied
+                }
             }
         }
     }
 
     func start() {
         dispatchPrecondition(condition: .onQueue(.main))
+
+        fetchAvailableYears()
 
         updates
             .receive(on: updateQueue)
