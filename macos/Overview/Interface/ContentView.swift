@@ -61,6 +61,7 @@ struct ContentView: View {
                 }
             }
         }
+        .presents($applicationModel.error)
         .onAppear {
             windowModel.start()
         }
