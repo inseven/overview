@@ -39,14 +39,14 @@ struct ContentView: View {
         } detail: {
             HStack {
                 if windowModel.loading {
-                    Placeholder {
+                    PlaceholderView {
                         ProgressView()
                             .progressViewStyle(.circular)
                     }
                 } else if !windowModel.summaries.isEmpty {
                     YearView(summaries: windowModel.summaries)
                 } else {
-                    Placeholder(windowModel.summaries.isEmpty ? "No Calendars Selected" : "No Events")
+                    PlaceholderView(windowModel.summaries.isEmpty ? "No Calendars Selected" : "No Events")
                 }
             }
             .navigationTitle("Overview")
