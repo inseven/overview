@@ -8,7 +8,7 @@ Generate monthly durations for similarly named calendar events.
 
 ## Development
 
-Overview follows the version numbering, build and signing conventions for InSeven Limited apps. Further details can be found [here](https://github.com/inseven/build-documentation).
+Overview follows the version numbering, build and signing conventions for InSeven apps. Further details can be found [here](https://github.com/inseven/build-documentation).
 
 ## Licensing
 

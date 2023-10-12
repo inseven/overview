@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2023 InSeven Limited
+// Copyright (c) 2021-2023 Jason Barrie Morley
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -48,8 +48,7 @@ struct OverviewApp: App {
             SidebarCommands()
         }
 
-        About(copyright: "Copyright © 2021-2023 InSeven Limited") {
-            Action("InSeven Limited", url: URL(string: "https://inseven.co.uk")!)
+        About(copyright: "Copyright © 2021-2023 Jason Barrie Morley") {
             Action("GitHub", url: URL(string: "https://github.com/inseven/overview")!)
         } acknowledgements: {
             Acknowledgements("Developers") {
@@ -61,7 +60,7 @@ struct OverviewApp: App {
                 Credit("Sarah Barbour")
             }
         } licenses: {
-            License("Overview", author: "InSeven Limited", filename: "overview-license")
+            License("Overview", author: "Jason Barrie Morley", filename: "overview-license")
             License("Interact", author: "InSeven Limited", filename: "interact-license")
         }
 
