@@ -21,40 +21,10 @@
 import EventKit
 import SwiftUI
 
-import Diligence
+extension EKCalendarItem: Identifiable {
 
-@main
-struct OverviewApp: App {
-
-    @ObservedObject var applicationModel = ApplicationModel()
-
-    init() {
-        applicationModel.start()
+    public var id: String {
+        return calendarItemIdentifier
     }
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView(applicationModel: applicationModel)
-        }
-        .commands {
-            SidebarCommands()
-        }
-
-        About(copyright: "Copyright © 2021-2023 Jason Barrie Morley") {
-            Action("GitHub", url: URL(string: "https://github.com/inseven/overview")!)
-        } acknowledgements: {
-            Acknowledgements("Developers") {
-                Credit("Jason Morley", url: URL(string: "https://jbmorley.co.uk"))
-            }
-            Acknowledgements("Thanks") {
-                Credit("Michael Dales")
-                Credit("Sara Frederixon")
-                Credit("Sarah Barbour")
-            }
-        } licenses: {
-            License("Overview", author: "Jason Barrie Morley", filename: "overview-license")
-            License("Interact", author: "InSeven Limited", filename: "interact-license")
-        }
-
-    }
+    
 }
