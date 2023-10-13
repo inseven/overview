@@ -1,4 +1,6 @@
 build
+docs/_site
+docs/.jekyll-cache
 fastlane/.env
 fastlane/report.xml
 .local
