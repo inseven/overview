@@ -46,7 +46,11 @@ struct ContentView: View {
                 } else if !windowModel.summaries.isEmpty {
                     YearView(summaries: windowModel.summaries)
                 } else {
-                    PlaceholderView(windowModel.summaries.isEmpty ? "No Calendars Selected" : "No Events")
+                    ContentUnavailableView {
+                        Label("No Calendars Selected", systemImage: "calendar")
+                    } description: {
+                        Text("Select one or more calendars from the sidebar.")
+                    }
                 }
             }
             .navigationTitle("Overview")
