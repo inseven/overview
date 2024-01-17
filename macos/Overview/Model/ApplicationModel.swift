@@ -25,6 +25,13 @@ import SwiftUI
 
 class ApplicationModel: ObservableObject {
 
+    enum State {
+        case unknown
+        case authorized
+        case unauthorized
+    }
+
+    @Published var state: State = .unknown
     @Published var error: Error? = nil
     @Published var calendars: [EKCalendar] = []
     @Published var years: [Int] = [Date.now.year]
@@ -47,9 +54,7 @@ class ApplicationModel: ObservableObject {
                     self.error = error
                     return
                 }
-                if !granted {
-                    self.error = OverviewError.accessDenied
-                }
+                self.state = granted ? .authorized : .unauthorized
             }
         }
     }
