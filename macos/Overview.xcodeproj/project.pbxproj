@@ -18,6 +18,7 @@
 		D8A3D3D42911F105002AFC32 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A3D3D32911F105002AFC32 /* Set.swift */; };
 		D8B435A029119A5D008F4F6F /* WindowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B4359F29119A5D008F4F6F /* WindowModel.swift */; };
 		D8B435A229119A96008F4F6F /* CalendarError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B435A129119A96008F4F6F /* CalendarError.swift */; };
+		D8C296AB2B5777FA00286301 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C296AA2B5777FA00286301 /* URL.swift */; };
 		D8D3B3D628E7CB8700A610D4 /* Diligence in Frameworks */ = {isa = PBXBuildFile; productRef = D8D3B3D528E7CB8700A610D4 /* Diligence */; };
 		D8D3B3DB28E7D6EF00A610D4 /* overview-license in Resources */ = {isa = PBXBuildFile; fileRef = D8D3B3DA28E7D69700A610D4 /* overview-license */; };
 		D8DCDDD925F664440083DF48 /* OverviewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDDD825F664440083DF48 /* OverviewApp.swift */; };
@@ -28,7 +29,6 @@
 		D8DCDDF725F664460083DF48 /* OverviewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDDF625F664460083DF48 /* OverviewUITests.swift */; };
 		D8DCDE0825F6F9410083DF48 /* MonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDE0725F6F9410083DF48 /* MonthView.swift */; };
 		D8DCDE1225F6FD060083DF48 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDE1125F6FD060083DF48 /* YearView.swift */; };
-		D8FA1F432AD7872000E18E26 /* OverviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FA1F422AD7872000E18E26 /* OverviewError.swift */; };
 		D8FA1F452AD79EFE00E18E26 /* EKCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FA1F442AD79EFE00E18E26 /* EKCalendar.swift */; };
 		D8FA1F472AD79F1D00E18E26 /* EKCalendarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FA1F462AD79F1D00E18E26 /* EKCalendarItem.swift */; };
 		D8FE3AD42911700A00C6F7FE /* Interact in Frameworks */ = {isa = PBXBuildFile; productRef = D8FE3AD32911700A00C6F7FE /* Interact */; };
@@ -68,6 +68,7 @@
 		D8A3D3D32911F105002AFC32 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
 		D8B4359F29119A5D008F4F6F /* WindowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowModel.swift; sourceTree = "<group>"; };
 		D8B435A129119A96008F4F6F /* CalendarError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarError.swift; sourceTree = "<group>"; };
+		D8C296AA2B5777FA00286301 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		D8D3B3D328E7CAB000A610D4 /* diligence */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = diligence; path = ../diligence; sourceTree = "<group>"; };
 		D8D3B3DA28E7D69700A610D4 /* overview-license */ = {isa = PBXFileReference; lastKnownFileType = text; path = "overview-license"; sourceTree = "<group>"; };
 		D8DCDDD525F664440083DF48 /* Overview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overview.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,7 +87,6 @@
 		D8DCDE0725F6F9410083DF48 /* MonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthView.swift; sourceTree = "<group>"; };
 		D8DCDE1125F6FD060083DF48 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
 		D8FA1F412AD7691100E18E26 /* OverviewRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OverviewRelease.entitlements; sourceTree = "<group>"; };
-		D8FA1F422AD7872000E18E26 /* OverviewError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewError.swift; sourceTree = "<group>"; };
 		D8FA1F442AD79EFE00E18E26 /* EKCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKCalendar.swift; sourceTree = "<group>"; };
 		D8FA1F462AD79F1D00E18E26 /* EKCalendarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKCalendarItem.swift; sourceTree = "<group>"; };
 		D8FE3AD229116FE900C6F7FE /* interact */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = interact; path = ../interact; sourceTree = "<group>"; };
@@ -135,6 +135,7 @@
 				D8805D9F2603A0A700C23C11 /* EKEventStore.swift */,
 				D8805D9526039D4D00C23C11 /* Int.swift */,
 				D8A3D3D32911F105002AFC32 /* Set.swift */,
+				D8C296AA2B5777FA00286301 /* URL.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -257,7 +258,6 @@
 				D8B435A129119A96008F4F6F /* CalendarError.swift */,
 				D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */,
 				D8FE3ADC29117B8000C6F7FE /* Event.swift */,
-				D8FA1F422AD7872000E18E26 /* OverviewError.swift */,
 				D8FE3AD82911789500C6F7FE /* Summary.swift */,
 				D8B4359F29119A5D008F4F6F /* WindowModel.swift */,
 			);
@@ -403,6 +403,7 @@
 				D8DCDDDB25F664440083DF48 /* ContentView.swift in Sources */,
 				D81507DF25FD0D5300290DD2 /* Calendar.swift in Sources */,
 				D81507EC25FDB05100290DD2 /* EKEvent.swift in Sources */,
+				D8C296AB2B5777FA00286301 /* URL.swift in Sources */,
 				D8FE3AE02911817400C6F7FE /* CalendarList.swift in Sources */,
 				D8FE3AD92911789500C6F7FE /* Summary.swift in Sources */,
 				D8FE3ADD29117B8000C6F7FE /* Event.swift in Sources */,
@@ -416,7 +417,6 @@
 				D8B435A029119A5D008F4F6F /* WindowModel.swift in Sources */,
 				D8805D9626039D4D00C23C11 /* Int.swift in Sources */,
 				D8A3D3D42911F105002AFC32 /* Set.swift in Sources */,
-				D8FA1F432AD7872000E18E26 /* OverviewError.swift in Sources */,
 				D8FA1F452AD79EFE00E18E26 /* EKCalendar.swift in Sources */,
 				D8FE3ADB291178BF00C6F7FE /* CalendarItem.swift in Sources */,
 				D832648828E8EBF300D1C1B7 /* DateRangeIterator.swift in Sources */,

@@ -20,19 +20,10 @@
 
 import Foundation
 
-enum OverviewError: Error {
+extension URL {
 
-    case accessDenied
-
-}
-
-extension OverviewError: LocalizedError {
-
-    public var errorDescription: String? {
-        switch self {
-        case .accessDenied:
-            return "Calendar access denied."
-        }
+    static var settingsPrivacyCalendars: URL {
+        return URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Calendars")!
     }
 
 }

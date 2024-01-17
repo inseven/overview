@@ -28,6 +28,8 @@ struct ContentView: View {
     @ObservedObject var applicationModel: ApplicationModel
     @StateObject var windowModel: WindowModel
 
+    @Environment(\.openURL) var openURL
+
     init(applicationModel: ApplicationModel) {
         self.applicationModel = applicationModel
         _windowModel = StateObject(wrappedValue: WindowModel(applicationModel: applicationModel))
@@ -46,10 +48,25 @@ struct ContentView: View {
                 } else if !windowModel.summaries.isEmpty {
                     YearView(summaries: windowModel.summaries)
                 } else {
-                    ContentUnavailableView {
-                        Label("No Calendars Selected", systemImage: "calendar")
-                    } description: {
-                        Text("Select one or more calendars from the sidebar.")
+                    switch applicationModel.state {
+                    case .unknown:
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                    case .authorized:
+                        ContentUnavailableView {
+                            Label("No Calendars Selected", systemImage: "calendar")
+                        } description: {
+                            Text("Select one or more calendars from the sidebar.")
+                        }
+                    case .unauthorized:
+                        ContentUnavailableView {
+                            Label("Limited Calendar Access", systemImage: "calendar")
+                        } description: {
+                            Text("Overview needs full access to your calendar to be able to display and summarise your events.")
+                            Button("Open Privacy Settings") {
+                                openURL(.settingsPrivacyCalendars)
+                            }
+                        }
                     }
                 }
             }
