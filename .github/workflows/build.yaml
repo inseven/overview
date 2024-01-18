@@ -43,6 +43,16 @@ jobs:
       run: |
         scripts/build.sh
 
+    - name: Build website
+      run: |
+        scripts/build-website.sh
+        chmod -v -R +rX "_site/" | while read line; do
+          echo "::warning title=Invalid file permissions automatically fixed::$line"
+        done
+
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v2
+
     - name: Archive the binary
       uses: actions/upload-artifact@v3
       with:

@@ -1,7 +1,9 @@
-build
-docs/_site
-docs/.jekyll-cache
-fastlane/.env
-fastlane/report.xml
 .local
 .tool-versions
+
+/_site
+/build
+/docs/.jekyll-cache
+/docs/_site
+/docs/release-notes
+/macos/build
