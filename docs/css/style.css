@@ -2,7 +2,7 @@
     --tint-color: color(display-p3 0.946 0.64 0.263);
     --brand-color: color(display-p3 0.946 0.64 0.263);
     --body-color: #000000;
-    --content-width: 800px;
+    --content-width: 900px;
     --vertical-spacing: 1.5em;
 }
 
@@ -76,4 +76,8 @@ ul.navigation > li {
 h1 {
     text-align: center;
     font-size: 3em;
+}
+
+img.hero {
+    max-width: 100%;
 }
