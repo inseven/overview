@@ -19,7 +19,19 @@ Release builds are created on GitHub Actions using 'build.sh' in the 'scripts' d
 It's helpful to be able to manually walk through the full Calendar authorisation flows before release. This authorisation can be reset using the following command, which should allow for testing the first-run experience:
 
 ```bash
-tccutil reset Calendar uk.co.jbmorley.apps.overview
+tccutil reset Calendar uk.co.jbmorley.apps.overview	
+```
+
+### Documentation
+
+Documentation is built with [Jekyll](https://jekyllrb.com) and deployed at https://overview.jbmorley.co.uk. 
+
+Jekyll can be used to serve the documentation locally for testing:
+
+```bash
+cd docs
+gem install
+bundle exec jekyll serve
 ```
 
 ## Licensing
