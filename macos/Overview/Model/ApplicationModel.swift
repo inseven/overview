@@ -42,12 +42,18 @@ class ApplicationModel: ObservableObject {
     private let updateQueue = DispatchQueue(label: "CalendarModel.updateQueue")
     private var cancellables: Set<AnyCancellable> = []
 
+    private let applicationWillBecomeActive: AnyPublisher<Notification, Never>
+
     init() {
         updates = NotificationCenter.default
             .publisher(for: .EKEventStoreChanged, object: store)
-            .prepend(Notification(name: .EKEventStoreChanged, object: nil, userInfo: nil))
+            .prepend(Notification(name: .EKEventStoreChanged))
             .eraseToAnyPublisher()
+        applicationWillBecomeActive = NotificationCenter.default.applicationWillBecomeActive()
+    }
 
+    private func requestAccess() {
+        dispatchPrecondition(condition: .onQueue(.main))
         store.requestFullAccessToEvents { granted, error in
             DispatchQueue.main.async {
                 if let error = error {
@@ -62,20 +68,55 @@ class ApplicationModel: ObservableObject {
     func start() {
         dispatchPrecondition(condition: .onQueue(.main))
 
-        fetchAvailableYears()
+        // Request access whenever the application is foregrounded and we don't yet have access.
+        applicationWillBecomeActive
+            .combineLatest($state
+                .map { state in
+                    // This map might seem a little murky but it allows is to flatten the tristate (unknown, authorized,
+                    // and unauthorized) into a simple boolean (does/doesn't have access). We model the 'unknown' state
+                    // to ensure the UI doesn't bounce through an unauthorized screen on first run, but flatten it into
+                    // a simple boolean state here as we _always_ want to request access when we don't have it, but
+                    // don't want to treat unknown and unauthorized differently (which could cause over-requesting).
+                    return state == .authorized
+                }
+                .removeDuplicates())
+            .filter {
+                $0.1 != true
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                print("Requesting access...")
+                self?.requestAccess()
+            }
+            .store(in: &cancellables)
 
-        updates
-            .receive(on: updateQueue)
-            .map { notification in
-                let contributingCalendars = self.calendars.filter { $0.type != .birthday }
+        // Update the calendars whenever access is newly granted or the store changes.
+        $state
+            .filter { $0 == .authorized }
+            .combineLatest(updates)
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .map { _ in
+                print("Fetching calendars...")
+                return self.store.calendars(for: .event)
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.calendars, on: self)
+            .store(in: &cancellables)
+
+        // Update the data whenever access is newly granted or the store updates.
+        $state
+            .filter { $0 == .authorized }
+            .combineLatest(updates, $calendars.filter({ !$0.isEmpty }))
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
+            .map { _, _, calendars in
+                print("Fetching years...")
+                let contributingCalendars = calendars.filter { $0.type != .birthday }
                 let earliestDate = self.store.earliestEventStartDate(calendars: contributingCalendars) ?? .now
                 let years = Array((earliestDate.year...Date.now.year).reversed())
                 return years
             }
             .receive(on: DispatchQueue.main)
-            .sink { years in
-                self.years = years
-            }
+            .assign(to: \.years, on: self)
             .store(in: &cancellables)
     }
 
@@ -84,23 +125,9 @@ class ApplicationModel: ObservableObject {
         cancellables.removeAll()
     }
 
-    private func fetchAvailableYears() {
-        dispatchPrecondition(condition: .onQueue(.main))
-        calendars = store.calendars(for: .event)
-        DispatchQueue.global(qos: .userInteractive).async {
-            let contributingCalendars = self.calendars.filter { $0.type != .birthday }
-            let earliestDate = self.store.earliestEventStartDate(calendars: contributingCalendars) ?? .now
-            let years = Array((earliestDate.year...Date.now.year).reversed())
-            DispatchQueue.main.async {
-                self.years = years
-            }
-        }
-    }
-
     func summary(year: Int,
                  calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
         return try store.summary(calendar: calendar, year: year, calendars: calendars)
     }
-
 
 }
