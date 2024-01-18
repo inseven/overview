@@ -32,7 +32,6 @@
 		D8FA1F452AD79EFE00E18E26 /* EKCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FA1F442AD79EFE00E18E26 /* EKCalendar.swift */; };
 		D8FA1F472AD79F1D00E18E26 /* EKCalendarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FA1F462AD79F1D00E18E26 /* EKCalendarItem.swift */; };
 		D8FE3AD42911700A00C6F7FE /* Interact in Frameworks */ = {isa = PBXBuildFile; productRef = D8FE3AD32911700A00C6F7FE /* Interact */; };
-		D8FE3AD62911738E00C6F7FE /* interact-license in Resources */ = {isa = PBXBuildFile; fileRef = D8FE3AD52911738E00C6F7FE /* interact-license */; };
 		D8FE3AD92911789500C6F7FE /* Summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3AD82911789500C6F7FE /* Summary.swift */; };
 		D8FE3ADB291178BF00C6F7FE /* CalendarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */; };
 		D8FE3ADD29117B8000C6F7FE /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3ADC29117B8000C6F7FE /* Event.swift */; };
@@ -90,7 +89,6 @@
 		D8FA1F442AD79EFE00E18E26 /* EKCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKCalendar.swift; sourceTree = "<group>"; };
 		D8FA1F462AD79F1D00E18E26 /* EKCalendarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKCalendarItem.swift; sourceTree = "<group>"; };
 		D8FE3AD229116FE900C6F7FE /* interact */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = interact; path = ../interact; sourceTree = "<group>"; };
-		D8FE3AD52911738E00C6F7FE /* interact-license */ = {isa = PBXFileReference; lastKnownFileType = text; path = "interact-license"; sourceTree = "<group>"; };
 		D8FE3AD82911789500C6F7FE /* Summary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Summary.swift; sourceTree = "<group>"; };
 		D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItem.swift; sourceTree = "<group>"; };
 		D8FE3ADC29117B8000C6F7FE /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 			isa = PBXGroup;
 			children = (
 				D8D3B3DA28E7D69700A610D4 /* overview-license */,
-				D8FE3AD52911738E00C6F7FE /* interact-license */,
 			);
 			path = Licenses;
 			sourceTree = "<group>";
@@ -374,7 +371,6 @@
 			files = (
 				D8DCDDE025F664450083DF48 /* Preview Assets.xcassets in Resources */,
 				D8D3B3DB28E7D6EF00A610D4 /* overview-license in Resources */,
-				D8FE3AD62911738E00C6F7FE /* interact-license in Resources */,
 				D8DCDDDD25F664450083DF48 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

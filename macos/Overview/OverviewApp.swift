@@ -22,6 +22,7 @@ import EventKit
 import SwiftUI
 
 import Diligence
+import Interact
 
 @main
 struct OverviewApp: App {
@@ -56,7 +57,7 @@ struct OverviewApp: App {
             }
         } licenses: {
             License("Overview", author: "Jason Barrie Morley", filename: "overview-license")
-            License("Interact", author: "InSeven Limited", filename: "interact-license")
+            License(Interact.Package.name, author: Interact.Package.author, url: Interact.Package.licenseURL)
         }
 
     }
