@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2024 Jason Barrie Morley
+// Copyright (c) 2021-2024 Jason Morley
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ struct OverviewApp: App {
             SidebarCommands()
         }
 
-        About(copyright: "Copyright © 2021-2024 Jason Barrie Morley") {
+        About(copyright: "Copyright © 2021-2024 Jason Morley") {
             Action("Website", url: URL(string: "https://overview.jbmorley.co.uk")!)
             Action("Privacy Policy", url: URL(string: "https://overview.jbmorley.co.uk/privacy-policy")!)
             Action("GitHub", url: URL(string: "https://github.com/inseven/overview")!)
@@ -56,7 +56,7 @@ struct OverviewApp: App {
                 Credit("Sarah Barbour")
             }
         } licenses: {
-            License("Overview", author: "Jason Barrie Morley", filename: "overview-license")
+            License("Overview", author: "Jason Morley", filename: "overview-license")
             License(Interact.Package.name, author: Interact.Package.author, url: Interact.Package.licenseURL)
         }
 
