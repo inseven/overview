@@ -3,7 +3,7 @@
     --brand-color: color(display-p3 0.946 0.64 0.263);
     --body-color: #000000;
     --content-width: 900px;
-    --vertical-spacing: 1.5em;
+    --vertical-spacing: 15px;
 }
 
 body {
@@ -22,6 +22,10 @@ a:hover {
     color: var(--brand-color);
 }
 
+p, h1, h2, h3 {
+    margin: var(--vertical-spacing) 0 0 0;
+}
+
 ul.navigation {
     list-style: none;
     margin: 0;
@@ -34,6 +38,9 @@ ul.navigation {
     box-sizing: border-box;
     font-weight: 400;
     text-align: center;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 ul.navigation a {
@@ -52,9 +59,8 @@ ul.navigation > li {
 .content {
     max-width: var(--content-width);
     margin: auto;
-    padding: 2em;
+    padding: 0 2em;
     font-size: 1.1em;
-    line-height: var(--vertical-spacing);
 }
 
 .tagline {
