@@ -43,9 +43,49 @@ jobs:
       run: |
         scripts/build.sh
 
+    - name: Archive the binary
+      uses: actions/upload-artifact@v3
+      with:
+        path: build/build-*.zip
+        if-no-files-found: error
+
+  website-build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Checkout required submodules
+      run: |
+        git submodule update --init --depth 1 scripts/changes
+
+    - name: Setup Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.9"
+
+    - name: Install pipenv
+      run: |
+        python -m pip install --upgrade pipenv wheel
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: scripts/install-dependencies.sh
+
     - name: Build website
       run: |
         scripts/build-website.sh
+
+    - name: Fix permissions
+      run: |
         chmod -v -R +rX "_site/" | while read line; do
           echo "::warning title=Invalid file permissions automatically fixed::$line"
         done
@@ -53,14 +93,8 @@ jobs:
     - name: Upload Pages artifact
       uses: actions/upload-pages-artifact@v2
 
-    - name: Archive the binary
-      uses: actions/upload-artifact@v3
-      with:
-        path: build/build-*.zip
-        if-no-files-found: error
-
   website-deploy:
-    needs: build
+    needs: website-build
     if: ${{ github.ref == 'refs/heads/main' }}
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
