@@ -41,7 +41,7 @@ struct OverviewApp: App {
             SidebarCommands()
         }
 
-        About(copyright: "Copyright © 2021-2024 Jason Morley") {
+        About(repository: "inseven/overview", copyright: "Copyright © 2021-2024 Jason Morley") {
             Action("Website", url: URL(string: "https://overview.jbmorley.co.uk")!)
             Action("Privacy Policy", url: URL(string: "https://overview.jbmorley.co.uk/privacy-policy")!)
             Action("GitHub", url: URL(string: "https://github.com/inseven/overview")!)
