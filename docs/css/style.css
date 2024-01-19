@@ -34,6 +34,9 @@ ul.navigation {
     box-sizing: border-box;
     font-weight: 400;
     text-align: center;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 ul.navigation a {
@@ -52,7 +55,7 @@ ul.navigation > li {
 .content {
     max-width: var(--content-width);
     margin: auto;
-    padding: 2em;
+    padding: 0 2em;
     font-size: 1.1em;
     line-height: var(--vertical-spacing);
 }
