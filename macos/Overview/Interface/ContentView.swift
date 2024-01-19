@@ -38,6 +38,7 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             CalendarList(applicationModel: applicationModel, selections: $windowModel.selections)
+                .frame(minWidth: 200)
         } detail: {
             HStack {
                 if windowModel.loading {
@@ -70,6 +71,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .frame(minWidth: 500, minHeight: 400)
             .navigationTitle("Overview")
             .navigationSubtitle(windowModel.title)
             .toolbar {
