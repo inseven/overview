@@ -1,12 +1,12 @@
 [submodule "scripts/changes"]
 	path = scripts/changes
-	url = git@github.com:jbmorley/changes.git
+	url = https://github.com/jbmorley/changes.git
 [submodule "scripts/build-tools"]
 	path = scripts/build-tools
-	url = git@github.com:jbmorley/build-tools.git
+	url = https://github.com/jbmorley/build-tools.git
 [submodule "diligence"]
 	path = diligence
-	url = git@github.com:inseven/diligence.git
+	url = https://github.com/inseven/diligence.git
 [submodule "interact"]
 	path = interact
-	url = git@github.com:inseven/interact.git
+	url = https://github.com/inseven/interact.git
