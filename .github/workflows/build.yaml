@@ -62,6 +62,7 @@ jobs:
 
     - name: Checkout required submodules
       run: |
+        git submodule update --init --depth 1 scripts/build-tools
         git submodule update --init --depth 1 scripts/changes
 
     - name: Setup Python
