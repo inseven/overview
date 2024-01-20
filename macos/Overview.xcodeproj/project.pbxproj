@@ -18,6 +18,7 @@
 		D8A3D3D42911F105002AFC32 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A3D3D32911F105002AFC32 /* Set.swift */; };
 		D8B435A029119A5D008F4F6F /* WindowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B4359F29119A5D008F4F6F /* WindowModel.swift */; };
 		D8B435A229119A96008F4F6F /* CalendarError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B435A129119A96008F4F6F /* CalendarError.swift */; };
+		D8C0ADAC2B5C3FDA00E77BDC /* material-icons-license in Resources */ = {isa = PBXBuildFile; fileRef = D8C0ADAB2B5C3FDA00E77BDC /* material-icons-license */; };
 		D8C296AB2B5777FA00286301 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C296AA2B5777FA00286301 /* URL.swift */; };
 		D8D3B3D628E7CB8700A610D4 /* Diligence in Frameworks */ = {isa = PBXBuildFile; productRef = D8D3B3D528E7CB8700A610D4 /* Diligence */; };
 		D8D3B3DB28E7D6EF00A610D4 /* overview-license in Resources */ = {isa = PBXBuildFile; fileRef = D8D3B3DA28E7D69700A610D4 /* overview-license */; };
@@ -67,6 +68,7 @@
 		D8A3D3D32911F105002AFC32 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
 		D8B4359F29119A5D008F4F6F /* WindowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowModel.swift; sourceTree = "<group>"; };
 		D8B435A129119A96008F4F6F /* CalendarError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarError.swift; sourceTree = "<group>"; };
+		D8C0ADAB2B5C3FDA00E77BDC /* material-icons-license */ = {isa = PBXFileReference; lastKnownFileType = text; path = "material-icons-license"; sourceTree = "<group>"; };
 		D8C296AA2B5777FA00286301 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		D8D3B3D328E7CAB000A610D4 /* diligence */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = diligence; path = ../diligence; sourceTree = "<group>"; };
 		D8D3B3DA28E7D69700A610D4 /* overview-license */ = {isa = PBXFileReference; lastKnownFileType = text; path = "overview-license"; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				D8D3B3DA28E7D69700A610D4 /* overview-license */,
+				D8C0ADAB2B5C3FDA00E77BDC /* material-icons-license */,
 			);
 			path = Licenses;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 			files = (
 				D8DCDDE025F664450083DF48 /* Preview Assets.xcassets in Resources */,
 				D8D3B3DB28E7D6EF00A610D4 /* overview-license in Resources */,
+				D8C0ADAC2B5C3FDA00E77BDC /* material-icons-license in Resources */,
 				D8DCDDDD25F664450083DF48 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
