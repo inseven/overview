@@ -60,6 +60,7 @@ struct OverviewApp: App {
         } licenses: {
             License("Overview", author: "Jason Morley", filename: "overview-license")
             License(Interact.Package.name, author: Interact.Package.author, url: Interact.Package.licenseURL)
+            License("Material Icons", author: "Google", filename: "material-icons-license")
         }
 
     }
