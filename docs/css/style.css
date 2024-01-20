@@ -22,7 +22,7 @@ a:hover {
     color: var(--brand-color);
 }
 
-p, h1, h2, h3 {
+p, h1, h2, h3, nav.actions {
     margin: var(--vertical-spacing) 0 0 0;
 }
 
@@ -86,4 +86,18 @@ h1 {
 
 img.hero {
     max-width: 100%;
+}
+
+nav.actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+nav.actions a {
+    background-color: #1e62e9;
+    color: #fff;
+    border-radius: 100px;
+    padding: 0.5em 2em;
+    display: inline-block;
+    text-decoration: none;
 }
