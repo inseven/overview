@@ -1,21 +1,34 @@
 :root {
     --tint-color: color(display-p3 0.946 0.64 0.263);
     --brand-color: color(display-p3 0.946 0.64 0.263);
-    --body-color: #000000;
+    --text-color: #000000;
+    --background-color: #ffffff;
+    --navigation-background: rgba(255, 255, 255, 0.7);
     --content-width: 900px;
     --vertical-spacing: 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+
+    :root {
+        --text-color: #ffffff;
+        --background-color: #181818;
+        --navigation-background: rgba(24, 24, 24, 0.7);
+    }
+
 }
 
 body {
     font-family: Helvetica, sans-serif;
     font-weight: 200;
     margin: 0;
-    color: var(--body-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 a {
     text-decoration: underline;
-    color: var(--body-color);
+    color: var(--text-color);
 }
 
 a:hover {
@@ -38,7 +51,7 @@ ul.navigation {
     box-sizing: border-box;
     font-weight: 400;
     text-align: center;
-    background: rgba(255, 255, 255, 0.7);
+    background: var(--navigation-background);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }

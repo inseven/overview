@@ -17,7 +17,10 @@ title: About
     <a href="https://testflight.apple.com/join/PeUmrJ4X" target="_blank">TestFlight Public Beta</a>
 </nav>
 
-<img class="hero" src="/images/screenshot.png" width="867" />
+<picture class="hero" width="868">
+    <source srcset="/images/screenshot-dark.png" media="(prefers-color-scheme: dark)">
+    <img class="hero" src="/images/screenshot.png" />
+</picture>
 
 Overview is a minimal app that gives you an at-a-glance overview of how you spend your time each month by grouping like-named calendar entries.
 
