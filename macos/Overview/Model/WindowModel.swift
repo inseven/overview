@@ -64,6 +64,7 @@ class WindowModel: ObservableObject {
                 guard !calendars.isEmpty else {
                     return []
                 }
+                return (try? self.applicationModel.summary(year: year, calendars: calendars)) ?? []
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (summaries: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>]) in
