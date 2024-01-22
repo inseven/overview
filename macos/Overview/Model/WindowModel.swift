@@ -42,15 +42,20 @@ class WindowModel: ObservableObject {
     init(applicationModel: ApplicationModel) {
         self.applicationModel = applicationModel
         self.selections = selectionsStorage
+        self.loading = true
     }
 
     func start() {
         dispatchPrecondition(condition: .onQueue(.main))
 
         // Update the summaries.
-        // TODO: Set loading
         $year
             .combineLatest(applicationModel.$calendars, $selections, applicationModel.updates)
+            .receive(on: DispatchQueue.main)
+            .map { contents in
+                self.loading = true
+                return contents
+            }
             .receive(on: updateQueue)
             .map { (year, calendars, selections, _) in
                 return (year, calendars.filter { selections.contains($0.calendarIdentifier) })
@@ -59,7 +64,6 @@ class WindowModel: ObservableObject {
                 guard !calendars.isEmpty else {
                     return []
                 }
-                return (try? self.applicationModel.summary(year: year, calendars: calendars)) ?? []
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (summaries: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>]) in
@@ -67,6 +71,7 @@ class WindowModel: ObservableObject {
                     return
                 }
                 self.summaries = summaries
+                self.loading = false
             }
             .store(in: &cancellables)
 
