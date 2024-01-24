@@ -18,9 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
+import Foundation
 
-struct CalendarItem: Hashable {
-    let calendar: CalendarInstance
-    let title: String
-}
+typealias MonthlySummary = Summary<[CalendarInstance], SimilarEvents>

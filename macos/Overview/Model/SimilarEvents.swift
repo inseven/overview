@@ -18,6 +18,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
+import Foundation
 
-extension EKEvent: Event {}
+typealias SimilarEvents = Summary<CalendarItem, CalendarEvent>
+
+extension SimilarEvents {
+
+    var uniqueItems: [Item] { Array(Set(items)) }
+
+    func duration(calendar: Calendar) -> DateComponents {
+        calendar.date(byAdding: uniqueItems.map { $0.duration(calendar: calendar, bounds: dateInterval) },
+                      to: dateInterval.start)
+    }
+
+
+}

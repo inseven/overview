@@ -34,7 +34,7 @@ class WindowModel: ObservableObject {
 
     @Published var title: String = ""
     @Published var loading = false
-    @Published var summaries: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] = []
+    @Published var summaries: [MonthlySummary] = []
 
     private let updateQueue = DispatchQueue(label: "WindowModel.updateQueue")
     private var cancellables: Set<AnyCancellable> = []
@@ -67,7 +67,7 @@ class WindowModel: ObservableObject {
                 return (try? self.applicationModel.summary(year: year, calendars: calendars)) ?? []
             }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] (summaries: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>]) in
+            .sink { [weak self] (summaries: [MonthlySummary]) in
                 guard let self = self else {
                     return
                 }

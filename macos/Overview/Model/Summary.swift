@@ -27,18 +27,7 @@ struct Summary<Context, Item>: Identifiable {
     var items: [Item]
 }
 
-extension Summary where Item: EKEvent {
-
-    var uniqueItems: [Item] { Array(Set(items)) }
-
-    func duration(calendar: Calendar) -> DateComponents {
-        calendar.date(byAdding: uniqueItems.map { $0.duration(calendar: calendar, bounds: dateInterval) },
-                      to: dateInterval.start)
-    }
-
-}
-
-extension Summary where Context == Array<EKCalendar>, Item == Summary<CalendarItem, EKEvent> {
+extension Summary where Context == [CalendarInstance], Item == SimilarEvents {
 
     func duration(calendar: Calendar) -> DateComponents {
         calendar.date(byAdding: items.map { $0.duration(calendar: calendar) }, to: dateInterval.start)

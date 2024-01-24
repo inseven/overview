@@ -22,65 +22,7 @@ import EventKit
 
 extension EKEventStore {
 
-    func events(dateInterval: DateInterval, calendars: [EKCalendar]?) -> [EKEvent] {
-        let predicate = predicateForEvents(withStart: dateInterval.start,
-                                                 end: dateInterval.end,
-                                                 calendars: calendars)
-        return events(matching: predicate)
-    }
-
-    func events(calendar: Calendar,
-                dateInterval: DateInterval,
-                granularity: DateComponents,
-                calendars: [EKCalendar]?) throws -> [EKEvent] {
-        var results: [EKEvent] = []
-        calendar.enumerate(dateInterval: dateInterval, components: granularity) { dateInterval in
-            results = results + events(dateInterval: dateInterval, calendars: calendars)
-        }
-        return results
-    }
-
-    func summaries(calendar: Calendar,
-                   dateInterval: DateInterval,
-                   granularity: DateComponents,
-                   calendars: [EKCalendar]?) throws -> [Summary<CalendarItem, EKEvent>] {
-        let events: [EKEvent] = try self.events(calendar: calendar,
-                                                dateInterval: dateInterval,
-                                                granularity: granularity,
-                                                calendars: calendars)
-        let group = Dictionary(grouping: events) { CalendarItem(calendar: $0.calendar , title: $0.title ?? "") }
-        var results: [Summary<CalendarItem, EKEvent>] = []
-        for (context, events) in group {
-            results.append(Summary(dateInterval: dateInterval, context: context, items: events))
-        }
-        return results
-    }
-
-    func summaries(calendar: Calendar,
-                   dateInterval: DateInterval,
-                   calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
-        var results: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] = []
-        calendar.enumerate(dateInterval: dateInterval, components: DateComponents(month: 1)) { dateInterval in
-            let summaries = try! self.summaries(calendar: calendar,
-                                                dateInterval: dateInterval,
-                                                granularity: DateComponents(month: 1),
-                                                calendars: calendars)
-            results.append(Summary(dateInterval: dateInterval, context: calendars, items: summaries))
-        }
-        return results
-    }
-
-    func summary(calendar: Calendar,
-                 year: Int,
-                 calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
-        guard let start = calendar.date(from: DateComponents(year: year, month: 1)) else {
-            throw CalendarError.invalidDate
-        }
-        let dateInterval = try calendar.dateInterval(start: start, duration: DateComponents(year: 1))
-        return try summaries(calendar: calendar, dateInterval: dateInterval, calendars: calendars)
-    }
-
-    func earliestEventStartDate(after startDate: Date, before endDate: Date, calendars: [EKCalendar]) -> Date? {
+    private func earliestEventStartDate(after startDate: Date, before endDate: Date, calendars: [EKCalendar]) -> Date? {
         var result: Date? = nil
         enumerateEvents(matching: predicateForEvents(withStart: startDate,
                                                      end: endDate,
@@ -94,7 +36,12 @@ extension EKEventStore {
         return result
     }
 
-    func earliestEventStartDate(calendars: [EKCalendar]) -> Date? {
+    private func earliestEventStartDate(calendars: [CalendarInstance]) -> Date? {
+        let calendars = self.calendars(calendars: calendars)
+        guard !calendars.isEmpty else {
+            return nil
+        }
+
         // Search backwards for the earliest calendar entry in 4 year intervals (documented EventKit restriction).
         var result: Date? = nil
         let iterator = DateRangeIterator(date: .now, increment: DateComponents(year: -4))
@@ -105,6 +52,57 @@ extension EKEventStore {
             result = date
         }
         return result
+    }
+
+    private func earliestEventStartDate(calendars: [EKCalendar]) -> Date? {
+
+        // Search backwards for the earliest calendar entry in 4 year intervals (documented EventKit restriction).
+        var result: Date? = nil
+        let iterator = DateRangeIterator(date: .now, increment: DateComponents(year: -4))
+        for (startDate, endDate) in iterator {
+            guard let date = earliestEventStartDate(after: startDate, before: endDate, calendars: calendars) else {
+                return result
+            }
+            result = date
+        }
+        return result
+    }
+
+    private func calendars(calendars: [CalendarInstance]) -> [EKCalendar] {
+        let calendarIdentifiers = calendars.map { $0.calendarIdentifier }
+        return calendarIdentifiers.compactMap { calendarIdentifier in
+            return calendar(withIdentifier: calendarIdentifier)
+        }
+    }
+
+}
+
+extension EKEventStore: CalendarStore {
+
+    func calendars() -> [CalendarInstance] {
+        print("Fetching calendars...")
+        return calendars(for: .event)
+            .map { CalendarInstance($0) }
+    }
+
+    func activeYears(for calendars: [CalendarInstance]) -> [Int] {
+        print("Fetching years...")
+        let contributingCalendars = calendars.filter { $0.type != .birthday }
+        let earliestDate = earliestEventStartDate(calendars: contributingCalendars) ?? .now
+        let years = Array((earliestDate.year...Date.now.year).reversed())
+        return years
+    }
+
+    func events(dateInterval: DateInterval, calendars: [CalendarInstance]) -> [CalendarEvent] {
+        let calendars = self.calendars(calendars: calendars)
+        guard !calendars.isEmpty else {
+            return []
+        }
+        let predicate = predicateForEvents(withStart: dateInterval.start,
+                                           end: dateInterval.end,
+                                           calendars: calendars)
+        return events(matching: predicate)
+            .map { CalendarEvent($0) }
     }
 
 }

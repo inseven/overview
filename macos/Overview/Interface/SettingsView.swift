@@ -18,38 +18,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
-import Foundation
+import SwiftUI
 
-extension Calendar {
+struct SettingsView: View {
 
-    static var gregorian: Calendar {
-        return Calendar(identifier: .gregorian)
+    @ObservedObject var applicationModel: ApplicationModel
+
+    init(applicationModel: ApplicationModel) {
+        self.applicationModel = applicationModel
     }
 
-    func dateInterval(start: Date, duration: DateComponents) throws -> DateInterval {
-        guard let end = date(byAdding: duration, to: start) else {
-            throw CalendarError.invalidDate
-        }
-        return DateInterval(start: start, end: end)
-    }
-
-    func enumerate(dateInterval: DateInterval, components: DateComponents, block: (DateInterval) -> Void) {
-        var date = dateInterval.start
-        while date < dateInterval.end {
-            guard let nextDate = self.date(byAdding: components, to: date) else {
-                return
+    var body: some View {
+        Form {
+            Section("Developer") {
+                Toggle("Use Demo Data", isOn: $applicationModel.useDemoData)
             }
-            block(DateInterval(start: date, end: nextDate))
-            date = nextDate
         }
-    }
-
-    func date(byAdding dateComponents: [DateComponents], to start: Date) -> DateComponents {
-        let end = dateComponents.reduce(start) { date, dateComponents in
-            self.date(byAdding: dateComponents, to: date, wrappingComponents: false)!
-        }
-        return self.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
+        .formStyle(.grouped)
     }
 
 }
