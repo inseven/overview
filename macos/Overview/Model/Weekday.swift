@@ -20,12 +20,12 @@
 
 import Foundation
 
-struct Weekday {
-    static let sunday = 1
-    static let monday = 2
-    static let tuesday = 3
-    static let wednesday = 4
-    static let thursday = 5
-    static let friday = 6
-    static let saturday = 7
+enum Weekday: Int {
+    case sunday = 1
+    case monday = 2
+    case tuesday = 3
+    case wednesday = 4
+    case thursday = 5
+    case friday = 6
+    case saturday = 7
 }
