@@ -89,7 +89,6 @@ class DemoStore: CalendarStore {
                                                 duration: DateComponents(hour: 1),
                                                 title: "FaceTime with Lukas")
 
-        // TODO: Weekday option set.
         let standup = calendar.events(calendar: workCalendar,
                                       weeks: Array(1..<weeks),
                                       days: [.monday, .tuesday, .wednesday, .thursday, .friday],
