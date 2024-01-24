@@ -20,13 +20,43 @@
 
 import Foundation
 
+extension Calendar {
+
+    func events(calendar: CalendarInstance,
+                weeks: [Int],
+                days: [Weekday],
+                year: Int,
+                hour: Int,
+                duration: DateComponents,
+                title: String) -> [CalendarEvent] {
+        let events = weeks
+            .map { weeklyOrdinal -> [CalendarEvent] in
+                return days.map { weekday -> CalendarEvent in
+                    let components = DateComponents(year: year,
+                                                    hour: hour,
+                                                    weekday: weekday.rawValue,
+                                                    weekdayOrdinal: weeklyOrdinal)
+                    let startDate = date(from: components)!
+                    let endDate = date(byAdding: duration, to: startDate)!
+                    return CalendarEvent(calendar: calendar,
+                                         startDate: startDate,
+                                         endDate: endDate,
+                                         title: title)
+                }
+            }
+            .reduce([], +)
+        return events
+    }
+
+}
+
 class DemoStore: CalendarStore {
 
     private let currentYear: Int
-    private let demoData: [CalendarInstance: [CalendarEvent]]
+    private let demoCalendars: [CalendarInstance]
+    private let demoEvents: [CalendarEvent]
 
     init() {
-        var demoData = [CalendarInstance: [CalendarEvent]]()
 
         let homeCalendar = CalendarInstance(title: "Home", color: .blue)
         let workCalendar = CalendarInstance(title: "Work", color: .red)
@@ -41,32 +71,44 @@ class DemoStore: CalendarStore {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "cccc, d M yyyy, HH:mm"
 
-        let coffeeWithTom = Array(1..<6)
-            .map { weeklyOrdinal in
-                let components = DateComponents(year: currentYear, hour: 10, weekday: Weekday.friday, weekdayOrdinal: weeklyOrdinal)
-                let startDate = calendar.date(from: components)!
-                let endDate = calendar.date(byAdding: DateComponents(hour: 1), to: startDate)!
-                return CalendarEvent(calendar: homeCalendar, startDate: startDate, endDate: endDate, title: "Coffee with Tom")
-            }
+        let weeks = 10
 
-        let faceTimeWithLukas = Array(stride(from: 1, to: 6, by: 2))
-            .map { weeklyOrdinal in
-                let components = DateComponents(year: currentYear, hour: 14, weekday: Weekday.friday, weekdayOrdinal: weeklyOrdinal)
-                let startDate = calendar.date(from: components)!
-                let endDate = calendar.date(byAdding: DateComponents(hour: 1), to: startDate)!
-                return CalendarEvent(calendar: workCalendar, startDate: startDate, endDate: endDate, title: "FaceTime with Lukas")
-            }
+        let coffeeWithTom = calendar.events(calendar: homeCalendar,
+                                            weeks: Array(1..<weeks),
+                                            days: [Weekday.friday],
+                                            year: currentYear,
+                                            hour: 10,
+                                            duration: DateComponents(hour: 1),
+                                            title: "Coffee with Tom")
 
-        demoData[homeCalendar] = coffeeWithTom
-        demoData[workCalendar] = faceTimeWithLukas
-        demoData[whereCalendar] = []
+        let faceTimeWithLukas = calendar.events(calendar: homeCalendar,
+                                                weeks: Array(stride(from: 1, to: weeks, by: 2)),
+                                                days: [Weekday.friday],
+                                                year: currentYear,
+                                                hour: 14,
+                                                duration: DateComponents(hour: 1),
+                                                title: "FaceTime with Lukas")
+
+        let standup = calendar.events(calendar: workCalendar,
+                                      weeks: Array(1..<weeks),
+                                      days: [.monday, .tuesday, .wednesday, .thursday, .friday],
+                                      year: currentYear,
+                                      hour: 9,
+                                      duration: DateComponents(minute: 15),
+                                      title: "Standup")
 
         self.currentYear = currentYear
-        self.demoData = demoData
+
+        self.demoCalendars = [
+            homeCalendar,
+            workCalendar,
+            whereCalendar,
+        ]
+        self.demoEvents = coffeeWithTom + faceTimeWithLukas + standup
     }
 
     func calendars() -> [CalendarInstance] {
-        return Array(demoData.keys)
+        return demoCalendars
     }
 
     func activeYears(for calendars: [CalendarInstance]) -> [Int] {
@@ -74,14 +116,10 @@ class DemoStore: CalendarStore {
     }
 
     func events(dateInterval: DateInterval, calendars: [CalendarInstance]) -> [CalendarEvent] {
-        return demoData
-            .filter { calendar, events in
-                return calendars.contains(calendar)
+        return demoEvents
+            .filter { event in
+                return calendars.contains(event.calendar)
             }
-            .map { _, events in
-                return events
-            }
-            .reduce([], +)
             .filter { event in
                 event.dateInterval.intersects(dateInterval)
             }
