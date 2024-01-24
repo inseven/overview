@@ -63,5 +63,13 @@ struct OverviewApp: App {
             License("Material Icons", author: "Google", filename: "material-icons-license")
         }
 
+#if DEBUG
+
+        Settings {
+            SettingsView(applicationModel: applicationModel)
+        }
+
+#endif
+
     }
 }

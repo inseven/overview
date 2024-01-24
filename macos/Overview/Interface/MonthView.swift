@@ -25,7 +25,7 @@ struct MonthView: View {
 
     let calendar = Calendar.current
 
-    @State var summary: Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>
+    @State var summary: MonthlySummary
 
     var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()

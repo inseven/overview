@@ -20,34 +20,12 @@
 
 import Foundation
 
-protocol Event {
-
-    var startDate: Date! { get set }
-    var endDate: Date! { get set }
-    var isAllDay: Bool { get set }
-
-}
-
-extension Event {
-
-    func duration(calendar: Calendar, bounds: DateInterval) -> DateComponents {
-
-        // Unfortunately it seems that somewhere along the line, EventKit has started treating all day events and
-        // timed events differently--timed events return an endDate that is exclusive, and all day events have an
-        // endDate which is inclusive. Given this, we have to check to see if it's an all day event and adjust its end
-        // date by 1 second.
-        let endDate: Date
-        if isAllDay {
-            endDate = self.endDate + 1
-        } else {
-            endDate = self.endDate
-        }
-
-        // Determine the bounded start and end dates.
-        let start = max(bounds.start, startDate)
-        let end = min(bounds.end, endDate)
-
-        return calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start, to: end)
-    }
-
+struct Weekday {
+    static let sunday = 1
+    static let monday = 2
+    static let tuesday = 3
+    static let wednesday = 4
+    static let thursday = 5
+    static let friday = 6
+    static let saturday = 7
 }

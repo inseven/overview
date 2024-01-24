@@ -19,8 +19,34 @@
 // SOFTWARE.
 
 import EventKit
+import SwiftUI
 
-struct CalendarItem: Hashable {
-    let calendar: CalendarInstance
+struct CalendarInstance: Identifiable, Hashable {
+
+    public var id: String {
+        return calendarIdentifier
+    }
+
+    let calendarIdentifier: String
+    let type: EKCalendarType
     let title: String
+    let color: Color
+
+    init(calendarIdentifier: String = UUID().uuidString,
+         type: EKCalendarType = .local,
+         title: String,
+         color: Color) {
+        self.calendarIdentifier = calendarIdentifier
+        self.type = type
+        self.title = title
+        self.color = color
+    }
+
+    init(_ calendar: EKCalendar) {
+        self.calendarIdentifier = calendar.calendarIdentifier
+        self.type = calendar.type
+        self.title = calendar.title
+        self.color = Color(calendar.color)
+    }
+
 }

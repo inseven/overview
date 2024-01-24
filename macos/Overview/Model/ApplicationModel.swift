@@ -31,10 +31,16 @@ class ApplicationModel: ObservableObject {
         case unauthorized
     }
 
+    enum StoreType {
+        case eventKit
+        case demo
+    }
+
     @Published var state: State = .unknown
     @Published var error: Error? = nil
-    @Published var calendars: [EKCalendar] = []
+    @Published var calendars: [CalendarInstance] = []
     @Published var years: [Int] = [Date.now.year]
+    @Published var useDemoData: Bool = false
     let updates: AnyPublisher<Notification, Never>
 
     private let store = EKEventStore()
@@ -43,6 +49,8 @@ class ApplicationModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
 
     private let applicationWillBecomeActive: AnyPublisher<Notification, Never>
+
+    static private let demoStore = DemoStore()
 
     init() {
         updates = NotificationCenter.default
@@ -62,6 +70,15 @@ class ApplicationModel: ObservableObject {
                 }
                 self.state = granted ? .authorized : .unauthorized
             }
+        }
+    }
+
+    func store(type: StoreType) -> CalendarStore {
+        switch type {
+        case .eventKit:
+            return store
+        case .demo:
+            return Self.demoStore
         }
     }
 
@@ -93,11 +110,10 @@ class ApplicationModel: ObservableObject {
         // Update the calendars whenever access is newly granted or the store changes.
         $state
             .filter { $0 == .authorized }
-            .combineLatest(updates)
+            .combineLatest(updates, $useDemoData)
             .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .map { _ in
-                print("Fetching calendars...")
-                return self.store.calendars(for: .event)
+            .map { _, _, useDemoData in
+                return self.store(type: useDemoData ? .demo : .eventKit).calendars()
             }
             .receive(on: DispatchQueue.main)
             .assign(to: \.calendars, on: self)
@@ -106,14 +122,10 @@ class ApplicationModel: ObservableObject {
         // Update the data whenever access is newly granted or the store updates.
         $state
             .filter { $0 == .authorized }
-            .combineLatest(updates, $calendars.filter({ !$0.isEmpty }))
+            .combineLatest(updates, $calendars.filter({ !$0.isEmpty }), $useDemoData)
             .receive(on: DispatchQueue.global(qos: .userInteractive))
-            .map { _, _, calendars in
-                print("Fetching years...")
-                let contributingCalendars = calendars.filter { $0.type != .birthday }
-                let earliestDate = self.store.earliestEventStartDate(calendars: contributingCalendars) ?? .now
-                let years = Array((earliestDate.year...Date.now.year).reversed())
-                return years
+            .map { _, _, calendars, useDemoData in
+                return self.store(type: useDemoData ? .demo : .eventKit).activeYears(for: calendars)
             }
             .receive(on: DispatchQueue.main)
             .assign(to: \.years, on: self)
@@ -125,9 +137,10 @@ class ApplicationModel: ObservableObject {
         cancellables.removeAll()
     }
 
-    func summary(year: Int,
-                 calendars: [EKCalendar]) throws -> [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] {
-        return try store.summary(calendar: calendar, year: year, calendars: calendars)
+    func summary(year: Int, calendars: [CalendarInstance]) throws -> [MonthlySummary] {
+        return try store(type: useDemoData ? .demo : .eventKit).summary(calendar: calendar,
+                                                                        year: year,
+                                                                        calendars: calendars)
     }
 
 }

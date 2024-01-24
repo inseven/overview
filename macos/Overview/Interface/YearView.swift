@@ -23,8 +23,7 @@ import SwiftUI
 
 struct YearView: View {
 
-    // TODO: The context should be the year?
-    var summaries: [Summary<Array<EKCalendar>, Summary<CalendarItem, EKEvent>>] = []
+    var summaries: [MonthlySummary] = []
 
     var body: some View {
         ScrollView {
