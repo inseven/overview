@@ -27,10 +27,10 @@ struct Summary<Context, Item>: Identifiable {
     var items: [Item]
 }
 
-extension Summary where Context == [CalendarInstance], Item == SimilarEvents {
+extension Summary {
 
-    func duration(calendar: Calendar) -> DateComponents {
-        calendar.date(byAdding: items.map { $0.duration(calendar: calendar) }, to: dateInterval.start)
+    var startDate: Date {
+        return dateInterval.start
     }
 
 }

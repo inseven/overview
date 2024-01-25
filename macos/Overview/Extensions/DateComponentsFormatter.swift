@@ -20,16 +20,22 @@
 
 import Foundation
 
-typealias SimilarEvents = Summary<CalendarItem, CalendarEvent>
+extension DateComponentsFormatter {
 
-extension SimilarEvents {
-
-    var uniqueItems: [Item] { Array(Set(items)) }
-
-    func duration(calendar: Calendar) -> DateComponents {
-        return calendar.date(byAdding: uniqueItems.map { $0.duration(calendar: calendar, bounds: dateInterval) },
-                             to: dateInterval.start)
+    // Curiously this functionality isn't provided out of the box, making it far from obvious how to use
+    // `DateComponentsFormatter` to correctly render the duration of a date interval in the context of it's start date.
+    // We use this to ensure that 1 month can be correctly displayed as 28 or 29 days in February, but 31 days in
+    // January.
+    func string(from dateInterval: DateInterval) -> String? {
+        return string(from: dateInterval.start, to: dateInterval.end)
     }
 
+    func string(from dateComponents: DateComponents, startDate: Date) -> String? {
+        let calendar = self.calendar ?? Calendar.autoupdatingCurrent
+        guard let endDate = calendar.date(byAdding: dateComponents, to: startDate) else {
+            return nil
+        }
+        return string(from: startDate, to: endDate)
+    }
 
 }

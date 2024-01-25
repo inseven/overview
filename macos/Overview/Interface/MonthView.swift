@@ -43,8 +43,8 @@ struct MonthView: View {
 
     var title: String { dateFormatter.string(from: summary.dateInterval.start) }
 
-    func format(dateComponents: DateComponents) -> String {
-        guard let result = dateComponentsFormatter.string(from: dateComponents) else {
+    func format(dateComponents: DateComponents, startDate: Date) -> String {
+        guard let result = dateComponentsFormatter.string(from: dateComponents, startDate: startDate) else {
             return "Unknown"
         }
         return result
@@ -71,7 +71,7 @@ struct MonthView: View {
                         Text("\(summary.uniqueItems.count) events")
                             .foregroundStyle(.secondary)
                         Spacer()
-                        Text(format(dateComponents: summary.duration(calendar: calendar)))
+                        Text(format(dateComponents: summary.duration(calendar: calendar), startDate: summary.startDate))
                     }
                 }
                 Divider()
@@ -79,7 +79,7 @@ struct MonthView: View {
             }
             HStack {
                 Spacer()
-                Text(format(dateComponents: summary.duration(calendar: calendar)))
+                Text(format(dateComponents: summary.duration(calendar: calendar), startDate: summary.startDate))
                     .foregroundStyle(.secondary)
             }
         }
