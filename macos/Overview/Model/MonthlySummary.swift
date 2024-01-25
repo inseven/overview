@@ -21,3 +21,11 @@
 import Foundation
 
 typealias MonthlySummary = Summary<[CalendarInstance], SimilarEvents>
+
+extension MonthlySummary {
+
+    func duration(calendar: Calendar) -> DateComponents {
+        calendar.date(byAdding: items.map { $0.duration(calendar: calendar) }, to: dateInterval.start)
+    }
+
+}
