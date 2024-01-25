@@ -40,7 +40,7 @@ struct OverviewApp: App {
         .commands {
             SidebarCommands()
         }
-        .defaultSize(CGSize(width: 800, height: 800))
+        .defaultSize(CGSize(width: 760, height: 760))
 
         About(repository: "inseven/overview", copyright: "Copyright © 2021-2024 Jason Morley") {
             Action("Website", url: URL(string: "https://overview.jbmorley.co.uk")!)
