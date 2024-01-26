@@ -14,7 +14,9 @@ title: About
 <p class="tagline">Calendar Summaries</p>
 
 <nav class="actions">
-    <a href="https://testflight.apple.com/join/PeUmrJ4X" target="_blank">TestFlight Public Beta</a>
+    <a href="https://apps.apple.com/us/app/overview-calendar-summaries/id6469060331?mt=12&amp;itsct=apps_box_badge&amp;itscg=30200" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 250px; height: 83px;">
+        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-mac-app-store/black/en-us?size=250x83&amp;releaseDate=1706140800" alt="Download on the Mac App Store" style="border-radius: 13px; width: 250px; height: 83px;">
+    </a>
 </nav>
 
 <picture class="hero">
