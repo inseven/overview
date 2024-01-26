@@ -29,6 +29,7 @@ SCRIPTS_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd 
 
 ROOT_DIRECTORY="${SCRIPTS_DIRECTORY}/.."
 RELEASE_NOTES_TEMPLATE_PATH="${SCRIPTS_DIRECTORY}/release-notes.markdown"
+HISTORY_PATH="${SCRIPTS_DIRECTORY}/history.yaml"
 RELEASE_NOTES_DIRECTORY="${ROOT_DIRECTORY}/docs/release-notes"
 RELEASE_NOTES_PATH="${RELEASE_NOTES_DIRECTORY}/index.markdown"
 
@@ -38,4 +39,4 @@ source "${SCRIPTS_DIRECTORY}/environment.sh"
 cd "$ROOT_DIRECTORY"
 
 mkdir -p "$RELEASE_NOTES_DIRECTORY"
-changes notes --all --released --template "$RELEASE_NOTES_TEMPLATE_PATH" > "$RELEASE_NOTES_PATH"
+changes notes --all --released --history "$HISTORY_PATH" --template "$RELEASE_NOTES_TEMPLATE_PATH" > "$RELEASE_NOTES_PATH"
