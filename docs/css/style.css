@@ -106,7 +106,7 @@ nav.actions {
     margin-top: 30px;
 }
 
-nav.actions a {
+nav.actions a.button {
     background-color: #1e62e9;
     color: #fff;
     border-radius: 100px;
