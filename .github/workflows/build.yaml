@@ -18,7 +18,7 @@ jobs:
     steps:
 
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: recursive
         fetch-depth: 0
@@ -44,7 +44,7 @@ jobs:
         scripts/build.sh
 
     - name: Archive the binary
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: build/build-*.zip
         if-no-files-found: error
@@ -56,7 +56,7 @@ jobs:
     steps:
 
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -84,12 +84,7 @@ jobs:
     - name: Build website
       run: |
         scripts/build-website.sh
-
-    - name: Fix permissions
-      run: |
-        chmod -v -R +rX "_site/" | while read line; do
-          echo "::warning title=Invalid file permissions automatically fixed::$line"
-        done
+        chmod -v -R +rX "_site/"
 
     - name: Upload Pages artifact
       uses: actions/upload-pages-artifact@v2
@@ -115,4 +110,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2 # or the latest "vX.X.X" version tag for this action
+        uses: actions/deploy-pages@v4 # or the latest "vX.X.X" version tag for this action
