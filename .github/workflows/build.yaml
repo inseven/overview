@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
 
-    name: build
+  macos-build:
+
     runs-on: macos-ventura
 
     steps:
@@ -95,6 +95,7 @@ jobs:
       uses: actions/upload-pages-artifact@v2
 
   website-deploy:
+
     needs: website-build
     if: ${{ github.ref == 'refs/heads/main' }}
 
@@ -110,6 +111,7 @@ jobs:
 
     # Specify runner + deployment step
     runs-on: ubuntu-latest
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
