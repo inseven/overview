@@ -1,6 +1,6 @@
 # Overview
 
-[![build](https://github.com/jbmorley/overview/actions/workflows/build.yaml/badge.svg)](https://github.com/jbmorley/overview/actions/workflows/build.yaml) [![website](https://github.com/inseven/overview/actions/workflows/website.yaml/badge.svg)](https://github.com/inseven/overview/actions/workflows/website.yaml)
+[![build](https://github.com/jbmorley/overview/actions/workflows/build.yaml/badge.svg)](https://github.com/jbmorley/overview/actions/workflows/build.yaml)
 
 Generate monthly durations for similarly named calendar events.
 
