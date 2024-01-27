@@ -119,7 +119,7 @@ function cleanup {
 trap cleanup EXIT
 
 # Determine the version and build number.
-VERSION_NUMBER=`changes --scope macOS version`
+VERSION_NUMBER=`changes version`
 BUILD_NUMBER=`build-number.swift`
 
 # Import the certificates into our dedicated keychain.
