@@ -1,0 +1,47 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ events" : {
+
+    },
+    "%lld events" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld event"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld events"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Open Privacy Settings" : {
+      "comment" : "Title of the button that opens System Settings."
+    },
+    "Overview" : {
+      "comment" : "Main window title."
+    },
+    "Overview needs full access to your calendar to be able to display and summarize your events." : {
+      "comment" : "Calendar privacy usage description shown when the user has denied acccess."
+    },
+    "Select one or more calendars from the sidebar." : {
+
+    },
+    "Year" : {
+      "comment" : "Toolbar year picker label."
+    }
+  },
+  "version" : "1.0"
+}

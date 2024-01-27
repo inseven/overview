@@ -63,23 +63,28 @@ struct ContentView: View {
                         ContentUnavailableView {
                             Label("Limited Calendar Access", systemImage: "calendar")
                         } description: {
-                            Text("Overview needs full access to your calendar to be able to display and summarise your events.")
-                            Button("Open Privacy Settings") {
+                            Text("Overview needs full access to your calendar to be able to display and summarize your events.",
+                                 comment: "Calendar privacy usage description shown when the user has denied acccess.")
+                            Button {
                                 openURL(.settingsPrivacyCalendars)
+                            } label: {
+                                Text("Open Privacy Settings", comment: "Title of the button that opens System Settings.")
                             }
                         }
                     }
                 }
             }
             .frame(minWidth: 500, minHeight: 400)
-            .navigationTitle("Overview")
+            .navigationTitle(Text("Overview", comment: "Main window title."))
             .navigationSubtitle(windowModel.title)
             .toolbar {
                 ToolbarItem {
-                    Picker("Year", selection: $windowModel.year) {
+                    Picker(selection: $windowModel.year) {
                         ForEach(applicationModel.years) { year in
                             Text(String(year)).tag(year)
                         }
+                    } label: {
+                        Text("Year", comment: "Toolbar year picker label.")
                     }
                 }
             }
