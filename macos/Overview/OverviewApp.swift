@@ -42,13 +42,13 @@ struct OverviewApp: App {
         }
         .defaultSize(CGSize(width: 760, height: 760))
 
-        let title = "Overview Support (\(Bundle.main.version ?? "Unknown Version"))"
+        let subject = "Overview Support (\(Bundle.main.version ?? "Unknown Version"))"
 
         About(repository: "inseven/overview", copyright: "Copyright © 2021-2024 Jason Morley") {
             Action("Website", url: URL(string: "https://overview.jbmorley.co.uk")!)
             Action("Privacy Policy", url: URL(string: "https://overview.jbmorley.co.uk/privacy-policy")!)
             Action("GitHub", url: URL(string: "https://github.com/inseven/overview")!)
-            Action("Support", url: URL(address: "support@jbmorley.co.uk", subject: title)!)
+            Action("Support", url: URL(address: "support@jbmorley.co.uk", subject: subject)!)
         } acknowledgements: {
             Acknowledgements("Developers") {
                 Credit("Jason Morley", url: URL(string: "https://jbmorley.co.uk"))
