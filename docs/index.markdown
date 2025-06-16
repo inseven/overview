@@ -15,7 +15,7 @@ title: About
 
 <nav class="actions">
     <a href="https://apps.apple.com/us/app/overview-calendar-summaries/id6469060331">
-        <img src="images/appstore-badge.svg" alt="Download on the Mac App Store" width="250">
+        <img src="/images/appstore-badge.svg" alt="Download on the App Store" style="width: 180px; vertical-align: middle; object-fit: contain;" />
     </a>
 </nav>
 
