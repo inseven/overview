@@ -161,20 +161,20 @@ PKG_PATH="$BUILD_DIRECTORY/Overview.pkg"
 
 # Install the private key.
 mkdir -p ~/.appstoreconnect/private_keys/
-echo -n "$APPLE_API_KEY_BASE64" | base64 --decode -o ~/".appstoreconnect/private_keys/AuthKey_${APPLE_API_KEY_ID}.p8"
+echo -n "$APPLE_API_KEY_BASE64" | base64 --decode -o ~/".appstoreconnect/private_keys/AuthKey_$APPLE_API_KEY_ID.p8"
 
 # Archive the build directory.
-ZIP_BASENAME="build-${VERSION_NUMBER}-${BUILD_NUMBER}.zip"
-ZIP_PATH="${BUILD_DIRECTORY}/${ZIP_BASENAME}"
-pushd "${BUILD_DIRECTORY}"
-zip -r "${ZIP_BASENAME}" .
+ZIP_BASENAME="build-$VERSION_NUMBER-$BUILD_NUMBER.zip"
+ZIP_PATH="$BUILD_DIRECTORY/$ZIP_BASENAME"
+pushd "$BUILD_DIRECTORY"
+zip -r "$ZIP_BASENAME" .
 popd
 
 if $UPLOAD_TO_TESTFLIGHT ; then
 
     # Upload the macOS build.
     xcrun altool --upload-app \
-        -f "$1" \
+        -f "$PKG_PATH" \
         --primary-bundle-id "uk.co.jbmorley.apps.overview" \
         --apiKey "$APPLE_API_KEY_ID" \
         --apiIssuer "$APPLE_API_KEY_ISSUER_ID" \
@@ -189,7 +189,7 @@ if $RELEASE ; then
         --skip-if-empty \
         --pre-release \
         --push \
-        --exec "${RELEASE_SCRIPT_PATH}" \
-        "${PKG_PATH}" "${ZIP_PATH}"
+        --exec "$RELEASE_SCRIPT_PATH" \
+        "$PKG_PATH" "$ZIP_PATH"
 
 fi
