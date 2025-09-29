@@ -24,6 +24,10 @@ import SwiftUI
 import Diligence
 import Interact
 
+#if canImport(Glitter)
+import Glitter
+#endif
+
 @main
 struct OverviewApp: App {
 
@@ -39,6 +43,9 @@ struct OverviewApp: App {
         }
         .commands {
             SidebarCommands()
+#if canImport(Sparkle)
+            UpdateCommands(applicationModel: applicationModel)
+#endif
         }
         .defaultSize(CGSize(width: 760, height: 760))
 
@@ -61,8 +68,11 @@ struct OverviewApp: App {
                 Credit("Sarah Barbour")
             }
         } licenses: {
+            (.interact)
+#if canImport(Glitter)
+            (.glitter)
+#endif
             License("Overview", author: "Jason Morley", filename: "overview-license")
-            License(Interact.Package.name, author: Interact.Package.author, url: Interact.Package.licenseURL)
             License("Material Icons", author: "Google", filename: "material-icons-license")
         }
 
