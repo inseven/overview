@@ -1,13 +1,13 @@
 :root {
     --brand-color: color(display-p3 0.946 0.64 0.263);
-    --showcase-color-high: #ffa500;
-    --showcase-color-low: #ff8c00
+    --showcase-color-high: #fddd05;
+    --showcase-color-low: #ffac03;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         --brand-color: color(display-p3 0.946 0.64 0.263);
-        --showcase-color-high: #b85200;
-        --showcase-color-low: #b83700;
+        --showcase-color-high: #988405;
+        --showcase-color-low: #996703;
     }
 }
