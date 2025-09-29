@@ -12,4 +12,4 @@
 	url = https://github.com/inseven/interact.git
 [submodule "docs/_theme"]
 	path = docs/_theme
-	url = git@github.com:jbmorley/showcase-theme.git
+	url = https://github.com/jbmorley/showcase-theme.git
