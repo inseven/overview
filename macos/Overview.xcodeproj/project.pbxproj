@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -40,6 +40,8 @@
 		D8DCDE1225F6FD060083DF48 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DCDE1125F6FD060083DF48 /* YearView.swift */; };
 		D8FA1F452AD79EFE00E18E26 /* EKCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FA1F442AD79EFE00E18E26 /* EKCalendar.swift */; };
 		D8FA1F472AD79F1D00E18E26 /* EKCalendarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FA1F462AD79F1D00E18E26 /* EKCalendarItem.swift */; };
+		D8FA54312E8A377B0028A0B4 /* Diligence in Frameworks */ = {isa = PBXBuildFile; productRef = D8FA54302E8A377B0028A0B4 /* Diligence */; };
+		D8FA54342E8A37890028A0B4 /* Interact in Frameworks */ = {isa = PBXBuildFile; productRef = D8FA54332E8A37890028A0B4 /* Interact */; };
 		D8FE3AD42911700A00C6F7FE /* Interact in Frameworks */ = {isa = PBXBuildFile; productRef = D8FE3AD32911700A00C6F7FE /* Interact */; };
 		D8FE3AD92911789500C6F7FE /* Summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3AD82911789500C6F7FE /* Summary.swift */; };
 		D8FE3ADB291178BF00C6F7FE /* CalendarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */; };
@@ -86,7 +88,6 @@
 		D8C0ADAB2B5C3FDA00E77BDC /* material-icons-license */ = {isa = PBXFileReference; lastKnownFileType = text; path = "material-icons-license"; sourceTree = "<group>"; };
 		D8C296AA2B5777FA00286301 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		D8D0897B2B625BE0003272F3 /* DateComponentsFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateComponentsFormatter.swift; sourceTree = "<group>"; };
-		D8D3B3D328E7CAB000A610D4 /* diligence */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = diligence; path = ../diligence; sourceTree = "<group>"; };
 		D8D3B3DA28E7D69700A610D4 /* overview-license */ = {isa = PBXFileReference; lastKnownFileType = text; path = "overview-license"; sourceTree = "<group>"; };
 		D8DCDDD525F664440083DF48 /* Overview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8DCDDD825F664440083DF48 /* OverviewApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewApp.swift; sourceTree = "<group>"; };
@@ -106,7 +107,6 @@
 		D8FA1F412AD7691100E18E26 /* OverviewRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OverviewRelease.entitlements; sourceTree = "<group>"; };
 		D8FA1F442AD79EFE00E18E26 /* EKCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKCalendar.swift; sourceTree = "<group>"; };
 		D8FA1F462AD79F1D00E18E26 /* EKCalendarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKCalendarItem.swift; sourceTree = "<group>"; };
-		D8FE3AD229116FE900C6F7FE /* interact */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = interact; path = ../interact; sourceTree = "<group>"; };
 		D8FE3AD82911789500C6F7FE /* Summary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Summary.swift; sourceTree = "<group>"; };
 		D8FE3ADA291178BF00C6F7FE /* CalendarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItem.swift; sourceTree = "<group>"; };
 		D8FE3ADC29117B8000C6F7FE /* CalendarEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
@@ -120,6 +120,8 @@
 			files = (
 				D8FE3AD42911700A00C6F7FE /* Interact in Frameworks */,
 				D8D3B3D628E7CB8700A610D4 /* Diligence in Frameworks */,
+				D8FA54342E8A37890028A0B4 /* Interact in Frameworks */,
+				D8FA54312E8A377B0028A0B4 /* Diligence in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,15 +166,6 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		D8D3B3D228E7CAB000A610D4 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				D8D3B3D328E7CAB000A610D4 /* diligence */,
-				D8FE3AD229116FE900C6F7FE /* interact */,
-			);
-			name = Packages;
-			sourceTree = "<group>";
-		};
 		D8D3B3D428E7CB8700A610D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,7 +185,6 @@
 		D8DCDDCC25F664440083DF48 = {
 			isa = PBXGroup;
 			children = (
-				D8D3B3D228E7CAB000A610D4 /* Packages */,
 				D8DCDDD725F664440083DF48 /* Overview */,
 				D8DCDDEA25F664460083DF48 /* OverviewTests */,
 				D8DCDDF525F664460083DF48 /* OverviewUITests */,
@@ -307,6 +299,8 @@
 			packageProductDependencies = (
 				D8D3B3D528E7CB8700A610D4 /* Diligence */,
 				D8FE3AD32911700A00C6F7FE /* Interact */,
+				D8FA54302E8A377B0028A0B4 /* Diligence */,
+				D8FA54332E8A37890028A0B4 /* Interact */,
 			);
 			productName = Where;
 			productReference = D8DCDDD525F664440083DF48 /* Overview.app */;
@@ -380,6 +374,10 @@
 				Base,
 			);
 			mainGroup = D8DCDDCC25F664440083DF48;
+			packageReferences = (
+				D8FA542F2E8A377B0028A0B4 /* XCLocalSwiftPackageReference "dependencies/diligence" */,
+				D8FA54322E8A37890028A0B4 /* XCLocalSwiftPackageReference "dependencies/interact" */,
+			);
 			productRefGroup = D8DCDDD625F664440083DF48 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -798,10 +796,29 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		D8FA542F2E8A377B0028A0B4 /* XCLocalSwiftPackageReference "dependencies/diligence" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = dependencies/diligence;
+		};
+		D8FA54322E8A37890028A0B4 /* XCLocalSwiftPackageReference "dependencies/interact" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = dependencies/interact;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		D8D3B3D528E7CB8700A610D4 /* Diligence */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Diligence;
+		};
+		D8FA54302E8A377B0028A0B4 /* Diligence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Diligence;
+		};
+		D8FA54332E8A37890028A0B4 /* Interact */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Interact;
 		};
 		D8FE3AD32911700A00C6F7FE /* Interact */ = {
 			isa = XCSwiftPackageProductDependency;
