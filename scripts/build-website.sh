@@ -32,6 +32,24 @@ WEBSITE_DIRECTORY="$ROOT_DIRECTORY/docs"
 
 source "$SCRIPTS_DIRECTORY/environment.sh"
 
+# Process the command line arguments.
+POSITIONAL=()
+SERVE=false
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        -s|--serve)
+        SERVE=true
+        shift
+        ;;
+        *)
+        POSITIONAL+=("$1")
+        shift
+        ;;
+    esac
+done
+
 # Update the release notes.
 "$SCRIPTS_DIRECTORY/update-release-notes.sh"
 
@@ -43,6 +61,33 @@ gem install bundler
 cd "$WEBSITE_DIRECTORY"
 bundle install
 
+# Get the latest release URL.
+if ! DOWNLOAD_URL=$(build-tools latest-github-release inseven overview "Overview-*.zip"); then
+    echo >&2 failed
+    exit 1
+fi
+# Belt-and-braces check that we managed to get the download URL.
+if [[ -z "$DOWNLOAD_URL" ]]; then
+    echo "Failed to get release download URL."
+    exit 1
+fi
+export DOWNLOAD_URL
+
+# Determine the version.
+VERSION_NUMBER=`changes version`
+export VERSION_NUMBER
+
+# Create a JSON file pointing to the latest download.
+echo """{
+    \"version\": \"$VERSION_NUMBER\",
+    \"url\": \"$DOWNLOAD_URL\"
+}
+""" > "$WEBSITE_DIRECTORY/current.json"
+
 # Build the website.
 cd "$WEBSITE_DIRECTORY"
-bundle exec jekyll build
+if $SERVE ; then
+    bundle exec jekyll serve --watch
+else
+    bundle exec jekyll build
+fi
