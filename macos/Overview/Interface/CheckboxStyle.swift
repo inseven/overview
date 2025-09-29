@@ -22,20 +22,52 @@ import SwiftUI
 
 struct CheckboxStyle: ToggleStyle {
 
+    struct LayoutMetrics {
+
+        static let cornerRadius: CGFloat = {
+            if #available(iOS 26, macOS 26, *) {
+                return 4.0
+            } else {
+                return 3.0
+            }
+        }()
+
+        static let strokeWidth: CGFloat = {
+            if #available(iOS 26, macOS 26, *) {
+                return 0.0
+            } else {
+                return 1.0
+            }
+        }()
+
+        static let fontSize: CGFloat = 9.0
+
+        static let fontWeight: Font.Weight = {
+            if #available(iOS 26, macOS 26, *) {
+                return .black
+            } else {
+                return .bold
+            }
+        }()
+
+        static let size: CGFloat = 14.0
+
+    }
+
     let color: Color
 
     func makeBody(configuration: Self.Configuration) -> some View {
         HStack {
             ZStack {
-                RoundedRectangle(cornerRadius: 3)
+                RoundedRectangle(cornerRadius: LayoutMetrics.cornerRadius)
                     .fill(color)
-                    .overlay(RoundedRectangle(cornerRadius: 3)
-                                .stroke(color, lineWidth: 1)
-                                .brightness(-0.2))
-                    .frame(width: 14, height: 14)
+                    .overlay(RoundedRectangle(cornerRadius: LayoutMetrics.cornerRadius)
+                        .stroke(color, lineWidth: LayoutMetrics.strokeWidth)
+                        .brightness(-0.2))
+                    .frame(width: LayoutMetrics.size, height: LayoutMetrics.size)
                 if configuration.isOn {
                     Image(systemName: "checkmark")
-                        .font(Font.system(size: 9, weight: .bold))
+                        .font(Font.system(size: LayoutMetrics.fontSize, weight: LayoutMetrics.fontWeight))
                         .foregroundStyle(.white)
                 }
             }
