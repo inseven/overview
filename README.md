@@ -4,7 +4,7 @@
 
 Generate monthly durations for similarly named calendar events.
 
-<img src="screenshot-default@2x.png" alt="Screenshot of Overview on macOS showing details of two calendars" width="872">
+<img src="images/screenshot.png" alt="Screenshot of Overview on macOS showing details of two calendars" width="894">
 
 ## Development
 
