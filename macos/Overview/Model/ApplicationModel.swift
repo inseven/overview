@@ -23,6 +23,10 @@ import EventKit
 import Foundation
 import SwiftUI
 
+#if canImport(Sparkle)
+import Sparkle
+#endif
+
 class ApplicationModel: ObservableObject {
 
     enum State {
@@ -52,7 +56,13 @@ class ApplicationModel: ObservableObject {
 
     static private let demoStore = DemoStore()
 
-    init() {
+#if canImport(Glitter)
+    let updaterController = SPUStandardUpdaterController(startingUpdater: false,
+                                                         updaterDelegate: nil,
+                                                         userDriverDelegate: nil)
+#endif
+
+    @MainActor init() {
         updates = NotificationCenter.default
             .publisher(for: .EKEventStoreChanged, object: store)
             .prepend(Notification(name: .EKEventStoreChanged))
@@ -82,7 +92,7 @@ class ApplicationModel: ObservableObject {
         }
     }
 
-    func start() {
+    @MainActor func start() {
         dispatchPrecondition(condition: .onQueue(.main))
 
         // Request access whenever the application is foregrounded and we don't yet have access.
@@ -130,6 +140,10 @@ class ApplicationModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .assign(to: \.years, on: self)
             .store(in: &cancellables)
+
+#if canImport(Glitter) && !DEBUG
+        updaterController.startUpdater()
+#endif
     }
 
     func stop() {
