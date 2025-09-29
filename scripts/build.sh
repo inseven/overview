@@ -129,6 +129,53 @@ echo "$MACOS_DEVELOPER_INSTALLER_CERTIFICATE_PASSWORD" | build-tools import-base
 build-tools install-provisioning-profile "macos/profiles/Overview_Developer_ID_Profile.provisionprofile"
 build-tools install-provisioning-profile "macos/profiles/Overview_Mac_App_Store_Profile.provisionprofile"
 
+# Install the private key.
+mkdir -p ~/.appstoreconnect/private_keys/
+API_KEY_PATH=~/".appstoreconnect/private_keys/AuthKey_$APPLE_API_KEY_ID.p8"
+echo -n "$APPLE_API_KEY_BASE64" | base64 --decode -o "$API_KEY_PATH"
+
+## Developer ID Build
+
+# Build and archive the macOS project.
+sudo xcode-select --switch "$MACOS_XCODE_PATH"
+xcodebuild \
+    -project macos/Overview.xcodeproj \
+    -scheme "Overview" \
+    -config Release \
+    -archivePath "$ARCHIVE_PATH" \
+    OTHER_CODE_SIGN_FLAGS="--keychain=\"${KEYCHAIN_PATH}\"" \
+    CURRENT_PROJECT_VERSION=$BUILD_NUMBER \
+    MARKETING_VERSION=$VERSION_NUMBER \
+    clean archive
+
+# Export the app for Developer ID distribution.
+xcodebuild \
+    -archivePath "$ARCHIVE_PATH" \
+    -exportArchive \
+    -exportPath "$BUILD_DIRECTORY" \
+    -exportOptionsPlist "macos/ExportOptions_Developer_ID.plist"
+
+# Notarize and staple the app.
+build-tools notarize "$BUILD_DIRECTORY/Overview.app" \
+    --key "$API_KEY_PATH" \
+    --key-id "$APPLE_API_KEY_ID" \
+    --issuer "$APPLE_API_KEY_ISSUER_ID"
+
+# Compress the app.
+APP_BASENAME="Overview.app"
+RELEASE_BASENAME="Overview-$VERSION_NUMBER-$BUILD_NUMBER"
+RELEASE_ZIP_BASENAME="$RELEASE_BASENAME.zip"
+RELEASE_ZIP_PATH="$BUILD_DIRECTORY/$RELEASE_ZIP_BASENAME"
+pushd "$BUILD_DIRECTORY"
+zip --symlinks -r "$RELEASE_ZIP_BASENAME" "Overview.app"
+rm -r "Overview.app"
+popd
+
+## App Store Build
+
+# Copy the App Store Package.swift configuration.
+cp OverviewCore/Package_App_Store.swift OverviewCore/Package.swift
+
 # Build and archive the macOS project.
 sudo xcode-select --switch "$MACOS_XCODE_PATH"
 xcodebuild \
@@ -144,15 +191,11 @@ xcodebuild \
     -archivePath "$ARCHIVE_PATH" \
     -exportArchive \
     -exportPath "$BUILD_DIRECTORY" \
-    -exportOptionsPlist "macos/ExportOptions.plist"
+    -exportOptionsPlist "macos/ExportOptions_App_Store.plist"
 
 APP_BASENAME="Overview.app"
 APP_PATH="$BUILD_DIRECTORY/$APP_BASENAME"
 PKG_PATH="$BUILD_DIRECTORY/Overview.pkg"
-
-# Install the private key.
-mkdir -p ~/.appstoreconnect/private_keys/
-echo -n "$APPLE_API_KEY_BASE64" | base64 --decode -o ~/".appstoreconnect/private_keys/AuthKey_$APPLE_API_KEY_ID.p8"
 
 # Archive the build directory.
 ZIP_BASENAME="build-$VERSION_NUMBER-$BUILD_NUMBER.zip"
@@ -181,6 +224,6 @@ if $RELEASE ; then
         --pre-release \
         --push \
         --exec "$RELEASE_SCRIPT_PATH" \
-        "$PKG_PATH" "$ZIP_PATH"
+        "$RELEASE_ZIP_PATH" "$PKG_PATH" "$ZIP_PATH"
 
 fi
