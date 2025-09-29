@@ -43,19 +43,18 @@ struct OverviewApp: App {
         }
         .commands {
             SidebarCommands()
+            HelpCommands()
 #if canImport(Sparkle)
             UpdateCommands(applicationModel: applicationModel)
 #endif
         }
         .defaultSize(CGSize(width: 760, height: 760))
 
-        let subject = "Overview Support (\(Bundle.main.version ?? "Unknown Version"))"
-
         About(repository: "inseven/overview", copyright: "Copyright © 2021-2025 Jason Morley") {
-            Action("Website", url: URL(string: "https://overview.jbmorley.co.uk")!)
-            Action("Privacy Policy", url: URL(string: "https://overview.jbmorley.co.uk/privacy-policy")!)
-            Action("GitHub", url: URL(string: "https://github.com/inseven/overview")!)
-            Action("Support", url: URL(address: "support@jbmorley.co.uk", subject: subject)!)
+            Action("Website", url: .website)
+            Action("Privacy Policy", url: .privacyPolicy)
+            Action("GitHub", url: .gitHub)
+            Action("Support", url: .support)
         } acknowledgements: {
             Acknowledgements("Developers") {
                 Credit("Jason Morley", url: URL(string: "https://jbmorley.co.uk"))

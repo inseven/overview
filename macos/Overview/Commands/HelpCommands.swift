@@ -1,0 +1,78 @@
+// Copyright (c) 2021-2025 Jason Morley
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+import SwiftUI
+
+public struct HelpCommands: Commands {
+
+    @Environment(\.openURL) private var openURL
+
+    public var body: some Commands {
+
+        CommandGroup(replacing: .help) {
+
+#if canImport(Glitter)
+            Button {
+                openURL(.donate)
+            } label: {
+                Label("Donate", systemImage: "globe")
+            }
+#endif
+
+            Button {
+                openURL(.software)
+            } label: {
+                Label("More Software by Jason Morley", systemImage: "globe")
+            }
+
+        }
+
+        CommandGroup(before: .help) {
+
+            Button {
+                openURL(.website)
+            } label: {
+                Label("Website", systemImage: "globe")
+            }
+
+            Button {
+                openURL(.privacyPolicy)
+            } label: {
+                Label("Privacy Policy", systemImage: "globe")
+            }
+
+            Button {
+                openURL(.gitHub)
+            } label: {
+                Label("GitHub", systemImage: "globe")
+            }
+
+            Button {
+                openURL(.support)
+            } label: {
+                Label("Support", systemImage: "mail")
+            }
+
+            Divider()
+        }
+
+    }
+
+}

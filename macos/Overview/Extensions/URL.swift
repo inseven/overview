@@ -22,8 +22,17 @@ import Foundation
 
 extension URL {
 
-    static var settingsPrivacyCalendars: URL {
-        return URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Calendars")!
-    }
+    static let settingsPrivacyCalendars = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Calendars")!
+
+    static let donate = URL(string: "https://jbmorley.co.uk/support")!
+    static let gitHub = URL(string: "https://github.com/inseven/overview")!
+    static let privacyPolicy = URL(string: "https://overview.jbmorley.co.uk/privacy-policy")!
+    static let software = URL(string: "https://jbmorley.co.uk/software")!
+    static let website = URL(string: "https://overview.jbmorley.co.uk")!
+
+    static var support: URL = {
+        let subject = "Overview Support (\(Bundle.main.extendedVersion ?? "Unknown Version"))"
+        return URL(address: "support@jbmorley.co.uk", subject: subject)!
+    }()
 
 }
