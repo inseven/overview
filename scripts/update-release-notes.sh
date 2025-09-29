@@ -25,15 +25,14 @@ set -o pipefail
 set -x
 set -u
 
-SCRIPTS_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_DIRECTORY="$( cd "$( dirname "$( dirname "${BASH_SOURCE[0]}" )" )" &> /dev/null && pwd )"
+SCRIPTS_DIRECTORY="$ROOT_DIRECTORY/scripts"
+RELEASE_NOTES_TEMPLATE_PATH="$SCRIPTS_DIRECTORY/release-notes.md"
+HISTORY_PATH="$SCRIPTS_DIRECTORY/history.yaml"
+RELEASE_NOTES_DIRECTORY="$ROOT_DIRECTORY/docs/releases"
+RELEASE_NOTES_PATH="$RELEASE_NOTES_DIRECTORY/index.md"
 
-ROOT_DIRECTORY="${SCRIPTS_DIRECTORY}/.."
-RELEASE_NOTES_TEMPLATE_PATH="${SCRIPTS_DIRECTORY}/release-notes.markdown"
-HISTORY_PATH="${SCRIPTS_DIRECTORY}/history.yaml"
-RELEASE_NOTES_DIRECTORY="${ROOT_DIRECTORY}/docs/release-notes"
-RELEASE_NOTES_PATH="${RELEASE_NOTES_DIRECTORY}/index.markdown"
-
-source "${SCRIPTS_DIRECTORY}/environment.sh"
+source "$SCRIPTS_DIRECTORY/environment.sh"
 
 
 cd "$ROOT_DIRECTORY"
