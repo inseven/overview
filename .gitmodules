@@ -5,10 +5,10 @@
 	path = scripts/build-tools
 	url = https://github.com/jbmorley/build-tools.git
 [submodule "diligence"]
-	path = diligence
+	path = macos/dependencies/diligence
 	url = https://github.com/inseven/diligence.git
 [submodule "interact"]
-	path = interact
+	path = macos/dependencies/interact
 	url = https://github.com/inseven/interact.git
 [submodule "docs/_theme"]
 	path = docs/_theme
