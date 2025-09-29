@@ -22,7 +22,7 @@ import SwiftUI
 
 struct CheckboxStyle: ToggleStyle {
 
-    struct LayoutMetrics {
+    private struct LayoutMetrics {
 
         static let cornerRadius: CGFloat = {
             if #available(iOS 26, macOS 26, *) {
@@ -54,6 +54,20 @@ struct CheckboxStyle: ToggleStyle {
 
     }
 
+    private struct CheckboxForegroundStyleModifier: ViewModifier {
+
+        func body(content: Content) -> some View {
+            if #available(iOS 26, macOS 26, *) {
+                content
+                    .foregroundStyle(.background)
+            } else {
+                content
+                    .foregroundStyle(.white)
+            }
+        }
+
+    }
+
     let color: Color
 
     func makeBody(configuration: Self.Configuration) -> some View {
@@ -68,7 +82,7 @@ struct CheckboxStyle: ToggleStyle {
                 if configuration.isOn {
                     Image(systemName: "checkmark")
                         .font(Font.system(size: LayoutMetrics.fontSize, weight: LayoutMetrics.fontWeight))
-                        .foregroundStyle(.white)
+                        .modifier(CheckboxForegroundStyleModifier())
                 }
             }
             configuration.label
