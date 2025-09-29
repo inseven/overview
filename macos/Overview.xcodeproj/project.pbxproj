@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D87B384A2E8A416300FAF17D /* OverviewCore in Frameworks */ = {isa = PBXBuildFile; productRef = D87B38492E8A416300FAF17D /* OverviewCore */; };
 		D8D3B3D628E7CB8700A610D4 /* Diligence in Frameworks */ = {isa = PBXBuildFile; productRef = D8D3B3D528E7CB8700A610D4 /* Diligence */; };
 		D8FA54312E8A377B0028A0B4 /* Diligence in Frameworks */ = {isa = PBXBuildFile; productRef = D8FA54302E8A377B0028A0B4 /* Diligence */; };
 		D8FA54342E8A37890028A0B4 /* Interact in Frameworks */ = {isa = PBXBuildFile; productRef = D8FA54332E8A37890028A0B4 /* Interact */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D87B38482E8A415700FAF17D /* OverviewCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = OverviewCore; sourceTree = "<group>"; };
 		D8DCDDD525F664440083DF48 /* Overview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8DCDDE725F664460083DF48 /* OverviewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverviewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8DCDDF225F664460083DF48 /* OverviewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverviewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +77,7 @@
 				D8D3B3D628E7CB8700A610D4 /* Diligence in Frameworks */,
 				D8FA54342E8A37890028A0B4 /* Interact in Frameworks */,
 				D8FA54312E8A377B0028A0B4 /* Diligence in Frameworks */,
+				D87B384A2E8A416300FAF17D /* OverviewCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +108,7 @@
 		D8DCDDCC25F664440083DF48 = {
 			isa = PBXGroup;
 			children = (
+				D87B38482E8A415700FAF17D /* OverviewCore */,
 				D87B37C52E8A39D500FAF17D /* Overview */,
 				D87B37EC2E8A39D900FAF17D /* OverviewTests */,
 				D87B37F12E8A39DB00FAF17D /* OverviewUITests */,
@@ -147,6 +151,7 @@
 				D8FE3AD32911700A00C6F7FE /* Interact */,
 				D8FA54302E8A377B0028A0B4 /* Diligence */,
 				D8FA54332E8A37890028A0B4 /* Interact */,
+				D87B38492E8A416300FAF17D /* OverviewCore */,
 			);
 			productName = Where;
 			productReference = D8DCDDD525F664440083DF48 /* Overview.app */;
@@ -614,6 +619,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D87B38492E8A416300FAF17D /* OverviewCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OverviewCore;
+		};
 		D8D3B3D528E7CB8700A610D4 /* Diligence */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Diligence;
