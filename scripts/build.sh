@@ -25,22 +25,21 @@ set -o pipefail
 set -x
 set -u
 
-SCRIPTS_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROOT_DIRECTORY="$( cd "$( dirname "$( dirname "${BASH_SOURCE[0]}" )" )" &> /dev/null && pwd )"
+SCRIPTS_DIRECTORY="$ROOT_DIRECTORY/scripts"
+BUILD_DIRECTORY="$ROOT_DIRECTORY/build"
+TEMPORARY_DIRECTORY="$ROOT_DIRECTORY/temp"
 
-ROOT_DIRECTORY="${SCRIPTS_DIRECTORY}/.."
-BUILD_DIRECTORY="${ROOT_DIRECTORY}/build"
-TEMPORARY_DIRECTORY="${ROOT_DIRECTORY}/temp"
+KEYCHAIN_PATH="$TEMPORARY_DIRECTORY/temporary.keychain"
+ARCHIVE_PATH="$BUILD_DIRECTORY/Overview.xcarchive"
+ENV_PATH="$ROOT_DIRECTORY/.env"
 
-KEYCHAIN_PATH="${TEMPORARY_DIRECTORY}/temporary.keychain"
-ARCHIVE_PATH="${BUILD_DIRECTORY}/Overview.xcarchive"
-ENV_PATH="${ROOT_DIRECTORY}/.env"
-
-RELEASE_SCRIPT_PATH="${SCRIPTS_DIRECTORY}/release.sh"
+RELEASE_SCRIPT_PATH="$SCRIPTS_DIRECTORY/release.sh"
 
 IOS_XCODE_PATH=${IOS_XCODE_PATH:-/Applications/Xcode.app}
 MACOS_XCODE_PATH=${MACOS_XCODE_PATH:-/Applications/Xcode.app}
 
-source "${SCRIPTS_DIRECTORY}/environment.sh"
+source "$SCRIPTS_DIRECTORY/environment.sh"
 
 # Check that the GitHub command is available on the path.
 which gh || (echo "GitHub cli (gh) not available on the path." && exit 1)
@@ -82,27 +81,16 @@ if [ -f "$ENV_PATH" ] ; then
     source "$ENV_PATH"
 fi
 
-function xcode_project {
-    xcodebuild \
-        -project macos/Overview.xcodeproj "$@"
-}
-
-function build_scheme {
-    # Disable code signing for the build server.
-    xcode_project \
-        -scheme "$1" \
-        CODE_SIGN_IDENTITY="" \
-        CODE_SIGNING_REQUIRED=NO \
-        CODE_SIGNING_ALLOWED=NO "${@:2}"
-}
-
 cd "$ROOT_DIRECTORY"
 
 # Select the correct Xcode.
 sudo xcode-select --switch "$MACOS_XCODE_PATH"
 
 # List the available schemes.
-xcode_project -list
+sudo xcode-select --switch "$MACOS_XCODE_PATH"
+xcodebuild \
+    -project macos/Overview.xcodeproj \
+    -list
 
 # Clean up the build directory.
 if [ -d "$BUILD_DIRECTORY" ] ; then
@@ -134,14 +122,64 @@ BUILD_NUMBER=`build-number.swift`
 
 # Import the certificates into our dedicated keychain.
 echo "$APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD" | build-tools import-base64-certificate --password "$KEYCHAIN_PATH" "$APPLE_DISTRIBUTION_CERTIFICATE_BASE64"
+echo "$DEVELOPER_ID_APPLICATION_CERTIFICATE_PASSWORD" | build-tools import-base64-certificate --password "$KEYCHAIN_PATH" "$DEVELOPER_ID_APPLICATION_CERTIFICATE_BASE64"
 echo "$MACOS_DEVELOPER_INSTALLER_CERTIFICATE_PASSWORD" | build-tools import-base64-certificate --password "$KEYCHAIN_PATH" "$MACOS_DEVELOPER_INSTALLER_CERTIFICATE_BASE64"
 
 # Install the provisioning profiles.
-build-tools install-provisioning-profile "macos/Overview_Mac_App_Store_Profile.provisionprofile"
+build-tools install-provisioning-profile "macos/profiles/Overview_Developer_ID_Profile.provisionprofile"
+build-tools install-provisioning-profile "macos/profiles/Overview_Mac_App_Store_Profile.provisionprofile"
+
+# Install the private key.
+mkdir -p ~/.appstoreconnect/private_keys/
+API_KEY_PATH=~/".appstoreconnect/private_keys/AuthKey_$APPLE_API_KEY_ID.p8"
+echo -n "$APPLE_API_KEY_BASE64" | base64 --decode -o "$API_KEY_PATH"
+
+## Developer ID Build
 
 # Build and archive the macOS project.
 sudo xcode-select --switch "$MACOS_XCODE_PATH"
-xcode_project \
+xcodebuild \
+    -project macos/Overview.xcodeproj \
+    -scheme "Overview" \
+    -config Release \
+    -archivePath "$ARCHIVE_PATH" \
+    OTHER_CODE_SIGN_FLAGS="--keychain=\"${KEYCHAIN_PATH}\"" \
+    CURRENT_PROJECT_VERSION=$BUILD_NUMBER \
+    MARKETING_VERSION=$VERSION_NUMBER \
+    clean archive
+
+# Export the app for Developer ID distribution.
+xcodebuild \
+    -archivePath "$ARCHIVE_PATH" \
+    -exportArchive \
+    -exportPath "$BUILD_DIRECTORY" \
+    -exportOptionsPlist "macos/ExportOptions_Developer_ID.plist"
+
+# Notarize and staple the app.
+build-tools notarize "$BUILD_DIRECTORY/Overview.app" \
+    --key "$API_KEY_PATH" \
+    --key-id "$APPLE_API_KEY_ID" \
+    --issuer "$APPLE_API_KEY_ISSUER_ID"
+
+# Compress the app.
+APP_BASENAME="Overview.app"
+RELEASE_BASENAME="Overview-$VERSION_NUMBER-$BUILD_NUMBER"
+RELEASE_ZIP_BASENAME="$RELEASE_BASENAME.zip"
+RELEASE_ZIP_PATH="$BUILD_DIRECTORY/$RELEASE_ZIP_BASENAME"
+pushd "$BUILD_DIRECTORY"
+zip --symlinks -r "$RELEASE_ZIP_BASENAME" "Overview.app"
+rm -r "Overview.app"
+popd
+
+## App Store Build
+
+# Copy the App Store Package.swift configuration.
+cp macos/OverviewCore/Package_App_Store.swift macos/OverviewCore/Package.swift
+
+# Build and archive the macOS project.
+sudo xcode-select --switch "$MACOS_XCODE_PATH"
+xcodebuild \
+    -project macos/Overview.xcodeproj \
     -scheme "Overview" \
     -config Release \
     -archivePath "$ARCHIVE_PATH" \
@@ -153,15 +191,11 @@ xcodebuild \
     -archivePath "$ARCHIVE_PATH" \
     -exportArchive \
     -exportPath "$BUILD_DIRECTORY" \
-    -exportOptionsPlist "macos/ExportOptions.plist"
+    -exportOptionsPlist "macos/ExportOptions_App_Store.plist"
 
 APP_BASENAME="Overview.app"
 APP_PATH="$BUILD_DIRECTORY/$APP_BASENAME"
 PKG_PATH="$BUILD_DIRECTORY/Overview.pkg"
-
-# Install the private key.
-mkdir -p ~/.appstoreconnect/private_keys/
-echo -n "$APPLE_API_KEY_BASE64" | base64 --decode -o ~/".appstoreconnect/private_keys/AuthKey_$APPLE_API_KEY_ID.p8"
 
 # Archive the build directory.
 ZIP_BASENAME="build-$VERSION_NUMBER-$BUILD_NUMBER.zip"
@@ -190,6 +224,6 @@ if $RELEASE ; then
         --pre-release \
         --push \
         --exec "$RELEASE_SCRIPT_PATH" \
-        "$PKG_PATH" "$ZIP_PATH"
+        "$RELEASE_ZIP_PATH" "$PKG_PATH" "$ZIP_PATH"
 
 fi
