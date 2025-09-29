@@ -23,11 +23,13 @@ import EventKit
 import Foundation
 import SwiftUI
 
+import Interact
+
 #if canImport(Sparkle)
 import Sparkle
 #endif
 
-class ApplicationModel: ObservableObject {
+class ApplicationModel: NSObject, ObservableObject {
 
     enum State {
         case unknown
@@ -40,6 +42,10 @@ class ApplicationModel: ObservableObject {
         case demo
     }
 
+    enum SettingsKey: String {
+        case suppressUpdateCheck
+    }
+
     @Published var state: State = .unknown
     @Published var error: Error? = nil
     @Published var calendars: [CalendarInstance] = []
@@ -47,6 +53,13 @@ class ApplicationModel: ObservableObject {
     @Published var useDemoData: Bool = false
     let updates: AnyPublisher<Notification, Never>
 
+    @Published public var suppressUpdateCheck: Bool {
+        didSet {
+            keyedDefaults.set(suppressUpdateCheck, forKey: .suppressUpdateCheck)
+        }
+    }
+
+    private let keyedDefaults = KeyedDefaults<SettingsKey>()
     private let store = EKEventStore()
     private let calendar = Calendar.current
     private let updateQueue = DispatchQueue(label: "CalendarModel.updateQueue")
@@ -60,14 +73,21 @@ class ApplicationModel: ObservableObject {
     let updaterController = SPUStandardUpdaterController(startingUpdater: false,
                                                          updaterDelegate: nil,
                                                          userDriverDelegate: nil)
+#else
+    private let storeUpdateChecker = StoreUpdateChecker(url: URL(string: "https://overview.jbmorley.co.uk/current.json")!)
 #endif
 
-    @MainActor init() {
+    @MainActor override init() {
         updates = NotificationCenter.default
             .publisher(for: .EKEventStoreChanged, object: store)
             .prepend(Notification(name: .EKEventStoreChanged))
             .eraseToAnyPublisher()
         applicationWillBecomeActive = NotificationCenter.default.applicationWillBecomeActive()
+        suppressUpdateCheck = keyedDefaults.bool(forKey: .suppressUpdateCheck, default: false)
+        super.init()
+#if !canImport(Glitter)
+        storeUpdateChecker.delegate = self
+#endif
     }
 
     private func requestAccess() {
@@ -144,6 +164,12 @@ class ApplicationModel: ObservableObject {
 #if canImport(Glitter) && !DEBUG
         updaterController.startUpdater()
 #endif
+
+#if !canImport(Glitter)
+        if !suppressUpdateCheck {
+            storeUpdateChecker.check()
+        }
+#endif
     }
 
     func stop() {
@@ -155,6 +181,15 @@ class ApplicationModel: ObservableObject {
         return try store(type: useDemoData ? .demo : .eventKit).summary(calendar: calendar,
                                                                         year: year,
                                                                         calendars: calendars)
+    }
+
+}
+
+extension ApplicationModel: StoreUpdateCheckerDelegate {
+
+    @MainActor func storeUpdateChecker(_ storeUpdateChecker: StoreUpdateChecker,
+                                       didDismissAlertWithSuppressionState suppressionState: Bool) {
+        self.suppressUpdateCheck = suppressionState
     }
 
 }
