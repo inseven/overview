@@ -174,7 +174,7 @@ popd
 ## App Store Build
 
 # Copy the App Store Package.swift configuration.
-cp OverviewCore/Package_App_Store.swift OverviewCore/Package.swift
+cp macos/OverviewCore/Package_App_Store.swift macos/OverviewCore/Package.swift
 
 # Build and archive the macOS project.
 sudo xcode-select --switch "$MACOS_XCODE_PATH"
