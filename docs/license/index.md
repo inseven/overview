@@ -6,4 +6,5 @@ Overview is licensed under the MIT License (see [LICENSE](https://github.com/ins
 
 - [Diligence](https://github.com/inseven/diligence), MIT License
 - [Interact](https://github.com/inseven/interact), MIT License
+- [Licensable](https://github.com/inseven/licensable), MIT License
 - [Material Icons](https://github.com/google/material-design-icons), Apache License
