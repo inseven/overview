@@ -1,0 +1,35 @@
+---
+layout: default
+---
+
+<p class="header">
+    <img src="/images/icon_128x128.png"
+        srcset="/images/icon_128x128.png, /images/icon_128x128@2x.png 2x"
+        width="128"
+        height="128" />
+    <div class="appname">{{ site.title }}</div>
+    <div class="tagline">{{ site.description }}</div>
+    <div class="actions">
+        <a class="button no-rewrite" href="{{ site.env.DOWNLOAD_URL }}">Download</a>
+    </div>
+</p>
+
+<div class="showcase">
+    <div class="showcase-container">
+        <div class="showcase-scroll">
+            <div class="showcase-item">
+                {% include picture.html light="/images/screenshot-default@2x.png" dark="/images/screenshot-default-dark@2x.png" %}
+            </div>
+            <div class="showcase-item">
+                {% include picture.html light="/images/screenshot-where@2x.png" dark="/images/screenshot-where-dark@2x.png" %}
+            </div>
+        </div>
+        <div class="showcase-dots"></div>
+    </div>
+</div>
+
+<div class="content">
+    {{ content }}
+</div>
+
+<script type="module" src="/assets/js/showcase-carousel.js"></script>
