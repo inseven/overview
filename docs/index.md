@@ -2,9 +2,26 @@
 layout: showcase
 ---
 
-Overview is a minimal app that gives you an at-a-glance overview of how you spend your time each month by grouping like-named calendar entries.
-
-Select one or more calendars to quickly identify tasks that are taking up too much time, and ones that might need a little more love.
-
-Combined with all-day calendar entries that record where you are, and work or non-work days, Overview can be a great way to report on how you spend your time for multi-region tax reporting.
+<ul class="features">
+    <li>
+        <p><img class="symbol" src="/images/calendar.svg" /></p>
+        <p><strong>Monthly Summaries</strong></p>
+        <p>Get an at-a-glance overview of how you spend your time each month.</p>
+    </li>
+    <li>
+        <p><img class="symbol" src="/images/clock.svg" /></p>
+        <p><strong>Discover Patterns</strong></p>
+        <p>Quickly identify tasks taking too much time, or ones that need a little more love.</p>
+    </li>
+    <li>
+        <p><img class="symbol" src="/images/globe.svg" /></p>
+        <p><strong>Reporting</strong></p>
+        <p>Use all-day calendar entries for daily location and task tracking and reporting.</p>
+    </li>
+    <li>
+        <p><img class="symbol" src="/images/list.bullet.svg" /></p>
+        <p><strong>Calendar Integration</strong></p>
+        <p>Works with Apple Calendar to analyze any calendars connected to your Mac.</p>
+    </li>
+</ul>
 
