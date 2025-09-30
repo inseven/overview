@@ -44,8 +44,8 @@ struct OverviewApp: App {
         .commands {
             SidebarCommands()
             HelpCommands()
-#if canImport(Sparkle)
-            UpdateCommands(applicationModel: applicationModel)
+#if canImport(Glitter)
+            UpdateCommands(updater: applicationModel.updaterController.updater)
 #endif
         }
         .defaultSize(CGSize(width: 760, height: 760))
