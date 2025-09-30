@@ -19,9 +19,8 @@ layout: showcase
         <p>Use all-day calendar entries for daily location and task tracking and reporting.</p>
     </li>
     <li>
-        <p><img class="symbol" src="/images/list.bullet.svg" /></p>
-        <p><strong>Calendar Integration</strong></p>
-        <p>Works with Apple Calendar to analyze any calendars connected to your Mac.</p>
+        <p><img class="symbol" src="/images/17.calendar.svg" /></p>
+        <p><strong>Apple Calendar Integration</strong></p>
+        <p>Use any account connected to Apple Calendar on your Mac.</p>
     </li>
 </ul>
-
