@@ -18,38 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
 import SwiftUI
 
-import Interact
-
-struct CalendarList: View {
-
-    struct LayoutMetrics {
-        static let minWidth = 200.0
-    }
+struct ApplicationToolbar: ToolbarContent {
 
     @ObservedObject var applicationModel: ApplicationModel
 
-    @Binding var selections: Set<String>
+    @AppStorage(.granularity) var granularity: Granularity = .monthly
+    @AppStorage(.year) var year: Int = Date.now.year
 
-    var body: some View {
-        List(applicationModel.calendars) { calendar in
-            HStack {
-                Toggle(isOn: Binding(get: {
-                    selections.contains(calendar.calendarIdentifier)
-                }, set: { selected in
-                    if selected {
-                        selections.insert(calendar.calendarIdentifier)
-                    } else {
-                        selections.remove(calendar.calendarIdentifier)
-                    }
-                })) {
-                    Text(calendar.title)
+    init(applicationModel: ApplicationModel) {
+        self.applicationModel = applicationModel
+    }
+
+    var body: some ToolbarContent {
+
+        ToolbarItem {
+            Picker("Granularity", selection: $granularity) {
+                ForEach(Granularity.allCases) { granularity in
+                    Text(granularity.name)
                 }
-                .toggleStyle(CheckboxStyle(color: Color(calendar.color)))
+            }
+            .pickerStyle(.segmented)
+        }
+
+        ToolbarItem {
+            Picker(selection: $year) {
+                ForEach(applicationModel.years) { year in
+                    Text(String(year)).tag(year)
+                }
+            } label: {
+                Text("Year", comment: "Toolbar year picker label.")
             }
         }
-        .frame(minWidth: LayoutMetrics.minWidth)
+
     }
+
 }

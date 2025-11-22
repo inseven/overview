@@ -18,38 +18,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
 import SwiftUI
 
-import Interact
+extension String {
 
-struct CalendarList: View {
+    static let selections = "Selections"
+    static let granularity = "Granularity"
+    static let year = "Year"
 
-    struct LayoutMetrics {
-        static let minWidth = 200.0
-    }
-
-    @ObservedObject var applicationModel: ApplicationModel
-
-    @Binding var selections: Set<String>
-
-    var body: some View {
-        List(applicationModel.calendars) { calendar in
-            HStack {
-                Toggle(isOn: Binding(get: {
-                    selections.contains(calendar.calendarIdentifier)
-                }, set: { selected in
-                    if selected {
-                        selections.insert(calendar.calendarIdentifier)
-                    } else {
-                        selections.remove(calendar.calendarIdentifier)
-                    }
-                })) {
-                    Text(calendar.title)
-                }
-                .toggleStyle(CheckboxStyle(color: Color(calendar.color)))
-            }
-        }
-        .frame(minWidth: LayoutMetrics.minWidth)
-    }
 }

@@ -59,9 +59,9 @@ extension CalendarStore {
 
     private func summaries(calendar: Calendar,
                            dateInterval: DateInterval,
-                           calendars: [CalendarInstance]) throws -> [MonthlySummary] {
+                           calendars: [CalendarInstance],
+                           granularity: DateComponents) throws -> [MonthlySummary] {
         var results: [MonthlySummary] = []
-        let granularity = DateComponents(month: 1)
         calendar.enumerate(dateInterval: dateInterval, components: granularity) { dateInterval in
             let summaries = try! self.summaries(calendar: calendar,
                                                 dateInterval: dateInterval,
@@ -74,12 +74,16 @@ extension CalendarStore {
 
     func summary(calendar: Calendar,
                  year: Int,
-                 calendars: [CalendarInstance]) throws -> [MonthlySummary] {
+                 calendars: [CalendarInstance],
+                 granularity: DateComponents) throws -> [MonthlySummary] {
         guard let start = calendar.date(from: DateComponents(year: year, month: 1)) else {
             throw CalendarError.invalidDate
         }
         let dateInterval = try calendar.dateInterval(start: start, duration: DateComponents(year: 1))
-        let summaries = try summaries(calendar: calendar, dateInterval: dateInterval, calendars: calendars)
+        let summaries = try summaries(calendar: calendar,
+                                      dateInterval: dateInterval,
+                                      calendars: calendars,
+                                      granularity: granularity)
         return summaries
     }
 

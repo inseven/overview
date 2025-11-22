@@ -51,6 +51,7 @@ class ApplicationModel: NSObject, ObservableObject {
     @Published var calendars: [CalendarInstance] = []
     @Published var years: [Int] = [Date.now.year]
     @Published var useDemoData: Bool = false
+
     let updates: AnyPublisher<Notification, Never>
 
     @Published public var suppressUpdateCheck: Bool {
@@ -177,10 +178,11 @@ class ApplicationModel: NSObject, ObservableObject {
         cancellables.removeAll()
     }
 
-    func summary(year: Int, calendars: [CalendarInstance]) throws -> [MonthlySummary] {
+    func summary(year: Int, calendars: [CalendarInstance], granularity: DateComponents) throws -> [MonthlySummary] {
         return try store(type: useDemoData ? .demo : .eventKit).summary(calendar: calendar,
                                                                         year: year,
-                                                                        calendars: calendars)
+                                                                        calendars: calendars,
+                                                                        granularity: granularity)
     }
 
 }

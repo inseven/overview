@@ -20,36 +20,33 @@
 
 import EventKit
 import SwiftUI
-
 import Interact
 
-struct CalendarList: View {
+enum Granularity: String, CaseIterable, Identifiable {
 
-    struct LayoutMetrics {
-        static let minWidth = 200.0
+    var id: Self {
+        return self
     }
 
-    @ObservedObject var applicationModel: ApplicationModel
-
-    @Binding var selections: Set<String>
-
-    var body: some View {
-        List(applicationModel.calendars) { calendar in
-            HStack {
-                Toggle(isOn: Binding(get: {
-                    selections.contains(calendar.calendarIdentifier)
-                }, set: { selected in
-                    if selected {
-                        selections.insert(calendar.calendarIdentifier)
-                    } else {
-                        selections.remove(calendar.calendarIdentifier)
-                    }
-                })) {
-                    Text(calendar.title)
-                }
-                .toggleStyle(CheckboxStyle(color: Color(calendar.color)))
-            }
+    var dateComponents: DateComponents {
+        switch self {
+        case .weekly:
+            return DateComponents(day: 7)
+        case .monthly:
+            return DateComponents(month: 1)
         }
-        .frame(minWidth: LayoutMetrics.minWidth)
     }
+
+    var name: LocalizedStringKey {
+        switch self {
+        case .weekly:
+            return "Weekly"
+        case .monthly:
+            return "Monthly"
+        }
+    }
+
+    case weekly
+    case monthly
+
 }
