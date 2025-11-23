@@ -64,7 +64,7 @@ class SummaryViewModel: Runnable {
             .map { (_) in
                 return (try? self.applicationModel.summary(year: self.year,
                                                            calendars: self.calendars,
-                                                           granularity: self.granularity.dateComponents)) ?? []
+                                                           granularity: self.granularity)) ?? []
             }
             .receive(on: DispatchQueue.main)
             .sink { (summaries: [PeriodSummary]) in

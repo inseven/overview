@@ -72,18 +72,36 @@ extension CalendarStore {
         return results
     }
 
+    func startDate(calendar: Calendar, year: Int, granularity: Granularity) throws -> Date {
+
+        var components = DateComponents()
+        switch granularity {
+        case .weekly:
+            components.yearForWeekOfYear = year
+            components.weekOfYear = 1
+            components.weekday = calendar.firstWeekday
+        case .monthly:
+            components.year = year
+            components.month = 1
+        }
+
+        guard let startDate = calendar.date(from: components) else {
+            throw CalendarError.invalidDate
+        }
+
+        return startDate
+    }
+
     func summary(calendar: Calendar,
                  year: Int,
                  calendars: [CalendarInstance],
-                 granularity: DateComponents) throws -> [PeriodSummary] {
-        guard let start = calendar.date(from: DateComponents(year: year, month: 1)) else {
-            throw CalendarError.invalidDate
-        }
-        let dateInterval = try calendar.dateInterval(start: start, duration: DateComponents(year: 1))
+                 granularity: Granularity) throws -> [PeriodSummary] {
+        let startDate = try startDate(calendar: calendar, year: year, granularity: granularity)
+        let dateInterval = try calendar.dateInterval(start: startDate, duration: DateComponents(year: 1))
         let summaries = try summaries(calendar: calendar,
                                       dateInterval: dateInterval,
                                       calendars: calendars,
-                                      granularity: granularity)
+                                      granularity: granularity.dateComponents)
         return summaries
     }
 
