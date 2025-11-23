@@ -20,15 +20,17 @@
 
 import Foundation
 
-typealias SimilarEvents = Summary<CalendarItem, CalendarEvent>
+extension DateFormatter {
 
-extension SimilarEvents {
+    static var weeklyTitleDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "'Week' w '('EEEE',' d MMMM')'"
+        return dateFormatter
+    }()
 
-    var uniqueItems: [Item] { Array(Set(items)) }
-
-    func duration(calendar: Calendar) -> DateComponents {
-        return calendar.date(byAdding: uniqueItems.map { $0.duration(calendar: calendar, bounds: dateInterval) },
-                             to: dateInterval.start)
-    }
-
+    static var monthlyTitleDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        return dateFormatter
+    }()
 }

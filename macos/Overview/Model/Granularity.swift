@@ -18,17 +18,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Foundation
+import EventKit
+import SwiftUI
+import Interact
 
-typealias SimilarEvents = Summary<CalendarItem, CalendarEvent>
+enum Granularity: String, CaseIterable, Identifiable {
 
-extension SimilarEvents {
-
-    var uniqueItems: [Item] { Array(Set(items)) }
-
-    func duration(calendar: Calendar) -> DateComponents {
-        return calendar.date(byAdding: uniqueItems.map { $0.duration(calendar: calendar, bounds: dateInterval) },
-                             to: dateInterval.start)
+    var id: Self {
+        return self
     }
+
+    var dateComponents: DateComponents {
+        switch self {
+        case .weekly:
+            return DateComponents(day: 7)
+        case .monthly:
+            return DateComponents(month: 1)
+        }
+    }
+
+    var name: LocalizedStringKey {
+        switch self {
+        case .weekly:
+            return "Weekly"
+        case .monthly:
+            return "Monthly"
+        }
+    }
+
+    case weekly
+    case monthly
 
 }
