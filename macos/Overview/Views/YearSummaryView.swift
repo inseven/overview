@@ -18,14 +18,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Foundation
+import EventKit
+import SwiftUI
 
-typealias MonthlySummary = Summary<[CalendarInstance], SimilarEvents>
+struct YearSummaryView: View {
 
-extension MonthlySummary {
+    var summaries: [PeriodSummary] = []
 
-    func duration(calendar: Calendar) -> DateComponents {
-        calendar.date(byAdding: items.map { $0.duration(calendar: calendar) }, to: dateInterval.start)
+    let title: (PeriodSummary) -> String
+
+    init(summaries: [PeriodSummary], title: @escaping (PeriodSummary) -> String) {
+        self.summaries = summaries
+        self.title = title
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack {
+                ForEach(summaries) { summary in
+                    PeriodSummaryView(title(summary), summary: summary)
+                        .padding(.bottom)
+                }
+            }
+            .padding(.top)
+            .padding(.leading)
+            .padding(.trailing)
+        }
+        .background(Color(NSColor.textBackgroundColor))
     }
 
 }

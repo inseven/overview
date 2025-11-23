@@ -49,7 +49,7 @@ class SummaryViewModel: Runnable {
         return Array(calendars).map({ $0.title }).joined(separator: ", ")
     }
 
-    var summaries: [MonthlySummary] = []
+    var summaries: [PeriodSummary] = []
 
     func start() {
         dispatchPrecondition(condition: .onQueue(.main))
@@ -67,7 +67,7 @@ class SummaryViewModel: Runnable {
                                                            granularity: self.granularity.dateComponents)) ?? []
             }
             .receive(on: DispatchQueue.main)
-            .sink { (summaries: [MonthlySummary]) in
+            .sink { (summaries: [PeriodSummary]) in
                 self.summaries = summaries
                 self.loading = false
             }

@@ -178,7 +178,7 @@ class ApplicationModel: NSObject, ObservableObject {
         cancellables.removeAll()
     }
 
-    func summary(year: Int, calendars: [CalendarInstance], granularity: DateComponents) throws -> [MonthlySummary] {
+    func summary(year: Int, calendars: [CalendarInstance], granularity: DateComponents) throws -> [PeriodSummary] {
         return try store(type: useDemoData ? .demo : .eventKit).summary(calendar: calendar,
                                                                         year: year,
                                                                         calendars: calendars,

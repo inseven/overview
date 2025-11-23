@@ -30,18 +30,30 @@ struct SummaryView: View {
         static let minHeight = 400.0
     }
 
-    @ObservedObject var applicationModel: ApplicationModel
-
     @Environment(\.openURL) var openURL
 
-    @State var windowModel: SummaryViewModel
+    @ObservedObject var applicationModel: ApplicationModel
+
+    private let granularity: Granularity
+
+    @State private var windowModel: SummaryViewModel
 
     init(applicationModel: ApplicationModel, calendars: [CalendarInstance], granularity: Granularity, year: Int) {
         self.applicationModel = applicationModel
+        self.granularity = granularity
         _windowModel = State(wrappedValue: SummaryViewModel(applicationModel: applicationModel,
                                                             calendars: calendars,
                                                             granularity: granularity,
                                                             year: year))
+    }
+
+    func title(for summary: PeriodSummary) -> String {
+        switch granularity {
+        case .weekly:
+            return DateFormatter.weeklyTitleDateFormatter.string(from: summary.dateInterval.start)
+        case .monthly:
+            return DateFormatter.monthlyTitleDateFormatter.string(from: summary.dateInterval.start)
+        }
     }
 
     var body: some View {
@@ -52,7 +64,9 @@ struct SummaryView: View {
                         .progressViewStyle(.circular)
                 }
             } else if !windowModel.summaries.isEmpty {
-                YearView(summaries: windowModel.summaries)
+                YearSummaryView(summaries: windowModel.summaries) { summary in
+                    title(for: summary)
+                }
             } else {
                 switch applicationModel.state {
                 case .unknown:

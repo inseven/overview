@@ -18,26 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
-import SwiftUI
+import Foundation
 
-struct YearView: View {
+typealias PeriodSummary = Summary<[CalendarInstance], SimilarEvents>
 
-    var summaries: [MonthlySummary] = []
+extension PeriodSummary {
 
-    var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(summaries) { summary in
-                    MonthView(summary: summary)
-                        .padding(.bottom)
-                }
-            }
-            .padding(.top)
-            .padding(.leading)
-            .padding(.trailing)
-        }
-        .background(Color(NSColor.textBackgroundColor))
+    func duration(calendar: Calendar) -> DateComponents {
+        calendar.date(byAdding: items.map { $0.duration(calendar: calendar) }, to: dateInterval.start)
     }
 
 }
