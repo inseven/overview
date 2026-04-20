@@ -18,26 +18,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
 import SwiftUI
 
-struct YearView: View {
+extension String {
 
-    var summaries: [MonthlySummary] = []
-
-    var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(summaries) { summary in
-                    MonthView(summary: summary)
-                        .padding(.bottom)
-                }
-            }
-            .padding(.top)
-            .padding(.leading)
-            .padding(.trailing)
-        }
-        .background(Color(NSColor.textBackgroundColor))
-    }
+    static let selections = "Selections"
+    static let granularity = "Granularity"
+    static let year = "Year"
 
 }
