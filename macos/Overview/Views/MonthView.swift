@@ -27,12 +27,6 @@ struct MonthView: View {
 
     @State var summary: MonthlySummary
 
-    var dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM"
-        return dateFormatter
-    }()
-
     var dateComponentsFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.calendar = Calendar.current
@@ -40,8 +34,6 @@ struct MonthView: View {
         formatter.allowedUnits = [.day, .hour, .minute, .second]
         return formatter
     }()
-
-    var title: String { dateFormatter.string(from: summary.dateInterval.start) }
 
     func format(dateComponents: DateComponents, startDate: Date) -> String {
         guard let result = dateComponentsFormatter.string(from: dateComponents, startDate: startDate) else {
@@ -52,14 +44,6 @@ struct MonthView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Text(title)
-                    .lineLimit(1)
-                    .font(.headline)
-                Spacer()
-            }
-            Divider()
-                .foregroundStyle(.secondary)
             if summary.items.count > 0 {
                 ForEach(summary.items.sorted(by: { $0.context.title < $1.context.title })) { summary in
                     HStack {
