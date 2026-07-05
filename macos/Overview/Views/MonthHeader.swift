@@ -18,34 +18,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
 import SwiftUI
 
-struct YearView: View {
+struct MonthHeader: View {
 
-    private struct LayoutMetrics {
-        static let sectionSpacing: CGFloat = 0.0
-        static let headerContentSpacing: CGFloat = 8.0
-    }
+    static let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        return dateFormatter
+    }()
 
-    var summaries: [MonthlySummary] = []
+    let summary: MonthlySummary
+
+    var title: String { Self.dateFormatter.string(from: summary.dateInterval.start) }
 
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: LayoutMetrics.sectionSpacing, pinnedViews: [.sectionHeaders]) {
-                ForEach(summaries) { summary in
-                    Section {
-                        MonthView(summary: summary)
-                            .padding(.horizontal)
-                            .padding(.top, LayoutMetrics.headerContentSpacing)
-                            .padding(.bottom)
-                    } header: {
-                        MonthHeader(summary: summary)
-                    }
-                }
+        VStack {
+            HStack {
+                Text(title)
+                    .lineLimit(1)
+                    .font(.headline)
+                Spacer()
             }
+            Divider()
+                .foregroundStyle(.secondary)
         }
-        .background(Color(NSColor.textBackgroundColor))
+        .padding(.horizontal)
+        .padding(.top)
+        .background(.bar)
     }
 
 }
