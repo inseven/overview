@@ -68,15 +68,21 @@ struct CheckboxStyle: ToggleStyle {
 
     }
 
+    @Environment(\.controlActiveState) private var controlActiveState
+
     let color: Color
+
+    private var effectiveColor: Color {
+        controlActiveState == .inactive ? .secondary : color
+    }
 
     func makeBody(configuration: Self.Configuration) -> some View {
         HStack {
             ZStack {
                 RoundedRectangle(cornerRadius: LayoutMetrics.cornerRadius)
-                    .fill(color)
+                    .fill(effectiveColor)
                     .overlay(RoundedRectangle(cornerRadius: LayoutMetrics.cornerRadius)
-                        .stroke(color, lineWidth: LayoutMetrics.strokeWidth)
+                        .stroke(effectiveColor, lineWidth: LayoutMetrics.strokeWidth)
                         .brightness(-0.2))
                     .frame(width: LayoutMetrics.size, height: LayoutMetrics.size)
                 if configuration.isOn {
