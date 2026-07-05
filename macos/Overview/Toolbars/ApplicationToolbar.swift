@@ -18,14 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Foundation
+import SwiftUI
 
-typealias MonthlySummary = Summary<[CalendarInstance], SimilarEvents>
+struct ApplicationToolbar: ToolbarContent {
 
-extension MonthlySummary {
+    @ObservedObject var applicationModel: ApplicationModel
 
-    func duration(calendar: Calendar) -> DateComponents {
-        calendar.date(byAdding: items.map { $0.duration(calendar: calendar) }, to: dateInterval.start)
+    @AppStorage(.granularity) var granularity: Granularity = .monthly
+    @AppStorage(.year) var year: Int = Date.now.year
+
+    init(applicationModel: ApplicationModel) {
+        self.applicationModel = applicationModel
+    }
+
+    var body: some ToolbarContent {
+
+        ToolbarItem {
+            Picker("Granularity", selection: $granularity) {
+                ForEach(Granularity.allCases) { granularity in
+                    Text(granularity.name)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+
+        ToolbarItem {
+            Picker(selection: $year) {
+                ForEach(applicationModel.years) { year in
+                    Text(String(year)).tag(year)
+                }
+            } label: {
+                Text("Year", comment: "Toolbar year picker label.")
+            }
+        }
+
     }
 
 }

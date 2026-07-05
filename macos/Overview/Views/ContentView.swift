@@ -21,80 +21,33 @@
 import EventKit
 import SwiftUI
 
-import Interact
-
 struct ContentView: View {
 
     @ObservedObject var applicationModel: ApplicationModel
-    @StateObject var windowModel: WindowModel
 
-    @Environment(\.openURL) var openURL
+    @AppStorage(.selections) var selections: Set<String> = []
+    @AppStorage(.granularity) var granularity: Granularity = .monthly
+    @AppStorage(.year) var year: Int = Date.now.year
 
     init(applicationModel: ApplicationModel) {
         self.applicationModel = applicationModel
-        _windowModel = StateObject(wrappedValue: WindowModel(applicationModel: applicationModel))
+    }
+
+    var calendars: [CalendarInstance] {
+        return applicationModel.calendars.filter { selections.contains($0.calendarIdentifier) }
     }
 
     var body: some View {
         NavigationSplitView {
-            CalendarList(applicationModel: applicationModel, selections: $windowModel.selections)
-                .frame(minWidth: 200)
+            CalendarList(applicationModel: applicationModel, selections: $selections)
         } detail: {
-            HStack {
-                if windowModel.loading {
-                    PlaceholderView {
-                        ProgressView()
-                            .progressViewStyle(.circular)
-                    }
-                } else if !windowModel.summaries.isEmpty {
-                    YearView(summaries: windowModel.summaries)
-                } else {
-                    switch applicationModel.state {
-                    case .unknown:
-                        ProgressView()
-                            .progressViewStyle(.circular)
-                    case .authorized:
-                        ContentUnavailableView {
-                            Label("No Calendars Selected", systemImage: "calendar")
-                        } description: {
-                            Text("Select one or more calendars from the sidebar.")
-                        }
-                    case .unauthorized:
-                        ContentUnavailableView {
-                            Label("Limited Calendar Access", systemImage: "calendar")
-                        } description: {
-                            Text("Overview needs full access to your calendar to be able to display and summarize your events.",
-                                 comment: "Calendar privacy usage description shown when the user has denied acccess.")
-                            Button {
-                                openURL(.settingsPrivacyCalendars)
-                            } label: {
-                                Text("Open Privacy Settings", comment: "Title of the button that opens System Settings.")
-                            }
-                        }
-                    }
-                }
-            }
-            .frame(minWidth: 500, minHeight: 400)
-            .navigationTitle(Text("Overview", comment: "Main window title."))
-            .navigationSubtitle(windowModel.title)
-            .toolbar {
-                ToolbarItem {
-                    Picker(selection: $windowModel.year) {
-                        ForEach(applicationModel.years) { year in
-                            Text(String(year)).tag(year)
-                        }
-                    } label: {
-                        Text("Year", comment: "Toolbar year picker label.")
-                    }
-                }
-            }
+            SummaryView(applicationModel: applicationModel, calendars: calendars, granularity: granularity, year: year)
+                .id(String(describing: selections) + String(describing: granularity) + String(describing: year))
+        }
+        .toolbar {
+            ApplicationToolbar(applicationModel: applicationModel)
         }
         .presents($applicationModel.error)
-        .onAppear {
-            windowModel.start()
-        }
-        .onDisappear {
-            windowModel.stop()
-        }
     }
+
 }

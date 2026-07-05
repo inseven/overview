@@ -21,19 +21,14 @@
 import EventKit
 import SwiftUI
 
-struct MonthView: View {
+struct PeriodSummaryView: View {
 
     let calendar = Calendar.current
 
-    @State var summary: MonthlySummary
+    let title: String
+    let summary: PeriodSummary
 
-    var dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM"
-        return dateFormatter
-    }()
-
-    var dateComponentsFormatter: DateComponentsFormatter = {
+    static var dateComponentsFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.calendar = Calendar.current
         formatter.unitsStyle = .full
@@ -41,10 +36,14 @@ struct MonthView: View {
         return formatter
     }()
 
-    var title: String { dateFormatter.string(from: summary.dateInterval.start) }
+
+    init(_ title: String, summary: PeriodSummary) {
+        self.title = title
+        self.summary = summary
+    }
 
     func format(dateComponents: DateComponents, startDate: Date) -> String {
-        guard let result = dateComponentsFormatter.string(from: dateComponents, startDate: startDate) else {
+        guard let result = Self.dateComponentsFormatter.string(from: dateComponents, startDate: startDate) else {
             return "Unknown"
         }
         return result

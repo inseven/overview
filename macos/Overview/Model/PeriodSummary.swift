@@ -20,15 +20,12 @@
 
 import Foundation
 
-typealias SimilarEvents = Summary<CalendarItem, CalendarEvent>
+typealias PeriodSummary = Summary<[CalendarInstance], SimilarEvents>
 
-extension SimilarEvents {
-
-    var uniqueItems: [Item] { Array(Set(items)) }
+extension PeriodSummary {
 
     func duration(calendar: Calendar) -> DateComponents {
-        return calendar.date(byAdding: uniqueItems.map { $0.duration(calendar: calendar, bounds: dateInterval) },
-                             to: dateInterval.start)
+        calendar.date(byAdding: items.map { $0.duration(calendar: calendar) }, to: dateInterval.start)
     }
 
 }
