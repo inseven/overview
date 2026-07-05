@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2025 Jason Morley
+// Copyright (c) 2021-2026 Jason Morley
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -50,7 +50,7 @@ struct OverviewApp: App {
         }
         .defaultSize(CGSize(width: 760, height: 760))
 
-        About(repository: "inseven/overview", copyright: "Copyright © 2021-2025 Jason Morley") {
+        About(repository: "inseven/overview", copyright: "Copyright © 2021-2026 Jason Morley") {
             Action("Website", url: .website)
             Action("Privacy Policy", url: .privacyPolicy)
             Action("GitHub", url: .gitHub)
