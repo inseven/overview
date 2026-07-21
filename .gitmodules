@@ -13,6 +13,7 @@
 [submodule "docs/_theme"]
 	path = docs/_theme
 	url = https://github.com/jbmorley/showcase-theme.git
+    branch = main
 [submodule "scripts/Sparkle"]
 	path = scripts/Sparkle
 	url = https://github.com/sparkle-project/Sparkle
