@@ -21,7 +21,7 @@
 import EventKit
 import SwiftUI
 
-extension EKCalendarItem: Identifiable {
+extension EKCalendarItem: @retroactive Identifiable {
 
     public var id: String {
         return calendarItemIdentifier

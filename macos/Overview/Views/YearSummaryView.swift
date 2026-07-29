@@ -21,10 +21,38 @@
 import EventKit
 import SwiftUI
 
-extension EKCalendar: @retroactive Identifiable {
+struct YearSummaryView: View {
 
-    public var id: String {
-        return calendarIdentifier
+    private struct LayoutMetrics {
+        static let sectionSpacing: CGFloat = 0.0
+        static let headerContentSpacing: CGFloat = 8.0
+    }
+
+    let granularity: Granularity
+    let summaries: [PeriodSummary]
+
+    init(granularity: Granularity, summaries: [PeriodSummary]) {
+        self.granularity = granularity
+        self.summaries = summaries
+    }
+
+    var body: some View {
+        ScrollView {
+            LazyVStack(spacing: LayoutMetrics.sectionSpacing, pinnedViews: [.sectionHeaders]) {
+                ForEach(summaries) { summary in
+                    Section {
+                        PeriodSummaryView(summary: summary)
+                            .padding(.horizontal)
+                            .padding(.top, LayoutMetrics.headerContentSpacing)
+                            .padding(.bottom)
+                    } header: {
+                        PeriodHeader(granularity: granularity, summary: summary)
+                    }
+                }
+            }
+        }
+        .hardTopScrollEdgeEffect()
+        .background(Color(NSColor.textBackgroundColor))
     }
 
 }

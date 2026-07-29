@@ -18,13 +18,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
 import SwiftUI
 
-extension EKCalendar: @retroactive Identifiable {
+extension String {
 
-    public var id: String {
-        return calendarIdentifier
-    }
+    static let selections = "Selections"
+    static let granularity = "Granularity"
+    static let year = "Year"
 
 }

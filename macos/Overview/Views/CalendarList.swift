@@ -25,6 +25,10 @@ import Interact
 
 struct CalendarList: View {
 
+    struct LayoutMetrics {
+        static let minWidth = 200.0
+    }
+
     @ObservedObject var applicationModel: ApplicationModel
 
     @Binding var selections: Set<String>
@@ -46,5 +50,6 @@ struct CalendarList: View {
                 .toggleStyle(CheckboxStyle(color: Color(calendar.color)))
             }
         }
+        .frame(minWidth: LayoutMetrics.minWidth)
     }
 }

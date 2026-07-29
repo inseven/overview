@@ -31,5 +31,4 @@ extension SimilarEvents {
                              to: dateInterval.start)
     }
 
-
 }

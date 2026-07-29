@@ -18,13 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
 import SwiftUI
 
-extension EKCalendar: @retroactive Identifiable {
+struct ApplicationToolbar: ToolbarContent {
 
-    public var id: String {
-        return calendarIdentifier
+    @ObservedObject var applicationModel: ApplicationModel
+
+    @AppStorage(.granularity) var granularity: Granularity = .monthly
+    @AppStorage(.year) var year: Int = Date.now.year
+
+    init(applicationModel: ApplicationModel) {
+        self.applicationModel = applicationModel
+    }
+
+    var body: some ToolbarContent {
+
+        ToolbarItem {
+            Picker("Granularity", selection: $granularity) {
+                ForEach(Granularity.allCases) { granularity in
+                    Text(granularity.name)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+
+        ToolbarItem {
+            Picker(selection: $year) {
+                ForEach(applicationModel.years) { year in
+                    Text(String(year)).tag(year)
+                }
+            } label: {
+                Text("Year", comment: "Toolbar year picker label.")
+            }
+        }
+
     }
 
 }

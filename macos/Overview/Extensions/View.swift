@@ -18,13 +18,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
 import SwiftUI
 
-extension EKCalendar: @retroactive Identifiable {
+extension View {
 
-    public var id: String {
-        return calendarIdentifier
+    @ViewBuilder func hardTopScrollEdgeEffect() -> some View {
+        if #available(macOS 26.0, *) {
+            scrollEdgeEffectStyle(.hard, for: .top)
+        } else {
+            self
+        }
     }
 
 }

@@ -18,13 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import EventKit
-import SwiftUI
+import Foundation
 
-extension EKCalendar: @retroactive Identifiable {
+extension DateFormatter {
 
-    public var id: String {
-        return calendarIdentifier
-    }
+    static var weeklyTitleDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "'Week' w '('EEEE',' d MMMM')'"
+        return dateFormatter
+    }()
 
+    static var monthlyTitleDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        return dateFormatter
+    }()
 }

@@ -18,14 +18,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Foundation
+import SwiftUI
 
-typealias MonthlySummary = Summary<[CalendarInstance], SimilarEvents>
+struct PeriodHeader: View {
 
-extension MonthlySummary {
+    let granularity: Granularity
+    let summary: PeriodSummary
 
-    func duration(calendar: Calendar) -> DateComponents {
-        calendar.date(byAdding: items.map { $0.duration(calendar: calendar) }, to: dateInterval.start)
+    init(granularity: Granularity, summary: PeriodSummary) {
+        self.granularity = granularity
+        self.summary = summary
+    }
+
+    var title: String {
+        switch granularity {
+        case .weekly:
+            return DateFormatter.weeklyTitleDateFormatter.string(from: summary.dateInterval.start)
+        case .monthly:
+            return DateFormatter.monthlyTitleDateFormatter.string(from: summary.dateInterval.start)
+        }
+    }
+
+    var body: some View {
+        VStack {
+            HStack {
+                Text(title)
+                    .lineLimit(1)
+                    .font(.headline)
+                Spacer()
+            }
+            Divider()
+                .foregroundStyle(.secondary)
+        }
+        .padding(.horizontal)
+        .padding(.top)
+        .background(.bar)
     }
 
 }

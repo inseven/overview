@@ -18,34 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import SwiftUI
+import Foundation
 
-struct MonthHeader: View {
+typealias PeriodSummary = Summary<[CalendarInstance], SimilarEvents>
 
-    static let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM"
-        return dateFormatter
-    }()
+extension PeriodSummary {
 
-    let summary: MonthlySummary
-
-    var title: String { Self.dateFormatter.string(from: summary.dateInterval.start) }
-
-    var body: some View {
-        VStack {
-            HStack {
-                Text(title)
-                    .lineLimit(1)
-                    .font(.headline)
-                Spacer()
-            }
-            Divider()
-                .foregroundStyle(.secondary)
-        }
-        .padding(.horizontal)
-        .padding(.top)
-        .background(.bar)
+    func duration(calendar: Calendar) -> DateComponents {
+        calendar.date(byAdding: items.map { $0.duration(calendar: calendar) }, to: dateInterval.start)
     }
 
 }

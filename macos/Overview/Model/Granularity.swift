@@ -20,32 +20,33 @@
 
 import EventKit
 import SwiftUI
+import Interact
 
-struct YearView: View {
+enum Granularity: String, CaseIterable, Identifiable {
 
-    private struct LayoutMetrics {
-        static let sectionSpacing: CGFloat = 0.0
-        static let headerContentSpacing: CGFloat = 8.0
+    var id: Self {
+        return self
     }
 
-    var summaries: [MonthlySummary] = []
-
-    var body: some View {
-        ScrollView {
-            LazyVStack(spacing: LayoutMetrics.sectionSpacing, pinnedViews: [.sectionHeaders]) {
-                ForEach(summaries) { summary in
-                    Section {
-                        MonthView(summary: summary)
-                            .padding(.horizontal)
-                            .padding(.top, LayoutMetrics.headerContentSpacing)
-                            .padding(.bottom)
-                    } header: {
-                        MonthHeader(summary: summary)
-                    }
-                }
-            }
+    var dateComponents: DateComponents {
+        switch self {
+        case .weekly:
+            return DateComponents(day: 7)
+        case .monthly:
+            return DateComponents(month: 1)
         }
-        .background(Color(NSColor.textBackgroundColor))
     }
+
+    var name: LocalizedStringKey {
+        switch self {
+        case .weekly:
+            return "Weekly"
+        case .monthly:
+            return "Monthly"
+        }
+    }
+
+    case weekly
+    case monthly
 
 }
