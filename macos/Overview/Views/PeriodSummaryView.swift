@@ -31,7 +31,6 @@ struct PeriodSummaryView: View {
         return formatter
     }()
 
-
     let calendar = Calendar.current
 
     let summary: PeriodSummary
@@ -39,6 +38,7 @@ struct PeriodSummaryView: View {
     init(summary: PeriodSummary) {
         self.summary = summary
     }
+    
     func format(dateComponents: DateComponents, startDate: Date) -> String {
         guard let result = Self.dateComponentsFormatter.string(from: dateComponents, startDate: startDate) else {
             return "Unknown"
