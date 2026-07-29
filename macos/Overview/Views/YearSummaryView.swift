@@ -21,7 +21,24 @@
 import EventKit
 import SwiftUI
 
+extension View {
+    
+    @ViewBuilder func hardTopScrollEdgeEffect() -> some View {
+        if #available(macOS 26.0, *) {
+            scrollEdgeEffectStyle(.hard, for: .top)
+        } else {
+            self
+        }
+    }
+
+}
+
 struct YearSummaryView: View {
+
+    private struct LayoutMetrics {
+        static let sectionSpacing: CGFloat = 0.0
+        static let headerContentSpacing: CGFloat = 8.0
+    }
 
     var summaries: [PeriodSummary] = []
 
@@ -34,16 +51,20 @@ struct YearSummaryView: View {
 
     var body: some View {
         ScrollView {
-            VStack {
+            LazyVStack(spacing: LayoutMetrics.sectionSpacing, pinnedViews: [.sectionHeaders]) {
                 ForEach(summaries) { summary in
-                    PeriodSummaryView(title(summary), summary: summary)
-                        .padding(.bottom)
+                    Section {
+                        PeriodSummaryView(summary: summary)
+                            .padding(.horizontal)
+                            .padding(.top, LayoutMetrics.headerContentSpacing)
+                            .padding(.bottom)
+                    } header: {
+                        PeriodHeader(title: title(summary))
+                    }
                 }
             }
-            .padding(.top)
-            .padding(.leading)
-            .padding(.trailing)
         }
+        .hardTopScrollEdgeEffect()
         .background(Color(NSColor.textBackgroundColor))
     }
 

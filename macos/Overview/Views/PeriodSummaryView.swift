@@ -23,11 +23,6 @@ import SwiftUI
 
 struct PeriodSummaryView: View {
 
-    let calendar = Calendar.current
-
-    let title: String
-    let summary: PeriodSummary
-
     static var dateComponentsFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.calendar = Calendar.current
@@ -37,11 +32,13 @@ struct PeriodSummaryView: View {
     }()
 
 
-    init(_ title: String, summary: PeriodSummary) {
-        self.title = title
+    let calendar = Calendar.current
+
+    let summary: PeriodSummary
+
+    init(summary: PeriodSummary) {
         self.summary = summary
     }
-
     func format(dateComponents: DateComponents, startDate: Date) -> String {
         guard let result = Self.dateComponentsFormatter.string(from: dateComponents, startDate: startDate) else {
             return "Unknown"
@@ -51,14 +48,6 @@ struct PeriodSummaryView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Text(title)
-                    .lineLimit(1)
-                    .font(.headline)
-                Spacer()
-            }
-            Divider()
-                .foregroundStyle(.secondary)
             if summary.items.count > 0 {
                 ForEach(summary.items.sorted(by: { $0.context.title < $1.context.title })) { summary in
                     HStack {
