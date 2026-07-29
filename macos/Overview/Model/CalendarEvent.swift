@@ -21,8 +21,9 @@
 import EventKit
 import Foundation
 
-struct CalendarEvent: Hashable {
+struct CalendarEvent: Hashable, Identifiable {
 
+    let id = UUID()
     let calendar: CalendarInstance
     let startDate: Date
     let endDate: Date
