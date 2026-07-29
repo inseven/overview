@@ -39,9 +39,7 @@ struct PeriodHeader: View {
     }
 
     var duration: String {
-        let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.day], from: summary.dateInterval.start, to: summary.dateInterval.end)
-        guard let result = Self.dateComponentsFormatter.string(from: dateComponents, startDate: summary.dateInterval.start) else {
+        guard let result = Self.dateComponentsFormatter.string(from: summary.dateInterval) else {
             return "Unknown"
         }
         return result

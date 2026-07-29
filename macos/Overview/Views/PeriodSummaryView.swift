@@ -51,13 +51,10 @@ struct PeriodSummaryView: View {
             if summary.items.count > 0 {
                 ForEach(summary.items.sorted(by: { $0.context.title < $1.context.title })) { summary in
                     HStack {
-                        Circle()
-                            .fill(Color(summary.context.calendar.color))
-                            .frame(width: 12, height: 12)
+                        CalendarMarker(summary.context.calendar)
                         Text(summary.context.title)
                             .lineLimit(1)
-                        Text("\(summary.uniqueItems.count) events")
-                            .foregroundStyle(.secondary)
+                        EventPopover(summary: summary)
                         Spacer()
                         Text(format(dateComponents: summary.duration(calendar: calendar), startDate: summary.startDate))
                     }
