@@ -22,12 +22,29 @@ import SwiftUI
 
 struct PeriodHeader: View {
 
+    static var dateComponentsFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.calendar = Calendar.current
+        formatter.unitsStyle = .full
+        formatter.allowedUnits = [.day, .hour, .minute, .second]
+        return formatter
+    }()
+
     let granularity: Granularity
     let summary: PeriodSummary
 
     init(granularity: Granularity, summary: PeriodSummary) {
         self.granularity = granularity
         self.summary = summary
+    }
+
+    var duration: String {
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.day], from: summary.dateInterval.start, to: summary.dateInterval.end)
+        guard let result = Self.dateComponentsFormatter.string(from: dateComponents, startDate: summary.dateInterval.start) else {
+            return "Unknown"
+        }
+        return result
     }
 
     var title: String {
@@ -44,9 +61,10 @@ struct PeriodHeader: View {
             HStack {
                 Text(title)
                     .lineLimit(1)
-                    .font(.headline)
                 Spacer()
+                Text(duration)
             }
+            .font(.headline)
             Divider()
                 .foregroundStyle(.secondary)
         }
