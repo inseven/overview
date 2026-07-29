@@ -20,39 +20,14 @@
 
 import SwiftUI
 
-struct PeriodHeader: View {
+extension View {
 
-    let granularity: Granularity
-    let summary: PeriodSummary
-
-    init(granularity: Granularity, summary: PeriodSummary) {
-        self.granularity = granularity
-        self.summary = summary
-    }
-
-    var title: String {
-        switch granularity {
-        case .weekly:
-            return DateFormatter.weeklyTitleDateFormatter.string(from: summary.dateInterval.start)
-        case .monthly:
-            return DateFormatter.monthlyTitleDateFormatter.string(from: summary.dateInterval.start)
+    @ViewBuilder func hardTopScrollEdgeEffect() -> some View {
+        if #available(macOS 26.0, *) {
+            scrollEdgeEffectStyle(.hard, for: .top)
+        } else {
+            self
         }
-    }
-
-    var body: some View {
-        VStack {
-            HStack {
-                Text(title)
-                    .lineLimit(1)
-                    .font(.headline)
-                Spacer()
-            }
-            Divider()
-                .foregroundStyle(.secondary)
-        }
-        .padding(.horizontal)
-        .padding(.top)
-        .background(.bar)
     }
 
 }

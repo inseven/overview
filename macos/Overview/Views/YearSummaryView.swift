@@ -21,18 +21,6 @@
 import EventKit
 import SwiftUI
 
-extension View {
-    
-    @ViewBuilder func hardTopScrollEdgeEffect() -> some View {
-        if #available(macOS 26.0, *) {
-            scrollEdgeEffectStyle(.hard, for: .top)
-        } else {
-            self
-        }
-    }
-
-}
-
 struct YearSummaryView: View {
 
     private struct LayoutMetrics {
@@ -40,13 +28,12 @@ struct YearSummaryView: View {
         static let headerContentSpacing: CGFloat = 8.0
     }
 
-    var summaries: [PeriodSummary] = []
+    let granularity: Granularity
+    let summaries: [PeriodSummary]
 
-    let title: (PeriodSummary) -> String
-
-    init(summaries: [PeriodSummary], title: @escaping (PeriodSummary) -> String) {
+    init(granularity: Granularity, summaries: [PeriodSummary]) {
+        self.granularity = granularity
         self.summaries = summaries
-        self.title = title
     }
 
     var body: some View {
@@ -59,7 +46,7 @@ struct YearSummaryView: View {
                             .padding(.top, LayoutMetrics.headerContentSpacing)
                             .padding(.bottom)
                     } header: {
-                        PeriodHeader(title: title(summary))
+                        PeriodHeader(granularity: granularity, summary: summary)
                     }
                 }
             }

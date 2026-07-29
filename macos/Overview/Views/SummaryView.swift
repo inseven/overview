@@ -47,15 +47,6 @@ struct SummaryView: View {
                                                             year: year))
     }
 
-    func title(for summary: PeriodSummary) -> String {
-        switch granularity {
-        case .weekly:
-            return DateFormatter.weeklyTitleDateFormatter.string(from: summary.dateInterval.start)
-        case .monthly:
-            return DateFormatter.monthlyTitleDateFormatter.string(from: summary.dateInterval.start)
-        }
-    }
-
     var body: some View {
         HStack {
             if windowModel.loading {
@@ -64,9 +55,7 @@ struct SummaryView: View {
                         .progressViewStyle(.circular)
                 }
             } else if !windowModel.summaries.isEmpty {
-                YearSummaryView(summaries: windowModel.summaries) { summary in
-                    title(for: summary)
-                }
+                YearSummaryView(granularity: granularity, summaries: windowModel.summaries)
             } else {
                 switch applicationModel.state {
                 case .unknown:
