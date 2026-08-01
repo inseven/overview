@@ -6,3 +6,4 @@
 /docs/current.json
 /docs/releases
 /macos/build
+/scripts/Pipfile.lock
