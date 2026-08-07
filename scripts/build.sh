@@ -40,6 +40,7 @@ RELEASE_NOTES_TEMPLATE_PATH="$SCRIPTS_DIRECTORY/sparkle-release-notes.html"
 
 RELEASE_SCRIPT_PATH="$SCRIPTS_DIRECTORY/release.sh"
 
+BUNDLE_IDENTIFIER="uk.co.jbmorley.apps.overview"
 APP_STORE_APP_ID="6469060331"
 
 IOS_XCODE_PATH=${IOS_XCODE_PATH:-/Applications/Xcode.app}
@@ -241,6 +242,7 @@ if $UPLOAD_TO_TESTFLIGHT ; then
     export ASC_PRIVATE_KEY_PATH="$API_KEY_PATH"
     export ASC_BYPASS_KEYCHAIN=1
 
+    # Check to see if the current version has been published.
     PUBLISHED_VERSION=`asc versions list \
         --app "$APP_STORE_APP_ID" \
         --platform "MAC_OS" \
@@ -248,7 +250,6 @@ if $UPLOAD_TO_TESTFLIGHT ; then
         --state "PENDING_APPLE_RELEASE,PENDING_DEVELOPER_RELEASE,PROCESSING_FOR_DISTRIBUTION,READY_FOR_DISTRIBUTION,REPLACED_WITH_NEW_VERSION" \
         --output json \
         | jq -r 'first(.data[].attributes.versionString) // ""'`
-
     if [ -n "$PUBLISHED_VERSION" ] ; then
         echo "Version $VERSION_NUMBER has already been published to the App Store; skipping TestFlight upload."
         UPLOAD_TO_TESTFLIGHT=false
@@ -261,7 +262,7 @@ if $UPLOAD_TO_TESTFLIGHT ; then
     # Upload the macOS build.
     xcrun altool --upload-app \
         -f "$PKG_PATH" \
-        --primary-bundle-id "uk.co.jbmorley.apps.overview" \
+        --primary-bundle-id "$BUNDLE_IDENTIFIER" \
         --apiKey "$APPLE_API_KEY_ID" \
         --apiIssuer "$APPLE_API_KEY_ISSUER_ID" \
         --type macos
