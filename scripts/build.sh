@@ -40,13 +40,17 @@ RELEASE_NOTES_TEMPLATE_PATH="$SCRIPTS_DIRECTORY/sparkle-release-notes.html"
 
 RELEASE_SCRIPT_PATH="$SCRIPTS_DIRECTORY/release.sh"
 
+APP_STORE_APP_ID="6469060331"
+
 IOS_XCODE_PATH=${IOS_XCODE_PATH:-/Applications/Xcode.app}
 MACOS_XCODE_PATH=${MACOS_XCODE_PATH:-/Applications/Xcode.app}
 
 source "$SCRIPTS_DIRECTORY/environment.sh"
 
-# Check that the GitHub command is available on the path.
+# Check the system-wide commands are available.
 which gh || (echo "GitHub cli (gh) not available on the path." && exit 1)
+which asc || (echo "App Store Connect cli (asc) not available on the path." && exit 1)
+which jq || (echo "jq not available on the path." && exit 1)
 
 # Process the command line arguments.
 POSITIONAL=()
@@ -226,6 +230,31 @@ ZIP_PATH="$BUILD_DIRECTORY/$ZIP_BASENAME"
 pushd "$BUILD_DIRECTORY"
 zip -r "$ZIP_BASENAME" .
 popd
+
+# Check if we can upload to TestFlight
+# App Store Connect doesn't accept submissions for published releases so we don't bother if we know it'll fail. This
+# catches the scenario where we're performing builds without new features that would bump the version number.
+if $UPLOAD_TO_TESTFLIGHT ; then
+
+    export ASC_KEY_ID="$APPLE_API_KEY_ID"
+    export ASC_ISSUER_ID="$APPLE_API_KEY_ISSUER_ID"
+    export ASC_PRIVATE_KEY_PATH="$API_KEY_PATH"
+    export ASC_BYPASS_KEYCHAIN=1
+
+    PUBLISHED_VERSION=`asc versions list \
+        --app "$APP_STORE_APP_ID" \
+        --platform "MAC_OS" \
+        --version "$VERSION_NUMBER" \
+        --state "PENDING_APPLE_RELEASE,PENDING_DEVELOPER_RELEASE,PROCESSING_FOR_DISTRIBUTION,READY_FOR_DISTRIBUTION,REPLACED_WITH_NEW_VERSION" \
+        --output json \
+        | jq -r 'first(.data[].attributes.versionString) // ""'`
+
+    if [ -n "$PUBLISHED_VERSION" ] ; then
+        echo "Version $VERSION_NUMBER has already been published to the App Store; skipping TestFlight upload."
+        UPLOAD_TO_TESTFLIGHT=false
+    fi
+
+fi
 
 if $UPLOAD_TO_TESTFLIGHT ; then
 
