@@ -1,9 +1,7 @@
-.local
-
 /_site
 /build
 /docs/.jekyll-cache
 /docs/current.json
 /docs/releases
+/docs/vendor
 /macos/build
-/scripts/Pipfile.lock
