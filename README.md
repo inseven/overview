@@ -10,7 +10,7 @@ Generate monthly durations for similarly named calendar events.
 
 ### Builds
 
-Overview follows the version numbering, build and signing conventions for InSeven apps. Further details can be found [here](https://github.com/inseven/build-documentation).
+Build-time tool dependencies are managed with [mise](https://mise.jdx.dev); with mise activated in your shell, everything declared in 'mise.toml' is installed automatically.
 
 Release builds are created on GitHub Actions using 'build.sh' in the 'scripts' directory. This script is primarily focused on setting up the environment for testing and signing. Local builds can be performed using the  Xcode project found in the 'macOS' directory.
 
@@ -30,7 +30,7 @@ Jekyll can be used to serve the documentation locally for testing:
 
 ```bash
 cd docs
-gem install
+bundle install
 bundle exec jekyll serve
 ```
 

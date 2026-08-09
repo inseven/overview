@@ -46,8 +46,6 @@ APP_STORE_APP_ID="6469060331"
 IOS_XCODE_PATH=${IOS_XCODE_PATH:-/Applications/Xcode.app}
 MACOS_XCODE_PATH=${MACOS_XCODE_PATH:-/Applications/Xcode.app}
 
-source "$SCRIPTS_DIRECTORY/environment.sh"
-
 # Check the system-wide commands are available.
 which gh || (echo "GitHub cli (gh) not available on the path." && exit 1)
 which asc || (echo "App Store Connect cli (asc) not available on the path." && exit 1)
